@@ -10,39 +10,41 @@
 <body>
 
   <!-- NAVBAR -->
-    <header class="navbar">
-        <div class="logo">
-            <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
-        </div>
+  <header class="navbar">
+      <div class="logo">
+          <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
+      </div>
 
-        <div class="search-bar">
-            <input type="text" placeholder="Buscar...">
-        </div>
+      <div class="search-bar">
+          <input type="text" placeholder="Buscar...">
+      </div>
 
-        <nav>
-         <ul class="nav-links">
-            <li><a href="home.html">Inicio</a></li>
-            <li><a href="#">Calendario</a></li>
-            <li><a href="#">Sobre nosotros</a></li>
-         </ul>
-        </nav>
+      <nav>
+       <ul class="nav-links">
+          <li><a href="home.html">Inicio</a></li>
+          <li><a href="#">Calendario</a></li>
+          <li><a href="#">Sobre nosotros</a></li>
+       </ul>
+      </nav>
 
-        <div class="nav-buttons">
-            <a href="#" class="btn nav-btn">Acceso</a>
-            <a href="#" class="btn nav-btn">Unirse</a>
-        </div>
-    </header>
+      <div class="nav-buttons">
+          <a href="#" class="btn nav-btn">Acceso</a>
+          <a href="#" class="btn nav-btn">Unirse</a>
+      </div>
+  </header>
 
   <!-- LOGIN -->
   <main class="login-container">
     <h2>Accede a tu cuenta</h2>
 
-    <form class="login-form">
+    <!-- FORMULARIO FUNCIONAL -->
+    <form class="login-form" action="login.php" method="POST">
+
       <label for="expediente">Número de expediente</label>
-      <input type="text" id="expediente" required>
+      <input type="text" id="expediente" name="email" required>
 
       <label for="password">Contraseña</label>
-      <input type="password" id="password" required>
+      <input type="password" id="password" name="password" required>
 
       <div class="checkbox-group">
         <label for="remember">Recuérdame</label>
