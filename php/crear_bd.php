@@ -1,4 +1,6 @@
 <?php
+// php/crear_bd.php
+
 $host = "localhost";
 $user = "root";
 $pass = "";
@@ -13,8 +15,6 @@ try {
     // Crear base de datos
     $pdo->exec("CREATE DATABASE IF NOT EXISTS $dbname CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
     $pdo->exec("USE $dbname");
-
-    echo "Base de datos creada correctamente.<br>";
 
     /* ============================
        TABLA USUARIO
@@ -216,7 +216,35 @@ try {
     ) ENGINE=InnoDB;
     ");
 
-    echo "Todas las tablas fueron creadas correctamente.";
+    // ========= DATOS DE PRUEBA ========= //
+
+    // EDICIÓN ACTUAL
+    $pdo->exec("
+        INSERT INTO edicion_festival (anio, titulo, descripcion, fecha_inicio_inscripcion, fecha_fin_inscripcion, fecha_gala, activa)
+        VALUES (2025, 'Festival de Cortos UEM 2025', 'Edición actual del Festival de Cortos', '2025-01-01', '2025-05-31', '2025-06-15', 1)
+        ON DUPLICATE KEY UPDATE titulo = VALUES(titulo);
+    ");
+
+    // Obtener id_edicion activa
+    $stmtEd = $pdo->query("SELECT id_edicion FROM edicion_festival WHERE activa = 1 LIMIT 1");
+    $edicion = $stmtEd->fetch(PDO::FETCH_ASSOC);
+    $id_edicion_activa = $edicion ? $edicion["id_edicion"] : null;
+
+    // USUARIO ORGANIZADOR
+    $passwordOrganizador = password_hash("organizador123", PASSWORD_DEFAULT);
+    $pdo->prepare("
+        INSERT IGNORE INTO usuario (nombre_completo, email, password_hash, rol)
+        VALUES ('Organizador Principal', 'organizador@uem.es', ?, 'organizador')
+    ")->execute([$passwordOrganizador]);
+
+    // USUARIO PARTICIPANTE
+    $passwordParticipante = password_hash("participante123", PASSWORD_DEFAULT);
+    $pdo->prepare("
+        INSERT IGNORE INTO usuario (nombre_completo, email, password_hash, rol)
+        VALUES ('Participante Demo', 'participante@uem.es', ?, 'participante')
+    ")->execute([$passwordParticipante]);
+
+    echo "Base de datos y tablas creadas correctamente con datos de prueba.";
 
 } catch (PDOException $e) {
     die("Error: " . $e->getMessage());

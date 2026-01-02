@@ -1,11 +1,35 @@
 <?php
+// php/login.php
+
 session_start();
 require "conexion.php";
 
+header("Content-Type: application/json");
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $email = trim($_POST["email"]);
-    $password = $_POST["password"];
+    // Leer JSON del cuerpo de la petición
+    $entrada = file_get_contents("php://input");
+    $datos = json_decode($entrada, true);
+
+    if (!$datos) {
+        echo json_encode([
+            "ok" => false,
+            "mensaje" => "Datos no válidos."
+        ]);
+        exit;
+    }
+
+    $email = trim($datos["email"] ?? "");
+    $password = $datos["password"] ?? "";
+
+    if ($email === "" || $password === "") {
+        echo json_encode([
+            "ok" => false,
+            "mensaje" => "Email y contraseña son obligatorios."
+        ]);
+        exit;
+    }
 
     // Buscar usuario por email
     $stmt = $pdo->prepare("SELECT id_usuario, nombre_completo, password_hash, rol 
@@ -23,16 +47,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         // Redirigir según rol
         if ($usuario["rol"] === "organizador") {
-            header("Location: admin/index.php");
+            $redir = "../HTML/organizador.html";
         } else {
-            header("Location: participante/index.php");
+            $redir = "../HTML/participante.html";
         }
+
+        echo json_encode([
+            "ok" => true,
+            "redireccion" => $redir
+        ]);
         exit;
 
     } else {
-        // Error de login
-        $error = "Email o contraseña incorrectos";
-        header("Location: login.html?error=1");
+        echo json_encode([
+            "ok" => false,
+            "mensaje" => "Email o contraseña incorrectos."
+        ]);
         exit;
     }
+} else {
+    echo json_encode([
+        "ok" => false,
+        "mensaje" => "Método no permitido."
+    ]);
 }

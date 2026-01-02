@@ -28,8 +28,8 @@
       </nav>
 
       <div class="nav-buttons">
-          <a href="#" class="btn nav-btn">Acceso</a>
-          <a href="#" class="btn nav-btn">Unirse</a>
+          <a href="login.html" class="btn nav-btn">Acceso</a>
+          <a href="registro.html" class="btn nav-btn">Unirse</a>
       </div>
   </header>
 
@@ -37,14 +37,15 @@
   <main class="login-container">
     <h2>Accede a tu cuenta</h2>
 
-    <!-- FORMULARIO FUNCIONAL -->
-    <form class="login-form" action="login.php" method="POST">
-
-      <label for="expediente">Número de expediente</label>
+    <!-- FORMULARIO FUNCIONAL CON JS -->
+    <form class="login-form" id="formLogin">
+      <label for="expediente">Correo / Nº de expediente</label>
       <input type="text" id="expediente" name="email" required>
+      <span class="error-campo" id="error-expediente"></span>
 
       <label for="password">Contraseña</label>
       <input type="password" id="password" name="password" required>
+      <span class="error-campo" id="error-password"></span>
 
       <div class="checkbox-group">
         <label for="remember">Recuérdame</label>
@@ -53,13 +54,14 @@
 
       <button type="submit" class="btn login-btn">Acceder</button>
 
+      <div id="loginErrorGlobal" class="error-global"></div>
+
       <a href="#" class="forgot-link">¿Olvidó su contraseña?</a>
     </form>
   </main>
 
   <footer class="footer">
   <div class="footer-main">
-    <!-- IZQUIERDA -->
     <div class="footer-left">
       <div class="footer-social-row">
         <img src="../IMG/instagram.png" alt="Instagram">
@@ -75,12 +77,10 @@
       </div>
     </div>
 
-    <!-- CENTRO -->
     <div class="footer-center">
       <p>Contacta con nosotros</p>
     </div>
 
-    <!-- DERECHA -->
     <div class="footer-right">
       <div class="footer-logo-circle">
         <img src="../IMG/logosimple.jpg" alt="Logo">
@@ -88,11 +88,11 @@
     </div>
   </div>
 
-  <!-- FRANJA ROJA -->
   <div class="footer-bottom">
     Universidad Europea © 2025. Todos los Derechos Reservados
   </div>
 </footer>
 
+<script src="../JS/login.js"></script>
 </body>
 </html>

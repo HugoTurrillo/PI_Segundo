@@ -388,3 +388,19 @@ nav {
   background-color: #d32f2f; /* rojo UE */
   margin: 2rem 0;
 }
+/* === Mensajes de error de formularios === */
+
+.error-campo {
+  color: #d32f2f;
+  font-size: 0.8rem;
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.error-global {
+  color: #d32f2f;
+  font-weight: bold;
+  margin-top: 1rem;
+  text-align: center;
+}

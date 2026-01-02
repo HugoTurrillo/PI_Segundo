@@ -1,24 +1,50 @@
 <?php
+// php/registro.php
+
 require "conexion.php";
 
-// Solo permitir acceso por POST
+header("Content-Type: application/json");
+
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    echo "<h2>Acceso no permitido</h2>";
-    echo "<p>Este archivo solo se ejecuta al enviar el formulario de registro.</p>";
-    echo "<a href='../HTML/registro.html'>Volver al formulario</a>";
+    echo json_encode([
+        "ok" => false,
+        "mensaje" => "Método no permitido."
+    ]);
     exit;
 }
 
-$nombre = trim($_POST["nombre"]);
-$email = trim($_POST["email"]);
-$password = $_POST["password"];
+$entrada = file_get_contents("php://input");
+$datos = json_decode($entrada, true);
+
+if (!$datos) {
+    echo json_encode([
+        "ok" => false,
+        "mensaje" => "Datos no válidos."
+    ]);
+    exit;
+}
+
+$nombre = trim($datos["nombre"] ?? "");
+$email = trim($datos["email"] ?? "");
+$password = $datos["password"] ?? "";
+
+if ($nombre === "" || $email === "" || $password === "") {
+    echo json_encode([
+        "ok" => false,
+        "mensaje" => "Todos los campos son obligatorios."
+    ]);
+    exit;
+}
 
 // Comprobar si el email ya existe
 $stmt = $pdo->prepare("SELECT id_usuario FROM usuario WHERE email = ?");
 $stmt->execute([$email]);
 
 if ($stmt->fetch()) {
-    header("Location: ../HTML/registro.html?error=email");
+    echo json_encode([
+        "ok" => false,
+        "mensaje" => "El email ya está registrado."
+    ]);
     exit;
 }
 
@@ -32,6 +58,8 @@ $stmt = $pdo->prepare("
 ");
 $stmt->execute([$nombre, $email, $password_hash]);
 
-// Redirigir al login
-header("Location: ../HTML/login.html?registro=ok");
+echo json_encode([
+    "ok" => true,
+    "mensaje" => "Registro completado."
+]);
 exit;
