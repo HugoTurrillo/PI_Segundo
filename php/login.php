@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if ($usuario["rol"] === "organizador") {
             $redir = "../HTML/organizador.html";
         } else {
-            $redir = "../HTML/participante.html";
+            $redir = "../HTML/participantes.html";
         }
 
         echo json_encode([
