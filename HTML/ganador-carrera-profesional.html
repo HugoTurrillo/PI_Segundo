@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel organizador - Festival Cortos UEM</title>
+  <title>Ganador Carrera Profesional</title>
   <link rel="stylesheet" href="../CSS/estilos.css">
+  <script defer src="../JS/premios.js"></script>
 </head>
 <body>
 
@@ -19,9 +20,8 @@
 
   <nav>
    <ul class="nav-links">
-      <li><a href="home.html">Inicio</a></li>
-      <li><a href="#">Calendario</a></li>
-      <li><a href="#">Sobre nosotros</a></li>
+      <li><a href="organizador.html">Panel</a></li>
+      <li><a href="premios.html">Premios</a></li>
    </ul>
   </nav>
 
@@ -31,35 +31,30 @@
 </header>
 
 <main class="login-container">
-  <h2>Panel de organizadores</h2>
-  <p>Desde aquí puedes gestionar todas las secciones del festival.</p>
+  <h2>Ganador Carrera Profesional</h2>
 
-  <div class="panel-grid">
-    <a href="noticias.html" class="panel-card">
-      <h3>Noticias</h3>
-      <p>Publica, edita y elimina noticias del festival.</p>
-    </a>
+  <form id="form-carrera" class="login-form">
 
-    <a href="eventos.html" class="panel-card">
-      <h3>Eventos</h3>
-      <p>Gestiona el calendario de actividades del festival.</p>
-    </a>
+    <label for="nombre">Nombre y apellidos</label>
+    <input type="text" id="nombre" name="nombre" required>
+    <span class="error-campo" id="error-nombre"></span>
 
-    <a href="premios.html" class="panel-card">
-      <h3>Premios</h3>
-      <p>Define categorías, premios y ganadores.</p>
-    </a>
+    <label for="email">Correo electrónico</label>
+    <input type="email" id="email" name="email" required>
+    <span class="error-campo" id="error-email"></span>
 
-    <a href="patrocinadores.html" class="panel-card">
-      <h3>Patrocinadores</h3>
-      <p>Añade, edita y muestra los patrocinadores del evento.</p>
-    </a>
+    <label for="telefono">Teléfono de contacto</label>
+    <input type="tel" id="telefono" name="telefono" required>
+    <span class="error-campo" id="error-telefono"></span>
 
-    <a href="gala.html" class="panel-card">
-      <h3>Gala</h3>
-      <p>Configura la gala antes y después del evento.</p>
-    </a>
-  </div>
+    <label for="video">Vídeo del recorrido profesional</label>
+    <input type="file" id="video" name="video" accept="video/*" required>
+    <span class="error-campo" id="error-video"></span>
+
+    <div class="error-global" id="error-global"></div>
+
+    <button type="submit" class="btn login-btn">Guardar ganador</button>
+  </form>
 </main>
 
 <footer class="footer">

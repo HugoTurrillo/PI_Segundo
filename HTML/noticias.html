@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel organizador - Festival Cortos UEM</title>
-  <link rel="stylesheet" href="../CSS/estilos.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticias Patrocinador</title>
+    <link rel="stylesheet" href="../CSS/estilos.css">
 </head>
 <body>
-
-<header class="navbar">
+    
+    <header class="navbar">
   <div class="logo">
       <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
   </div>
@@ -19,7 +19,7 @@
 
   <nav>
    <ul class="nav-links">
-      <li><a href="home.html">Inicio</a></li>
+      <li><a href="organizador.html">Panel</a></li>
       <li><a href="#">Calendario</a></li>
       <li><a href="#">Sobre nosotros</a></li>
    </ul>
@@ -31,34 +31,28 @@
 </header>
 
 <main class="login-container">
-  <h2>Panel de organizadores</h2>
-  <p>Desde aquí puedes gestionar todas las secciones del festival.</p>
+  <h2>Gestión de noticias</h2>
+
+  <a href="noticia-nueva.html" class="btn login-btn" style="margin-bottom: 1.5rem;">Añadir noticia</a>
 
   <div class="panel-grid">
-    <a href="noticias.html" class="panel-card">
-      <h3>Noticias</h3>
-      <p>Publica, edita y elimina noticias del festival.</p>
-    </a>
+    <div class="panel-card">
+      <h3>Título de ejemplo 1</h3>
+      <p>Descripción breve de la noticia para mostrar cómo quedará el listado.</p>
+      <div style="margin-top: 1rem; display: flex; gap: 1rem;">
+        <a href="noticia-editar.html" class="btn login-btn" style="padding: 0.5rem 1rem;">Editar</a>
+        <button class="btn login-btn" style="padding: 0.5rem 1rem; background-color: #555;">Eliminar</button>
+      </div>
+    </div>
 
-    <a href="eventos.html" class="panel-card">
-      <h3>Eventos</h3>
-      <p>Gestiona el calendario de actividades del festival.</p>
-    </a>
-
-    <a href="premios.html" class="panel-card">
-      <h3>Premios</h3>
-      <p>Define categorías, premios y ganadores.</p>
-    </a>
-
-    <a href="patrocinadores.html" class="panel-card">
-      <h3>Patrocinadores</h3>
-      <p>Añade, edita y muestra los patrocinadores del evento.</p>
-    </a>
-
-    <a href="gala.html" class="panel-card">
-      <h3>Gala</h3>
-      <p>Configura la gala antes y después del evento.</p>
-    </a>
+    <div class="panel-card">
+      <h3>Título de ejemplo 2</h3>
+      <p>Otra noticia de ejemplo para completar el diseño.</p>
+      <div style="margin-top: 1rem; display: flex; gap: 1rem;">
+        <a href="noticia-editar.html" class="btn login-btn" style="padding: 0.5rem 1rem;">Editar</a>
+        <button class="btn login-btn" style="padding: 0.5rem 1rem; background-color: #555;">Eliminar</button>
+      </div>
+    </div>
   </div>
 </main>
 
@@ -94,6 +88,7 @@
     Universidad Europea © 2025. Todos los Derechos Reservados
   </div>
 </footer>
+
 
 </body>
 </html>

@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel organizador - Festival Cortos UEM</title>
+  <title>Editar noticia</title>
   <link rel="stylesheet" href="../CSS/estilos.css">
+  <script defer src="../JS/noticias.js"></script>
 </head>
 <body>
 
@@ -19,9 +20,8 @@
 
   <nav>
    <ul class="nav-links">
-      <li><a href="home.html">Inicio</a></li>
-      <li><a href="#">Calendario</a></li>
-      <li><a href="#">Sobre nosotros</a></li>
+      <li><a href="organizador.html">Panel</a></li>
+      <li><a href="noticias.html">Noticias</a></li>
    </ul>
   </nav>
 
@@ -31,35 +31,22 @@
 </header>
 
 <main class="login-container">
-  <h2>Panel de organizadores</h2>
-  <p>Desde aquí puedes gestionar todas las secciones del festival.</p>
+  <h2>Editar noticia</h2>
 
-  <div class="panel-grid">
-    <a href="noticias.html" class="panel-card">
-      <h3>Noticias</h3>
-      <p>Publica, edita y elimina noticias del festival.</p>
-    </a>
+  <form id="form-noticia" class="login-form">
 
-    <a href="eventos.html" class="panel-card">
-      <h3>Eventos</h3>
-      <p>Gestiona el calendario de actividades del festival.</p>
-    </a>
+    <label for="titulo">Título</label>
+    <input type="text" id="titulo" name="titulo" required>
+    <span class="error-campo" id="error-titulo"></span>
 
-    <a href="premios.html" class="panel-card">
-      <h3>Premios</h3>
-      <p>Define categorías, premios y ganadores.</p>
-    </a>
+    <label for="contenido">Contenido</label>
+    <textarea id="contenido" name="contenido" rows="5" required style="width:100%; padding:0.6rem; border:1px solid #ccc; border-radius:4px;"></textarea>
+    <span class="error-campo" id="error-contenido"></span>
 
-    <a href="patrocinadores.html" class="panel-card">
-      <h3>Patrocinadores</h3>
-      <p>Añade, edita y muestra los patrocinadores del evento.</p>
-    </a>
+    <div class="error-global" id="error-global"></div>
 
-    <a href="gala.html" class="panel-card">
-      <h3>Gala</h3>
-      <p>Configura la gala antes y después del evento.</p>
-    </a>
-  </div>
+    <button type="submit" class="btn login-btn">Guardar cambios</button>
+  </form>
 </main>
 
 <footer class="footer">
