@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Noticias Patrocinador</title>
-    <link rel="stylesheet" href="../CSS/estilos.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gala - Panel Organizador</title>
+  <link rel="stylesheet" href="../CSS/estilos.css">
 </head>
 <body>
-    
-    <header class="navbar">
+
+<header class="navbar">
   <div class="logo">
       <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
   </div>
@@ -31,16 +31,35 @@
 </header>
 
 <main class="login-container">
-  <h2>Gestión de noticias</h2>
 
-  <a href="noticia-nueva.html" class="btn login-btn" style="margin-bottom: 1.5rem;">Añadir noticia</a>
+  <h2>Gestión de la Gala</h2>
 
-  <div class="panel-grid" id="lista-noticias">
-    <!-- Aquí se insertarán las noticias dinámicamente -->
+  <section style="margin-top: 2rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+      <h3 style="color: #d32f2f; font-size: 1.4rem;">Eventos de la Gala</h3>
+      <a href="gala-nueva.html" class="btn login-btn" style="padding: 0.6rem 1.2rem;">Añadir evento</a>
+    </div>
+  </section>
+
+  <div class="panel-grid">
+
+    <div class="panel-card">
+      <img src="../IMG/gala1.jpg" alt="Imagen gala" style="width: 100%; max-height: 150px; object-fit: cover; border-radius: 6px; margin-bottom: 1rem;">
+      <h3>Gala de Inauguración</h3>
+      <p><strong>Fecha:</strong> 12/05/2025</p>
+      <p><strong>Hora:</strong> 19:00</p>
+      <p><strong>Lugar:</strong> Auditorio Principal</p>
+      <p>Descripción breve del evento de gala.</p>
+
+      <div style="margin-top: 1rem; display:flex; gap:1rem;">
+        <a href="gala-editar.html" class="btn login-btn" style="padding:0.5rem 1rem;">Editar</a>
+        <button class="btn login-btn" style="padding:0.5rem 1rem; background:#555;">Eliminar</button>
+      </div>
+    </div>
+
   </div>
 
-  <script src="../JS/noticias.js"></script>
-  </main>
+</main>
 
 <footer class="footer">
   <div class="footer-main">
@@ -74,7 +93,6 @@
     Universidad Europea © 2025. Todos los Derechos Reservados
   </div>
 </footer>
-
 
 </body>
 </html>

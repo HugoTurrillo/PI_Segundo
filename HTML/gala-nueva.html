@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Eventos - Panel Organizador</title>
+  <title>Añadir evento de gala</title>
   <link rel="stylesheet" href="../CSS/estilos.css">
+  <script defer src="../JS/gala.js"></script>
 </head>
 <body>
 
@@ -20,8 +21,7 @@
   <nav>
    <ul class="nav-links">
       <li><a href="organizador.html">Panel</a></li>
-      <li><a href="#">Calendario</a></li>
-      <li><a href="#">Sobre nosotros</a></li>
+      <li><a href="gala.html">Gala</a></li>
    </ul>
   </nav>
 
@@ -31,17 +31,38 @@
 </header>
 
 <main class="login-container">
-  <h2>Gestión de eventos</h2>
+  <h2>Añadir evento de gala</h2>
 
-  <a href="evento-nuevo.html" class="btn login-btn" style="margin-bottom: 1.5rem;">Añadir evento</a>
+  <form id="form-gala" class="login-form">
 
-  <div class="panel-grid" id="lista-eventos">
-    <!-- Aquí se insertarán los eventos dinámicamente -->
-  </div>
+    <label for="titulo">Título del evento</label>
+    <input type="text" id="titulo" name="titulo" required>
+    <span class="error-campo" id="error-titulo"></span>
 
-<script src="../JS/eventos.js"></script>
+    <label for="fecha">Fecha</label>
+    <input type="date" id="fecha" name="fecha" required>
+    <span class="error-campo" id="error-fecha"></span>
 
-  </div>
+    <label for="hora">Hora</label>
+    <input type="time" id="hora" name="hora" required>
+    <span class="error-campo" id="error-hora"></span>
+
+    <label for="lugar">Lugar</label>
+    <input type="text" id="lugar" name="lugar" required>
+    <span class="error-campo" id="error-lugar"></span>
+
+    <label for="descripcion">Descripción</label>
+    <textarea id="descripcion" name="descripcion" rows="4" style="width:100%; padding:0.6rem; border:1px solid #ccc; border-radius:4px;"></textarea>
+    <span class="error-campo" id="error-descripcion"></span>
+
+    <label for="imagen">Imagen del evento</label>
+    <input type="file" id="imagen" name="imagen" accept="image/*" required>
+    <span class="error-campo" id="error-imagen"></span>
+
+    <div class="error-global" id="error-global"></div>
+
+    <button type="submit" class="btn login-btn">Guardar evento</button>
+  </form>
 </main>
 
 <footer class="footer">
