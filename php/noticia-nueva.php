@@ -12,7 +12,7 @@ if ($titulo === "" || $contenido === "") {
     exit();
 }
 
-$stmt = $pdo->prepare("INSERT INTO noticias (titulo, contenido) VALUES (?, ?)");
+$stmt = $pdo->prepare("INSERT INTO noticia (titulo, contenido) VALUES (?, ?)");
 $stmt->execute([$titulo, $contenido]);
 
 echo json_encode(["ok" => true, "msg" => "Noticia creada correctamente"]);
