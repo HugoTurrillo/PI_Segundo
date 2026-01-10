@@ -31,9 +31,25 @@
 </header>
 
 <main class="login-container">
-  <h2>Gestión de noticias</h2>
+<h2>Gestión de noticias</h2>
 
-  <a href="noticia-nueva.html" class="btn login-btn" style="margin-bottom: 1.5rem;">Añadir noticia</a>
+<div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+
+    <a href="noticia-nueva.html" 
+       class="btn login-btn" 
+       style="padding: 0.4rem 1rem; font-size: 0.9rem;">
+        Añadir noticias
+    </a>
+
+    <button id="btn-ver-noticias" 
+            class="btn login-btn" 
+            style="padding: 0.4rem 1rem; font-size: 0.9rem;">
+        Ver noticias
+    </button>
+
+</div>
+
+
 
   <div class="panel-grid" id="lista-noticias">
     <!-- Aquí se insertarán las noticias dinámicamente -->

@@ -19,10 +19,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     <p>${n.contenido}</p>
 
                     <div style="margin-top: 1rem; display: flex; gap: 1rem;">
-                        <a href="noticia-editar.html?id=${n.id}" class="btn login-btn" style="padding: 0.5rem 1rem;">Editar</a>
+                        <a href="noticia-editar.html?id_noticia=${n.id_noticia}" class="btn login-btn" style="padding: 0.5rem 1rem;">Editar</a>
 
                         <button class="btn login-btn btn-eliminar-noticia" 
-                                data-id="${n.id}" 
+                                data-id="${n.id_noticia}" 
                                 style="padding: 0.5rem 1rem; background-color: #555;">
                             Eliminar
                         </button>
@@ -41,21 +41,21 @@ document.addEventListener("DOMContentLoaded", () => {
     // ============================
     // ELIMINAR NOTICIA
     // ============================
-    function activarBotonesEliminar() {
-        document.querySelectorAll(".btn-eliminar-noticia").forEach(btn => {
-            btn.addEventListener("click", async () => {
-                const id = btn.dataset.id;
+function activarBotonesEliminar() {
+    document.querySelectorAll(".btn-eliminar-noticia").forEach(btn => {
+        btn.addEventListener("click", async () => {
+            const id = btn.dataset.id;
 
-                if (!confirm("¿Seguro que quieres eliminar esta noticia?")) return;
+            if (!confirm("¿Seguro que quieres eliminar esta noticia?")) return;
 
-                const res = await fetch(`../php/noticia-eliminar.php?id=${id}`);
-                const r = await res.json();
+            const res = await fetch(`../php/noticia-eliminar.php?id_noticia=${id}`);
+            const r = await res.json();
 
-                alert(r.msg);
-                if (r.ok) cargarNoticias();
-            });
+            alert(r.msg);
+            if (r.ok) cargarNoticias();
         });
-    }
+    });
+}
 
 
 
@@ -73,33 +73,33 @@ document.addEventListener("DOMContentLoaded", () => {
     const errorGlobal = document.getElementById("error-global");
 
 
+// ============================
+// CARGAR NOTICIA PARA EDITAR
+// ============================
+async function cargarNoticiaEditar() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id_noticia");  // <--- CORRECTO
 
-    // ============================
-    // CARGAR NOTICIA PARA EDITAR
-    // ============================
-    async function cargarNoticiaEditar() {
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get("id");
+    if (!id) return; 
 
-        if (!id) return; // No estamos en editar
+    const res = await fetch(`../php/noticia-obtener.php?id_noticia=${id}`); // <--- CORRECTO
+    const noticia = await res.json();
 
-        const res = await fetch(`../php/noticia-obtener.php?id=${id}`);
-        const noticia = await res.json();
-
-        if (!noticia || !noticia.id) {
-            errorGlobal.textContent = "No se encontró la noticia.";
-            return;
-        }
-
-        // Rellenar formulario
-        titulo.value = noticia.titulo;
-        contenido.value = noticia.contenido;
-
-        // Guardar ID para el submit
-        form.dataset.id = id;
+    if (!noticia || !noticia.id_noticia) {  
+        errorGlobal.textContent = "No se encontró la noticia.";
+        return;
     }
 
-    cargarNoticiaEditar();
+    // Rellenar formulario
+    titulo.value = noticia.titulo;
+    contenido.value = noticia.contenido;
+
+    // Guardar ID para el submit
+    form.dataset.id = noticia.id_noticia; 
+}
+
+cargarNoticiaEditar();
+
 
 
 
@@ -140,11 +140,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const id = form.dataset.id;
 
         if (id) {
-            const datos = {
-                id: id,
-                titulo: titulo.value,
-                contenido: contenido.value
-            };
+           const datos = {
+    id_noticia: id,
+    titulo: titulo.value,
+    contenido: contenido.value
+};
+
 
             const respuesta = await fetch("../php/noticia-editar.php", {
                 method: "POST",
@@ -182,12 +183,62 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const resultado = await respuesta.json();
 
-        if (resultado.ok) {
+                if (resultado.ok) {
             alert("Noticia creada correctamente");
             window.location.href = "noticias.html";
         } else {
             errorGlobal.textContent = resultado.msg;
         }
     });
+
+    // ============================
+    // BOTÓN "VER NOTICIAS"
+    // ============================
+    const btnVerNoticias = document.getElementById("btn-ver-noticias");
+
+    if (btnVerNoticias) {
+        btnVerNoticias.addEventListener("click", async () => {
+
+            const respuesta = await fetch("../php/noticias-listar.php", {
+                method: "GET",
+                headers: { "Content-Type": "application/json" }
+            });
+
+            const resultado = await respuesta.json();
+
+            const contenedor = document.getElementById("lista-noticias");
+            contenedor.innerHTML = "";
+
+            if (Array.isArray(resultado)) {
+                resultado.forEach(noticia => {
+                    contenedor.innerHTML += `
+                        <div class="panel-card">
+                            <h3>${noticia.titulo}</h3>
+                            <p>${noticia.contenido}</p>
+
+                            <div style="margin-top: 1rem; display: flex; gap: 1rem;">
+                                <a href="noticia-editar.html?id_noticia=${noticia.id_noticia}" 
+                                   class="btn login-btn" 
+                                   style="padding: 0.5rem 1rem;">
+                                   Editar
+                                </a>
+
+                                <button class="btn login-btn btn-eliminar-noticia" 
+                                        data-id="${noticia.id}" 
+                                        style="padding: 0.5rem 1rem; background-color: #555;">
+                                    Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                activarBotonesEliminar();
+
+            } else {
+                errorGlobal.textContent = resultado.msg || "Error al cargar noticias.";
+            }
+        });
+    }
 
 });
