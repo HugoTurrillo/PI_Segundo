@@ -21,7 +21,7 @@ if ($titulo === "" || $fecha === "" || $descripcion === "") {
 }
 
 // Insertar en BD
-$stmt = $pdo->prepare("INSERT INTO eventos (titulo, fecha, descripcion) VALUES (?, ?, ?)");
+$stmt = $pdo->prepare("INSERT INTO evento (titulo, fecha, descripcion) VALUES (?, ?, ?)");
 $stmt->execute([$titulo, $fecha, $descripcion]);
 
 echo json_encode(["ok" => true, "msg" => "Evento creado correctamente"]);

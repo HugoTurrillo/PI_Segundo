@@ -9,7 +9,7 @@ if (!isset($_GET["id"])) {
 
 $id = intval($_GET["id"]);
 
-$stmt = $pdo->prepare("SELECT * FROM eventos WHERE id = ?");
+$stmt = $pdo->prepare("SELECT * FROM evento WHERE id = ?");
 $stmt->execute([$id]);
 $evento = $stmt->fetch(PDO::FETCH_ASSOC);
 

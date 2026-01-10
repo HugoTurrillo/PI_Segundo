@@ -4,10 +4,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // LISTAR PATROCINADORES
     // ============================
     async function cargarPatrocinadores() {
+
         const contenedor = document.querySelector(".panel-grid");
+        //const contenedor = document.querySelector(".patrocinadores-grid");
+
         if (!contenedor) return; // Solo en patrocinadores.html
 
-        const respuesta = await fetch("../php/patrocinadores-listar.php");
+//        const respuesta = await fetch("../php/patrocinadores-listar.php");
+        const respuesta = await fetch("../../php/patrocinadores-listar.php");
+
         const patrocinadores = await respuesta.json();
 
         contenedor.innerHTML = "";
@@ -15,7 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
         patrocinadores.forEach(p => {
             contenedor.innerHTML += `
                 <div class="panel-card">
-                    <img src="../uploads/${p.logo}" 
+                   
+                    <img src="../../uploads/${p.logo}"
+
                          alt="Logo patrocinador" 
                          style="width: 100%; max-height: 120px; object-fit: contain; margin-bottom: 1rem;">
 
@@ -131,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
         errorDescripcion.textContent = "";
         errorGlobal.textContent = "";
 
-        const esNuevo = window.location.pathname.includes("patrocinador-nuevo");
+        const esNuevo = !form.dataset.id;
 
         if (nombre.value.trim() === "") {
             errorNombre.textContent = "El nombre es obligatorio.";

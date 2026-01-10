@@ -14,7 +14,7 @@ if ($id <= 0 || $titulo === "" || $fecha === "" || $descripcion === "") {
     exit();
 }
 
-$stmt = $pdo->prepare("UPDATE eventos SET titulo=?, fecha=?, descripcion=? WHERE id=?");
+$stmt = $pdo->prepare("UPDATE evento SET titulo=?, fecha=?, descripcion=? WHERE id=?");
 $stmt->execute([$titulo, $fecha, $descripcion, $id]);
 
 echo json_encode(["ok" => true, "msg" => "Evento actualizado"]);

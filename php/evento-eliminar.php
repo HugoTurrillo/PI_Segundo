@@ -10,7 +10,7 @@ if (!isset($_GET["id"])) {
 $id = intval($_GET["id"]);
 
 // Eliminar
-$stmt = $pdo->prepare("DELETE FROM eventos WHERE id = ?");
+$stmt = $pdo->prepare("DELETE FROM evento WHERE id = ?");
 $stmt->execute([$id]);
 
 echo json_encode(["ok" => true, "msg" => "Evento eliminado correctamente"]);

@@ -109,16 +109,13 @@ try {
        TABLA EVENTO_CALENDARIO
        ============================ */
     $pdo->exec("
-    CREATE TABLE IF NOT EXISTS evento_calendario (
-        id_evento INT AUTO_INCREMENT PRIMARY KEY,
-        id_edicion INT NOT NULL,
-        titulo VARCHAR(255) NOT NULL,
-        descripcion TEXT,
-        fecha_hora_inicio DATETIME NOT NULL,
-        fecha_hora_fin DATETIME NOT NULL,
-        tipo ENUM('inscripcion','gala','charla','proyeccion','otro') NOT NULL DEFAULT 'otro',
-        FOREIGN KEY (id_edicion) REFERENCES edicion_festival(id_edicion)
-    ) ENGINE=InnoDB;
+   CREATE TABLE evento ( 
+     id INT AUTO_INCREMENT PRIMARY KEY,
+     titulo VARCHAR(255) NOT NULL,
+     fecha DATE NOT NULL,
+     descripcion TEXT NOT NULL 
+      )
+      ;ENGINE=InnoDB;
     ");
 
     /* ============================
@@ -159,6 +156,18 @@ try {
         nombre_categoria VARCHAR(150) NOT NULL,
         descripcion TEXT
     ) ENGINE=InnoDB;
+    ");
+
+    /* ============================
+       TABLA CATEGORIAS
+       ============================ */
+    $pdo->exec("
+    CREATE TABLE categorias (
+    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    premios INT NOT NULL,
+    premio_fisico TINYINT(1) NOT NULL
+ ) ENGINE=InnoDB;
     ");
 
     /* ============================
