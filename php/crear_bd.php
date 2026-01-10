@@ -1,5 +1,7 @@
 <?php
 // php/crear_bd.php
+// Crea la base de datos y las tablas necesarias para el proyecto
+// y añade algunos datos de prueba.
 
 $host = "localhost";
 $user = "root";
@@ -12,249 +14,212 @@ try {
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
     ]);
 
-    // Crear base de datos
-    $pdo->exec("CREATE DATABASE IF NOT EXISTS $dbname CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-    $pdo->exec("USE $dbname");
+    // Crear base de datos si no existe
+    $pdo->exec("CREATE DATABASE IF NOT EXISTS `$dbname` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    $pdo->exec("USE `$dbname`");
 
     /* ============================
        TABLA USUARIO
        ============================ */
     $pdo->exec("
-    CREATE TABLE IF NOT EXISTS usuario (
-        id_usuario INT AUTO_INCREMENT PRIMARY KEY,
-        nombre_completo VARCHAR(150) NOT NULL,
-        email VARCHAR(150) NOT NULL UNIQUE,
-        password_hash VARCHAR(255) NOT NULL,
-        rol ENUM('participante','organizador') NOT NULL DEFAULT 'participante',
-        fecha_registro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        activo TINYINT(1) NOT NULL DEFAULT 1
-    ) ENGINE=InnoDB;
+        CREATE TABLE IF NOT EXISTS usuario (
+            id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+            nombre_completo VARCHAR(150) NOT NULL,
+            email VARCHAR(150) NOT NULL UNIQUE,
+            password_hash VARCHAR(255) NOT NULL,
+            rol ENUM('participante','organizador') NOT NULL DEFAULT 'participante',
+            fecha_registro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            activo TINYINT(1) NOT NULL DEFAULT 1
+        ) ENGINE=InnoDB;
     ");
 
     /* ============================
        TABLA EDICION_FESTIVAL
+       (por si el enunciado la exige)
        ============================ */
     $pdo->exec("
-    CREATE TABLE IF NOT EXISTS edicion_festival (
-        id_edicion INT AUTO_INCREMENT PRIMARY KEY,
-        anio INT NOT NULL,
-        titulo VARCHAR(255) NOT NULL,
-        descripcion TEXT,
-        fecha_inicio_inscripcion DATE,
-        fecha_fin_inscripcion DATE,
-        fecha_gala DATE,
-        activa TINYINT(1) NOT NULL DEFAULT 0
-    ) ENGINE=InnoDB;
-    ");
-
-    /* ============================
-       TABLA CANDIDATURA
-       ============================ */
-    $pdo->exec("
-    CREATE TABLE IF NOT EXISTS candidatura (
-        id_candidatura INT AUTO_INCREMENT PRIMARY KEY,
-        id_usuario INT NOT NULL,
-        id_edicion INT NOT NULL,
-        titulo_obra VARCHAR(255) NOT NULL,
-        ficha_tecnico_artistica TEXT,
-        cartel_ruta VARCHAR(255),
-        sinopsis TEXT,
-        nombre_contacto VARCHAR(150) NOT NULL,
-        email_contacto VARCHAR(150) NOT NULL,
-        dni VARCHAR(20) NOT NULL,
-        expediente VARCHAR(50),
-        video_ruta VARCHAR(255),
-        estado ENUM('en_proceso','aceptada','rechazada') NOT NULL DEFAULT 'en_proceso',
-        motivo_rechazo TEXT NULL,
-        fecha_creacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        fecha_ultima_actualizacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
-        FOREIGN KEY (id_edicion) REFERENCES edicion_festival(id_edicion)
-    ) ENGINE=InnoDB;
-    ");
-
-    /* ============================
-       TABLA NOTIFICACION_CANDIDATURA
-       ============================ */
-    $pdo->exec("
-    CREATE TABLE IF NOT EXISTS notificacion_candidatura (
-        id_notificacion INT AUTO_INCREMENT PRIMARY KEY,
-        id_candidatura INT NOT NULL,
-        tipo ENUM('creacion','actualizacion','cambio_estado') NOT NULL,
-        email_destino VARCHAR(150) NOT NULL,
-        asunto VARCHAR(255) NOT NULL,
-        mensaje TEXT NOT NULL,
-        fecha_envio DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (id_candidatura) REFERENCES candidatura(id_candidatura)
-    ) ENGINE=InnoDB;
+        CREATE TABLE IF NOT EXISTS edicion_festival (
+            id_edicion INT AUTO_INCREMENT PRIMARY KEY,
+            anio INT NOT NULL,
+            titulo VARCHAR(255) NOT NULL,
+            descripcion TEXT,
+            fecha_inicio_inscripcion DATE,
+            fecha_fin_inscripcion DATE,
+            fecha_gala DATE,
+            activa TINYINT(1) NOT NULL DEFAULT 0
+        ) ENGINE=InnoDB;
     ");
 
     /* ============================
        TABLA NOTICIA
+       (coincide con tus PHP y JS)
        ============================ */
     $pdo->exec("
-    CREATE TABLE IF NOT EXISTS noticia (
-        id_noticia INT AUTO_INCREMENT PRIMARY KEY,
-        id_edicion INT NULL,
-        titulo VARCHAR(255) NOT NULL,
-        contenido TEXT NOT NULL,
-        imagen_ruta VARCHAR(255),
-        fecha_publicacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        publicada TINYINT(1) NOT NULL DEFAULT 0,
-        FOREIGN KEY (id_edicion) REFERENCES edicion_festival(id_edicion)
-    ) ENGINE=InnoDB;
+        CREATE TABLE IF NOT EXISTS noticia (
+            id_noticia INT AUTO_INCREMENT PRIMARY KEY,
+            titulo VARCHAR(255) NOT NULL,
+            contenido TEXT NOT NULL,
+            fecha_publicacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB;
     ");
 
     /* ============================
-       TABLA EVENTO_CALENDARIO
+       TABLA EVENTO
+       (coincide con evento-*.php y eventos.js)
        ============================ */
     $pdo->exec("
-   CREATE TABLE evento ( 
-     id INT AUTO_INCREMENT PRIMARY KEY,
-     titulo VARCHAR(255) NOT NULL,
-     fecha DATE NOT NULL,
-     descripcion TEXT NOT NULL 
-      )
-      ;ENGINE=InnoDB;
+        CREATE TABLE IF NOT EXISTS evento (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            titulo VARCHAR(255) NOT NULL,
+            fecha DATE NOT NULL,
+            descripcion TEXT NOT NULL
+        ) ENGINE=InnoDB;
     ");
 
     /* ============================
        TABLA GALA
+       (coincide con gala-*.php y gala.js)
        ============================ */
     $pdo->exec("
-    CREATE TABLE IF NOT EXISTS gala (
-        id_gala INT AUTO_INCREMENT PRIMARY KEY,
-        id_edicion INT NOT NULL,
-        localizacion VARCHAR(255) NOT NULL,
-        programa TEXT,
-        enlace_streaming VARCHAR(255),
-        mostrar_streaming TINYINT(1) NOT NULL DEFAULT 0,
-        reportaje_texto TEXT,
-        FOREIGN KEY (id_edicion) REFERENCES edicion_festival(id_edicion)
-    ) ENGINE=InnoDB;
-    ");
-
-    /* ============================
-       TABLA GALA_MEDIA
-       ============================ */
-    $pdo->exec("
-    CREATE TABLE IF NOT EXISTS gala_media (
-        id_media INT AUTO_INCREMENT PRIMARY KEY,
-        id_gala INT NOT NULL,
-        tipo ENUM('foto','video') NOT NULL,
-        ruta_archivo VARCHAR(255) NOT NULL,
-        FOREIGN KEY (id_gala) REFERENCES gala(id_gala)
-    ) ENGINE=InnoDB;
-    ");
-
-    /* ============================
-       TABLA CATEGORIA_PREMIO
-       ============================ */
-    $pdo->exec("
-    CREATE TABLE IF NOT EXISTS categoria_premio (
-        id_categoria INT AUTO_INCREMENT PRIMARY KEY,
-        nombre_categoria VARCHAR(150) NOT NULL,
-        descripcion TEXT
-    ) ENGINE=InnoDB;
+        CREATE TABLE IF NOT EXISTS gala (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            titulo VARCHAR(255) NOT NULL,
+            fecha DATE NOT NULL,
+            hora TIME NOT NULL,
+            lugar VARCHAR(255) NOT NULL,
+            descripcion TEXT,
+            imagen VARCHAR(255) NOT NULL
+        ) ENGINE=InnoDB;
     ");
 
     /* ============================
        TABLA CATEGORIAS
+       (coincide con premios.js y categoria-*.php)
        ============================ */
     $pdo->exec("
-    CREATE TABLE categorias (
-    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(255) NOT NULL,
-    premios INT NOT NULL,
-    premio_fisico TINYINT(1) NOT NULL
- ) ENGINE=InnoDB;
+        CREATE TABLE IF NOT EXISTS categorias (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            nombre VARCHAR(255) NOT NULL,
+            premios VARCHAR(255) NOT NULL,
+            premio_fisico VARCHAR(255) NOT NULL
+        ) ENGINE=InnoDB;
     ");
 
     /* ============================
-       TABLA PREMIO
+       TABLA PATROCINADORES
+       (coincide con patrocinadores.js y patrocinador-*.php)
        ============================ */
     $pdo->exec("
-    CREATE TABLE IF NOT EXISTS premio (
-        id_premio INT AUTO_INCREMENT PRIMARY KEY,
-        id_edicion INT NOT NULL,
-        id_categoria INT NOT NULL,
-        descripcion_premio TEXT,
-        id_candidatura_ganadora INT NULL,
-        FOREIGN KEY (id_edicion) REFERENCES edicion_festival(id_edicion),
-        FOREIGN KEY (id_categoria) REFERENCES categoria_premio(id_categoria),
-        FOREIGN KEY (id_candidatura_ganadora) REFERENCES candidatura(id_candidatura)
-    ) ENGINE=InnoDB;
+        CREATE TABLE IF NOT EXISTS patrocinadores (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            nombre VARCHAR(150) NOT NULL,
+            logo VARCHAR(255),
+            enlace VARCHAR(255),
+            descripcion TEXT
+        ) ENGINE=InnoDB;
     ");
-
     /* ============================
-       TABLA PATROCINADOR
-       ============================ */
-    $pdo->exec("
-    CREATE TABLE IF NOT EXISTS patrocinador (
-        id_patrocinador INT AUTO_INCREMENT PRIMARY KEY,
-        nombre VARCHAR(150) NOT NULL,
-        logo_ruta VARCHAR(255),
-        url_web VARCHAR(255)
-    ) ENGINE=InnoDB;
-    ");
-
-    /* ============================
-       TABLA EDICION_PATROCINADOR (N:M)
-       ============================ */
-    $pdo->exec("
-    CREATE TABLE IF NOT EXISTS edicion_patrocinador (
-        id_edicion INT NOT NULL,
-        id_patrocinador INT NOT NULL,
-        PRIMARY KEY (id_edicion, id_patrocinador),
-        FOREIGN KEY (id_edicion) REFERENCES edicion_festival(id_edicion),
-        FOREIGN KEY (id_patrocinador) REFERENCES patrocinador(id_patrocinador)
-    ) ENGINE=InnoDB;
-    ");
-
-    /* ============================
-       TABLA CORTO_EDICION_ANTERIOR
-       ============================ */
-    $pdo->exec("
-    CREATE TABLE IF NOT EXISTS corto_edicion_anterior (
-        id_corto_anterior INT AUTO_INCREMENT PRIMARY KEY,
-        id_edicion INT NOT NULL,
+   TABLA CANDIDATURA
+   ============================ */
+$pdo->exec("
+    CREATE TABLE IF NOT EXISTS candidatura (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        id_usuario INT NOT NULL,
         titulo VARCHAR(255) NOT NULL,
-        video_ruta VARCHAR(255) NOT NULL,
-        descripcion TEXT,
-        FOREIGN KEY (id_edicion) REFERENCES edicion_festival(id_edicion)
+        sinopsis TEXT,
+        cartel VARCHAR(255),
+        video VARCHAR(255),
+        fecha DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
     ) ENGINE=InnoDB;
-    ");
+");
 
-    // ========= DATOS DE PRUEBA ========= //
 
-    // EDICIÓN ACTUAL
-    $pdo->exec("
-        INSERT INTO edicion_festival (anio, titulo, descripcion, fecha_inicio_inscripcion, fecha_fin_inscripcion, fecha_gala, activa)
-        VALUES (2025, 'Festival de Cortos UEM 2025', 'Edición actual del Festival de Cortos', '2025-01-01', '2025-05-31', '2025-06-15', 1)
-        ON DUPLICATE KEY UPDATE titulo = VALUES(titulo);
-    ");
+    /* ============================
+       DATOS DE PRUEBA
+       ============================ */
 
-    // Obtener id_edicion activa
-    $stmtEd = $pdo->query("SELECT id_edicion FROM edicion_festival WHERE activa = 1 LIMIT 1");
-    $edicion = $stmtEd->fetch(PDO::FETCH_ASSOC);
-    $id_edicion_activa = $edicion ? $edicion["id_edicion"] : null;
+    // EDICIÓN ACTIVA (si no existe)
+    $stmt = $pdo->query("SELECT COUNT(*) AS total FROM edicion_festival");
+    $totalEd = (int)$stmt->fetch(PDO::FETCH_ASSOC)["total"];
 
-    // USUARIO ORGANIZADOR
-    $passwordOrganizador = password_hash("organizador123", PASSWORD_DEFAULT);
-    $pdo->prepare("
-        INSERT IGNORE INTO usuario (nombre_completo, email, password_hash, rol)
-        VALUES ('Organizador Principal', 'organizador@uem.es', ?, 'organizador')
-    ")->execute([$passwordOrganizador]);
+    if ($totalEd === 0) {
+        $pdo->exec("
+            INSERT INTO edicion_festival (anio, titulo, descripcion, fecha_inicio_inscripcion, fecha_fin_inscripcion, fecha_gala, activa)
+            VALUES
+            (2025, 'Festival de Cortos UEM 2025', 'Edición actual del festival', '2025-01-01', '2025-05-31', '2025-06-15', 1)
+        ");
+    }
 
-    // USUARIO PARTICIPANTE
-    $passwordParticipante = password_hash("participante123", PASSWORD_DEFAULT);
-    $pdo->prepare("
-        INSERT IGNORE INTO usuario (nombre_completo, email, password_hash, rol)
-        VALUES ('Participante Demo', 'participante@uem.es', ?, 'participante')
-    ")->execute([$passwordParticipante]);
+    // USUARIOS DE PRUEBA (organizador + participante)
+    $stmt = $pdo->query("SELECT COUNT(*) AS total FROM usuario");
+    $totalUsers = (int)$stmt->fetch(PDO::FETCH_ASSOC)["total"];
+
+    if ($totalUsers === 0) {
+        $passwordOrganizador = password_hash("organizador123", PASSWORD_DEFAULT);
+        $passwordParticipante = password_hash("participante123", PASSWORD_DEFAULT);
+
+        $ins = $pdo->prepare("
+            INSERT INTO usuario (nombre_completo, email, password_hash, rol)
+            VALUES (?, ?, ?, ?)
+        ");
+
+        $ins->execute(["Organizador Principal", "organizador@uem.es", $passwordOrganizador, "organizador"]);
+        $ins->execute(["Participante Demo", "participante@uem.es", $passwordParticipante, "participante"]);
+    }
+
+    // NOTICIAS DE PRUEBA
+    $stmt = $pdo->query("SELECT COUNT(*) AS total FROM noticia");
+    if ((int)$stmt->fetch(PDO::FETCH_ASSOC)["total"] === 0) {
+        $pdo->exec("
+            INSERT INTO noticia (titulo, contenido) VALUES
+            ('Arranca el Festival de Cortos UEM', 'Ya están abiertas las inscripciones para la edición 2025.'),
+            ('Finalistas anunciados', 'Publicamos la lista de cortos finalistas de esta edición.')
+        ");
+    }
+
+    // EVENTOS DE PRUEBA
+    $stmt = $pdo->query("SELECT COUNT(*) AS total FROM evento");
+    if ((int)$stmt->fetch(PDO::FETCH_ASSOC)["total"] === 0) {
+        $pdo->exec("
+            INSERT INTO evento (titulo, fecha, descripcion) VALUES
+            ('Masterclass de dirección', '2025-05-10', 'Sesión con directores invitados.'),
+            ('Taller de montaje', '2025-05-15', 'Workshop práctico de edición de vídeo.')
+        ");
+    }
+
+    // GALA DE PRUEBA
+    $stmt = $pdo->query("SELECT COUNT(*) AS total FROM gala");
+    if ((int)$stmt->fetch(PDO::FETCH_ASSOC)["total"] === 0) {
+        $pdo->exec("
+            INSERT INTO gala (titulo, fecha, hora, lugar, descripcion, imagen) VALUES
+            ('Gala de Inauguración', '2025-05-12', '19:00:00', 'Auditorio Principal', 'Acto de apertura del festival.', 'gala_demo.jpg')
+        ");
+    }
+
+    // CATEGORÍAS DE PRUEBA
+    $stmt = $pdo->query("SELECT COUNT(*) AS total FROM categorias");
+    if ((int)$stmt->fetch(PDO::FETCH_ASSOC)["total"] === 0) {
+        $pdo->exec("
+            INSERT INTO categorias (nombre, premios, premio_fisico) VALUES
+            ('Alumnos', '1º, 2º y 3º premio', 'Cámara Canon para el 1º'),
+            ('Alumni', '1º y 2º premio', 'Sin premio físico'),
+            ('Carrera Profesional', '1 único premio', 'Sin premio físico')
+        ");
+    }
+
+    // PATROCINADORES DE PRUEBA
+    $stmt = $pdo->query("SELECT COUNT(*) AS total FROM patrocinadores");
+    if ((int)$stmt->fetch(PDO::FETCH_ASSOC)["total"] === 0) {
+        $pdo->exec("
+            INSERT INTO patrocinadores (nombre, logo, enlace, descripcion) VALUES
+            ('Canon', 'canon_logo.png', 'https://www.canon.es', 'Patrocinador principal del festival.'),
+            ('Adobe', 'adobe_logo.png', 'https://www.adobe.com', 'Herramientas de edición para los participantes.')
+        ");
+    }
 
     echo "Base de datos y tablas creadas correctamente con datos de prueba.";
 
 } catch (PDOException $e) {
-    die("Error: " . $e->getMessage());
+    die("Error al crear la base de datos: " . $e->getMessage());
 }

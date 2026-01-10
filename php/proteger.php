@@ -1,11 +1,10 @@
 <?php
-// php/proteger.php
 
 session_start();
 
-// Si NO hay sesión iniciada, redirigir al home
-if (!isset($_SESSION['usuario'])) {
-    header("Location: ../index.php"); // o home.php si lo tienes
-    exit();
+// Si no hay sesión → fuera
+if (!isset($_SESSION["id_usuario"])) {
+    header("Location: ../HTML/home.html");
+    exit;
 }
 ?>
