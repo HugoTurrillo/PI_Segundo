@@ -10,8 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!contenedor) return; // Solo en patrocinadores.html
 
-//        const respuesta = await fetch("../php/patrocinadores-listar.php");
-        const respuesta = await fetch("../../php/patrocinadores-listar.php");
+ const respuesta = await fetch("../php/patrocinadores-listar.php");
+       // const respuesta = await fetch("../../php/patrocinadores-listar.php");
 
         const patrocinadores = await respuesta.json();
 
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // FORMULARIO (CREAR / EDITAR)
     // ============================
     const form = document.getElementById("form-patrocinador");
-    if (!form) return;
+        //if (!form) return;
 
     const nombre = document.getElementById("nombre");
     const logo = document.getElementById("logo");

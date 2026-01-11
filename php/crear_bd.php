@@ -123,20 +123,25 @@ try {
        ============================ */
     $pdo->exec("
     CREATE TABLE IF NOT EXISTS gala (
-        id_gala INT AUTO_INCREMENT PRIMARY KEY,
-        id_edicion INT NOT NULL,
-        localizacion VARCHAR(255) NOT NULL,
-        programa TEXT,
-        enlace_streaming VARCHAR(255),
-        mostrar_streaming TINYINT(1) NOT NULL DEFAULT 0,
-        reportaje_texto TEXT,
-        FOREIGN KEY (id_edicion) REFERENCES edicion_festival(id_edicion)
+        CREATE TABLE gala (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(255) NOT NULL,
+    fecha DATE NOT NULL,
+    hora TIME NOT NULL,
+    lugar VARCHAR(255) NOT NULL,
+    descripcion TEXT,
+    imagen VARCHAR(255)
+)
     ) ENGINE=InnoDB;
     ");
 
+
+
+
+
     /* ============================
        TABLA GALA_MEDIA
-       ============================ */
+      comentada porque no existe
     $pdo->exec("
     CREATE TABLE IF NOT EXISTS gala_media (
         id_media INT AUTO_INCREMENT PRIMARY KEY,
@@ -146,6 +151,7 @@ try {
         FOREIGN KEY (id_gala) REFERENCES gala(id_gala)
     ) ENGINE=InnoDB;
     ");
+    ============================ */
 
     /* ============================
        TABLA CATEGORIA_PREMIO
@@ -163,7 +169,7 @@ try {
        ============================ */
     $pdo->exec("
     CREATE TABLE categorias (
-    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
     premios INT NOT NULL,
     premio_fisico TINYINT(1) NOT NULL
