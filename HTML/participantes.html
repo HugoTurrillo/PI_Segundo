@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zona participante - Festival Cortos UEM</title>
+  <title>Gestión de Candidaturas - Panel Organizador</title>
   <link rel="stylesheet" href="../CSS/estilos.css">
 </head>
 <body>
@@ -19,7 +19,7 @@
 
   <nav>
    <ul class="nav-links">
-      <li><a href="home.html">Inicio</a></li>
+      <li><a href="organizador.html">Panel</a></li>
       <li><a href="#">Calendario</a></li>
       <li><a href="#">Sobre nosotros</a></li>
    </ul>
@@ -31,8 +31,46 @@
 </header>
 
 <main class="login-container">
-  <h2>Zona privada de participante</h2>
-  <p>Aquí verás la información de tu candidatura cuando la implementemos.</p>
+
+  <h2>Gestión de candidaturas</h2>
+  <p>Aquí puedes revisar, aceptar, rechazar y nominar las candidaturas recibidas.</p>
+
+  <!-- ============================
+       LISTADO DE CANDIDATURAS
+  ============================= -->
+  <section style="margin-top: 2rem;">
+      <h3 style="color:#d32f2f; font-size:1.4rem;">Candidaturas recibidas</h3>
+
+      <!-- CONTENEDOR DINÁMICO -->
+      <div class="panel-grid" id="candidaturas-container"></div>
+  </section>
+<section style="margin-top: 2rem;">
+    <h3 style="color:#d32f2f; font-size:1.4rem;">Crear nueva candidatura</h3>
+
+    <form id="form-nueva-candidatura" class="panel-card" style="padding:1.5rem; margin-bottom:2rem;">
+        <label>Título de la obra:</label>
+        <input type="text" id="titulo_obra" required>
+
+        <label>Nombre del contacto:</label>
+        <input type="text" id="nombre_contacto" required>
+
+        <label>Email del contacto:</label>
+        <input type="email" id="email_contacto" required>
+
+        <label>DNI:</label>
+        <input type="text" id="dni" required>
+
+        <label>Sinopsis:</label>
+        <textarea id="sinopsis"></textarea>
+
+        <button class="btn login-btn" type="submit" style="margin-top:1rem;">
+            Insertar candidatura
+        </button>
+
+        <p id="error-insertar" style="color:red; margin-top:1rem;"></p>
+    </form>
+</section>
+
 </main>
 
 <footer class="footer">
@@ -67,6 +105,9 @@
     Universidad Europea © 2025. Todos los Derechos Reservados
   </div>
 </footer>
+
+<!-- CARGA DEL SCRIPT -->
+<script src="../JS/candidaturas.js" defer></script>
 
 </body>
 </html>

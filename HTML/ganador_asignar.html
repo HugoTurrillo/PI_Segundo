@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premios - Panel Organizador</title>
+  <title>Asignar ganador</title>
   <link rel="stylesheet" href="../CSS/estilos.css">
 </head>
 <body>
@@ -18,38 +18,41 @@
   </div>
 
   <nav>
-   <ul class="nav-links">
+    <ul class="nav-links">
       <li><a href="organizador.html">Panel</a></li>
       <li><a href="#">Calendario</a></li>
       <li><a href="#">Sobre nosotros</a></li>
-   </ul>
+    </ul>
   </nav>
 
   <div class="nav-buttons">
-      <a href="login.html" class="btn nav-btn">Salir</a>
+    <a href="login.html" class="btn nav-btn">Salir</a>
   </div>
 </header>
 
 <main class="login-container">
-  
-  <h2>Gestión de las Categorías de los Premios</h2>
 
-  <!-- ============================
-       CATEGORÍAS
-  ============================= -->
-  <section style="margin-top: 2rem;">
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-      <h3 style="color: #d32f2f; font-size: 1.4rem;">Categorías y premios</h3>
-      <a href="categoria-nueva.html" class="btn login-btn" style="padding: 0.6rem 1.2rem;">Añadir categoría</a>
+  <h2>Asignar ganador</h2>
+
+  <label>Categoría:</label>
+  <select id="select_categoria" required style="margin-bottom:1rem;"></select>
+
+  <div id="info-categoria" class="panel-card" style="padding:1.2rem; margin-bottom:1.5rem;">   Cargando categoría...
+    Selecciona una categoría...  
     </div>
-  </section>
 
- 
-<div class="panel-grid" id="categorias-container"></div>
+  <form id="form-ganador" class="panel-card" style="padding:1.5rem;">
+    
+    <label>Premio:</label>
+    <select id="numero_premio" required></select>
 
-  <hr class="home-separator">
+    <label>Nominado ganador:</label>
+    <select id="id_candidatura" required></select>
 
- 
+    <button class="btn login-btn" type="submit" style="margin-top:1rem;">
+      Guardar ganador
+    </button>
+  </form>
 
 </main>
 
@@ -86,8 +89,7 @@
   </div>
 </footer>
 
-<!-- CARGA DEL SCRIPT -->
-<script src="../JS/premios.js" defer></script>
+<script src="../JS/ganador-asignar.js"></script>
 
 </body>
 </html>

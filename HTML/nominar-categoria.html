@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premios - Panel Organizador</title>
+  <title>Nominar candidatura a categoría</title>
   <link rel="stylesheet" href="../CSS/estilos.css">
 </head>
 <body>
@@ -18,38 +18,34 @@
   </div>
 
   <nav>
-   <ul class="nav-links">
+    <ul class="nav-links">
       <li><a href="organizador.html">Panel</a></li>
       <li><a href="#">Calendario</a></li>
       <li><a href="#">Sobre nosotros</a></li>
-   </ul>
+    </ul>
   </nav>
 
   <div class="nav-buttons">
-      <a href="login.html" class="btn nav-btn">Salir</a>
+    <a href="login.html" class="btn nav-btn">Salir</a>
   </div>
 </header>
 
 <main class="login-container">
-  
-  <h2>Gestión de las Categorías de los Premios</h2>
 
-  <!-- ============================
-       CATEGORÍAS
-  ============================= -->
-  <section style="margin-top: 2rem;">
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-      <h3 style="color: #d32f2f; font-size: 1.4rem;">Categorías y premios</h3>
-      <a href="categoria-nueva.html" class="btn login-btn" style="padding: 0.6rem 1.2rem;">Añadir categoría</a>
-    </div>
-  </section>
+  <h2>Nominar candidatura a categoría</h2>
 
- 
-<div class="panel-grid" id="categorias-container"></div>
+  <div id="info-candidatura" class="panel-card" style="padding:1.2rem; margin-bottom:1.5rem;">
+      Cargando información de la candidatura...
+  </div>
 
-  <hr class="home-separator">
+  <form id="form-nominacion" class="panel-card" style="padding:1.5rem;">
+    <label for="id_categoria">Categoría:</label>
+    <select id="id_categoria" required></select>
 
- 
+    <button class="btn login-btn" type="submit" style="margin-top:1rem;">
+      Nominar
+    </button>
+  </form>
 
 </main>
 
@@ -86,8 +82,7 @@
   </div>
 </footer>
 
-<!-- CARGA DEL SCRIPT -->
-<script src="../JS/premios.js" defer></script>
+<script src="../JS/nominar.js"></script>
 
 </body>
 </html>

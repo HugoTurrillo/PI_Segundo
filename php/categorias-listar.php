@@ -1,9 +1,14 @@
 <?php
-include("conexion.php");
-header("Content-Type: application/json");
+require "conexion.php";
 
-$stmt = $pdo->query("SELECT * FROM categorias ORDER BY id DESC");
+header("Content-Type: application/json; charset=utf-8");
+
+$sql = "SELECT id, nombre, premios, premio_fisico FROM categorias ORDER BY id DESC";
+$stmt = $pdo->query($sql);
+
 $categorias = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-echo json_encode($categorias);
-?>
+echo json_encode([
+    "ok" => true,
+    "data" => $categorias
+]);

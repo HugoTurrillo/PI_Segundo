@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premios - Panel Organizador</title>
+  <title>Ganadores - Panel Organizador</title>
   <link rel="stylesheet" href="../CSS/estilos.css">
 </head>
 <body>
@@ -18,11 +18,11 @@
   </div>
 
   <nav>
-   <ul class="nav-links">
+    <ul class="nav-links">
       <li><a href="organizador.html">Panel</a></li>
       <li><a href="#">Calendario</a></li>
       <li><a href="#">Sobre nosotros</a></li>
-   </ul>
+    </ul>
   </nav>
 
   <div class="nav-buttons">
@@ -31,25 +31,22 @@
 </header>
 
 <main class="login-container">
-  
-  <h2>Gestión de las Categorías de los Premios</h2>
 
-  <!-- ============================
-       CATEGORÍAS
-  ============================= -->
+  <h2>Gestión de Ganadores</h2>
+
   <section style="margin-top: 2rem;">
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-      <h3 style="color: #d32f2f; font-size: 1.4rem;">Categorías y premios</h3>
-      <a href="categoria-nueva.html" class="btn login-btn" style="padding: 0.6rem 1.2rem;">Añadir categoría</a>
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
+      <h3 style="color:#d32f2f; font-size:1.4rem;">Ganadores por categoría</h3>
+      <a href="ganador_asignar.html" class="btn login-btn" style="padding:0.6rem 1.2rem;">
+        Gestionar ganadores
+      </a>
     </div>
   </section>
 
- 
-<div class="panel-grid" id="categorias-container"></div>
+  <!-- CONTENEDOR DINÁMICO DE GANADORES -->
+  <div class="panel-grid" id="ganadores-container"></div>
 
   <hr class="home-separator">
-
- 
 
 </main>
 
@@ -87,7 +84,7 @@
 </footer>
 
 <!-- CARGA DEL SCRIPT -->
-<script src="../JS/premios.js" defer></script>
+<script src="../JS/ganadores.js" defer></script>
 
 </body>
 </html>

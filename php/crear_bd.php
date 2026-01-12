@@ -51,27 +51,49 @@ try {
        TABLA CANDIDATURA
        ============================ */
     $pdo->exec("
-    CREATE TABLE IF NOT EXISTS candidatura (
-        id_candidatura INT AUTO_INCREMENT PRIMARY KEY,
-        id_usuario INT NOT NULL,
-        id_edicion INT NOT NULL,
-        titulo_obra VARCHAR(255) NOT NULL,
-        ficha_tecnico_artistica TEXT,
-        cartel_ruta VARCHAR(255),
-        sinopsis TEXT,
-        nombre_contacto VARCHAR(150) NOT NULL,
-        email_contacto VARCHAR(150) NOT NULL,
-        dni VARCHAR(20) NOT NULL,
-        expediente VARCHAR(50),
-        video_ruta VARCHAR(255),
-        estado ENUM('en_proceso','aceptada','rechazada') NOT NULL DEFAULT 'en_proceso',
-        motivo_rechazo TEXT NULL,
-        fecha_creacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        fecha_ultima_actualizacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
-        FOREIGN KEY (id_edicion) REFERENCES edicion_festival(id_edicion)
-    ) ENGINE=InnoDB;
+  CREATE TABLE IF NOT EXISTS candidatura (
+    id_candidatura INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    id_edicion INT NOT NULL,
+    id_categoria INT NULL,  
+    titulo_obra VARCHAR(255) NOT NULL,
+    ficha_tecnico_artistica TEXT,
+    cartel_ruta VARCHAR(255),
+    sinopsis TEXT,
+    nombre_contacto VARCHAR(150) NOT NULL,
+    email_contacto VARCHAR(150) NOT NULL,
+    dni VARCHAR(20) NOT NULL,
+    expediente VARCHAR(50),
+    video_ruta VARCHAR(255),
+
+    estado ENUM('en_proceso','aceptada','rechazada') NOT NULL DEFAULT 'en_proceso',
+    motivo_rechazo TEXT NULL,
+
+    fecha_creacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fecha_ultima_actualizacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP 
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
+    FOREIGN KEY (id_edicion) REFERENCES edicion_festival(id_edicion),
+    FOREIGN KEY (id_categoria) REFERENCES categorias(id)  
+) ENGINE=InnoDB;
+
     ");
+        /* ============================
+       TABLA GANADORES
+       ============================ */
+
+    $pdo->exec("
+CREATE TABLE IF NOT EXISTS ganadores (
+    id_ganador INT AUTO_INCREMENT PRIMARY KEY,
+    id_categoria INT NOT NULL,
+    numero_premio INT NOT NULL,
+    id_candidatura INT NOT NULL,
+    FOREIGN KEY (id_categoria) REFERENCES categorias(id),
+    FOREIGN KEY (id_candidatura) REFERENCES candidatura(id_candidatura)
+) ENGINE=InnoDB;
+");
+
 
     /* ============================
        TABLA NOTIFICACION_CANDIDATURA
@@ -123,7 +145,6 @@ try {
        ============================ */
     $pdo->exec("
     CREATE TABLE IF NOT EXISTS gala (
-        CREATE TABLE gala (
     id INT AUTO_INCREMENT PRIMARY KEY,
     titulo VARCHAR(255) NOT NULL,
     fecha DATE NOT NULL,
