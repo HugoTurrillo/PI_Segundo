@@ -1,6 +1,4 @@
 <?php
-// index.php en la raíz del proyecto
-
 $marcaBD = __DIR__ . "/php/.bd_creada";
 
 if (!file_exists($marcaBD)) {
@@ -8,6 +6,5 @@ if (!file_exists($marcaBD)) {
     file_put_contents($marcaBD, "ok");
 }
 
-// Redirigir siempre a la landing
 header("Location: HTML/home.html");
 exit;
