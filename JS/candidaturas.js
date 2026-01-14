@@ -84,9 +84,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 const r = await res.json();
 
                 if (!r.ok) {
-                    error.textContent = "Error al insertar candidatura";
-                    return;
-                }
+                    error.textContent = r.mensaje || "Error al insertar candidatura";
+                        return;
+                            }
+
+                if (r.redireccion) {
+                    window.location.href = r.redireccion;
+                     return;
+                    }
+
 
                 formInsertar.reset();
                 error.textContent = "";
