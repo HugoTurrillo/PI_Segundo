@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 cargarCandidaturas();
 
             } catch (error) {
-                console.error("❌ Error insertando candidatura:", error);
+                console.error("Error insertando candidatura:", error);
                 error.textContent = "Error de conexión";
             }
         });
