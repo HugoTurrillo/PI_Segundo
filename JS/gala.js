@@ -58,12 +58,24 @@ document.addEventListener("DOMContentLoaded", () => {
             btn.addEventListener("click", async () => {
                 const id = btn.dataset.id;
 
-                if (!confirm("¿Seguro que quieres eliminar este evento de gala?")) return;
+                const confirmacion = await Swal.fire({
+                    title: "¿Eliminar gala?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Sí, eliminar",
+                    cancelButtonText: "Cancelar"
+                });
+
+                if (!confirmacion.isConfirmed) return;
 
                 const res = await fetch(`../php/gala-eliminar.php?id=${id}`);
                 const r = await res.json();
 
-                alert(r.msg);
+                Swal.fire({
+                    icon: r.ok ? "success" : "error",
+                    title: r.ok ? "Eliminado" : "Error",
+                    text: r.msg
+                });
                 if (r.ok) cargarGala();
             });
         });
@@ -213,7 +225,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 const resultado = await respuesta.json();
 
                 if (resultado.ok) {
-                    alert("Evento actualizado correctamente");
+                    await Swal.fire({
+                        icon: "success",
+                        title: "Evento actualizado",
+                        text: "La gala se ha actualizado correctamente"
+                    });
+
                     window.location.href = "gala.html";
                 } else {
                     errorGlobal.textContent = resultado.msg;
@@ -235,7 +252,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const resultado = await respuesta.json();
 
             if (resultado.ok) {
-                alert("Evento creado correctamente");
+                await Swal.fire({
+                    icon: "success",
+                    title: "Evento creado",
+                    text: "La gala se ha creado correctamente"
+                });
+
                 window.location.href = "gala.html";
             } else {
                 errorGlobal.textContent = resultado.msg;
