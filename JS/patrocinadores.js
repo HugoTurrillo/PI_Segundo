@@ -6,13 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
     async function cargarPatrocinadores() {
 
         const contenedor = document.querySelector(".panel-grid");
-        //const contenedor = document.querySelector(".patrocinadores-grid");
-
         if (!contenedor) return; // Solo en patrocinadores.html
 
- const respuesta = await fetch("../php/patrocinadores-listar.php");
-       // const respuesta = await fetch("../../php/patrocinadores-listar.php");
-
+        const respuesta = await fetch("../php/patrocinadores-listar.php");
         const patrocinadores = await respuesta.json();
 
         contenedor.innerHTML = "";
@@ -21,26 +17,25 @@ document.addEventListener("DOMContentLoaded", () => {
             contenedor.innerHTML += `
                 <div class="panel-card">
                    
-                    <img src="../../uploads/${p.logo}"
-
+                    <img src="../../uploads/${p.logo_ruta}"
                          alt="Logo patrocinador" 
                          style="width: 100%; max-height: 120px; object-fit: contain; margin-bottom: 1rem;">
 
                     <h3>${p.nombre}</h3>
 
                     <p><strong>Web:</strong> 
-                        <a href="${p.enlace}" target="_blank">${p.enlace}</a>
+                        <a href="${p.url_web}" target="_blank">${p.url_web}</a>
                     </p>
 
                     <p>${p.descripcion}</p>
 
                     <div style="margin-top: 1rem; display:flex; gap:1rem;">
-                        <a href="patrocinador-editar.html?id=${p.id}" 
+                        <a href="patrocinador-editar.html?id=${p.id_patrocinador}" 
                            class="btn login-btn" 
                            style="padding:0.5rem 1rem;">Editar</a>
 
                         <button class="btn login-btn btn-eliminar-patrocinador" 
-                                data-id="${p.id}" 
+                                data-id="${p.id_patrocinador}" 
                                 style="padding:0.5rem 1rem; background:#555;">
                             Eliminar
                         </button>
@@ -81,7 +76,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // FORMULARIO (CREAR / EDITAR)
     // ============================
     const form = document.getElementById("form-patrocinador");
-        //if (!form) return;
 
     const nombre = document.getElementById("nombre");
     const logo = document.getElementById("logo");
@@ -108,13 +102,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const res = await fetch(`../php/patrocinador-obtener.php?id=${id}`);
         const patrocinador = await res.json();
 
-        if (!patrocinador || !patrocinador.id) {
+        if (!patrocinador || !patrocinador.id_patrocinador) {
             errorGlobal.textContent = "No se encontró el patrocinador.";
             return;
         }
 
         nombre.value = patrocinador.nombre;
-        enlace.value = patrocinador.enlace;
+        enlace.value = patrocinador.url_web;
         descripcion.value = patrocinador.descripcion;
 
         form.dataset.id = id;

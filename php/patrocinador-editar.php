@@ -7,10 +7,10 @@ header("Content-Type: application/json; charset=utf-8");
 // ============================
 $id = intval($_POST["id"] ?? 0);
 $nombre = trim($_POST["nombre"] ?? "");
-$enlace = trim($_POST["enlace"] ?? "");
+$url_web = trim($_POST["enlace"] ?? ""); // sigue viniendo como "enlace" desde el formulario
 $descripcion = trim($_POST["descripcion"] ?? "");
 
-if ($id <= 0 || $nombre === "" || $enlace === "") {
+if ($id <= 0 || $nombre === "" || $url_web === "") {
     echo json_encode(["ok" => false, "msg" => "Datos incompletos"]);
     exit();
 }
@@ -18,7 +18,7 @@ if ($id <= 0 || $nombre === "" || $enlace === "") {
 // ============================
 // OBTENER DATOS ACTUALES
 // ============================
-$stmt = $pdo->prepare("SELECT logo FROM patrocinadores WHERE id = ?");
+$stmt = $pdo->prepare("SELECT logo_ruta FROM patrocinador WHERE id_patrocinador = ?");
 $stmt->execute([$id]);
 $actual = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -27,7 +27,7 @@ if (!$actual) {
     exit();
 }
 
-$nombreArchivo = $actual["logo"];
+$nombreArchivo = $actual["logo_ruta"];
 
 // ============================
 // PROCESAR NUEVO LOGO (SI EXISTE)
@@ -49,8 +49,8 @@ if (isset($_FILES["logo"]) && $_FILES["logo"]["size"] > 0) {
     }
 
     // Eliminar logo anterior si existe
-    $rutaAnterior = "../uploads/" . $actual["logo"];
-    if ($actual["logo"] && file_exists($rutaAnterior)) {
+    $rutaAnterior = "../uploads/" . $actual["logo_ruta"];
+    if ($actual["logo_ruta"] && file_exists($rutaAnterior)) {
         @unlink($rutaAnterior);
     }
 }
@@ -59,12 +59,12 @@ if (isset($_FILES["logo"]) && $_FILES["logo"]["size"] > 0) {
 // ACTUALIZAR REGISTRO
 // ============================
 $stmt = $pdo->prepare("
-    UPDATE patrocinadores 
-    SET nombre = ?, logo = ?, enlace = ?, descripcion = ?
-    WHERE id = ?
+    UPDATE patrocinador 
+    SET nombre = ?, logo_ruta = ?, url_web = ?, descripcion = ?
+    WHERE id_patrocinador = ?
 ");
 
-$ok = $stmt->execute([$nombre, $nombreArchivo, $enlace, $descripcion, $id]);
+$ok = $stmt->execute([$nombre, $nombreArchivo, $url_web, $descripcion, $id]);
 
 if (!$ok) {
     echo json_encode(["ok" => false, "msg" => "Error al actualizar en la base de datos"]);

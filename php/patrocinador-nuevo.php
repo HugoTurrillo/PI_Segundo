@@ -4,11 +4,11 @@ header("Content-Type: application/json");
 
 // Recibir datos
 $nombre = trim($_POST["nombre"] ?? "");
-$enlace = trim($_POST["enlace"] ?? "");
+$url_web = trim($_POST["enlace"] ?? ""); // sigue viniendo como "enlace" desde el formulario
 $descripcion = trim($_POST["descripcion"] ?? "");
 
 // Validaciones
-if ($nombre === "" || $enlace === "") {
+if ($nombre === "" || $url_web === "") {
     echo json_encode(["ok" => false, "msg" => "Nombre y enlace son obligatorios"]);
     exit();
 }
@@ -34,8 +34,11 @@ if (!move_uploaded_file($logo["tmp_name"], $rutaDestino)) {
 }
 
 // Insertar en BD
-$stmt = $pdo->prepare("INSERT INTO patrocinadores (nombre, logo, enlace, descripcion) VALUES (?, ?, ?, ?)");
-$stmt->execute([$nombre, $nombreArchivo, $enlace, $descripcion]);
+$stmt = $pdo->prepare("
+    INSERT INTO patrocinador (nombre, logo_ruta, url_web, descripcion)
+    VALUES (?, ?, ?, ?)
+");
+$stmt->execute([$nombre, $nombreArchivo, $url_web, $descripcion]);
 
 echo json_encode(["ok" => true, "msg" => "Patrocinador creado correctamente"]);
 ?>

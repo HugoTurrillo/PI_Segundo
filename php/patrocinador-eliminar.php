@@ -9,15 +9,18 @@ if (!isset($_GET["id"])) {
 
 $id = intval($_GET["id"]);
 
-$stmt = $pdo->prepare("SELECT logo FROM patrocinadores WHERE id = ?");
+// Obtener logo actual
+$stmt = $pdo->prepare("SELECT logo_ruta FROM patrocinador WHERE id_patrocinador = ?");
 $stmt->execute([$id]);
 $patro = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($patro && file_exists("../uploads/" . $patro["logo"])) {
-    unlink("../uploads/" . $patro["logo"]);
+// Eliminar archivo si existe
+if ($patro && file_exists("../uploads/" . $patro["logo_ruta"])) {
+    unlink("../uploads/" . $patro["logo_ruta"]);
 }
 
-$stmt = $pdo->prepare("DELETE FROM patrocinadores WHERE id = ?");
+// Eliminar registro
+$stmt = $pdo->prepare("DELETE FROM patrocinador WHERE id_patrocinador = ?");
 $stmt->execute([$id]);
 
 echo json_encode(["ok" => true, "msg" => "Patrocinador eliminado"]);
