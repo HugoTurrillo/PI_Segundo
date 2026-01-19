@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
             contenedor.innerHTML += `
                 <div class="panel-card">
                    
-                    <img src="../../uploads/${p.logo_ruta}"
+                    <img src="../uploads/${p.logo_ruta}"
                          alt="Logo patrocinador" 
                          style="width: 100%; max-height: 120px; object-fit: contain; margin-bottom: 1rem;">
 
