@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
             activarBotones();
 
         } catch (error) {
-            console.error("❌ Error cargando candidaturas:", error);
+            console.error("Error cargando candidaturas:", error);
             contenedor.innerHTML = "<p>Error cargando candidaturas</p>";
         }
     }

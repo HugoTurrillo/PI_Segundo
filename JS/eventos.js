@@ -47,12 +47,24 @@ document.addEventListener("DOMContentLoaded", () => {
             btn.addEventListener("click", async () => {
                 const id = btn.dataset.id;
 
-                if (!confirm("¿Seguro que quieres eliminar este evento?")) return;
+                const confirmacion = await Swal.fire({
+                    title: "¿Eliminar evento?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Sí, eliminar",
+                    cancelButtonText: "Cancelar"
+                });
+
+                if (!confirmacion.isConfirmed) return;
 
                 const res = await fetch(`../php/evento-eliminar.php?id=${id}`);
                 const r = await res.json();
 
-                alert(r.msg);
+                Swal.fire({
+                    icon: r.ok ? "success" : "error",
+                    title: r.ok ? "Eliminado" : "Error",
+                    text: r.msg
+                });
                 if (r.ok) cargarEventos();
             });
         });
@@ -175,7 +187,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const resultado = await respuesta.json();
 
             if (resultado.ok) {
-                alert("Evento actualizado correctamente");
+                await Swal.fire({
+                    icon: "success",
+                    title: "Evento editado",
+                    text: "El evento se ha editado correctamente"
+                });
+
                 window.location.href = "eventos.html";
             } else {
                 errorGlobal.textContent = resultado.msg;
@@ -204,7 +221,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const resultado = await respuesta.json();
 
         if (resultado.ok) {
-            alert("Evento creado correctamente");
+            await Swal.fire({
+                    icon: "success",
+                    title: "Evento creado",
+                    text: "El evento se ha creado correctamente"
+                });
             window.location.href = "eventos.html";
         } else {
             errorGlobal.textContent = resultado.msg;

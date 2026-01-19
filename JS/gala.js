@@ -254,7 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (resultado.ok) {
                 await Swal.fire({
                     icon: "success",
-                    title: "Evento creado",
+                    title: "Gala creada",
                     text: "La gala se ha creado correctamente"
                 });
 

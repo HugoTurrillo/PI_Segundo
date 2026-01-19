@@ -59,12 +59,22 @@ document.addEventListener("DOMContentLoaded", () => {
             btn.addEventListener("click", async () => {
                 const id = btn.dataset.id;
 
-                if (!confirm("¿Seguro que quieres eliminar este patrocinador?")) return;
+                const confirmacion = await Swal.fire({
+                    title: "¿Eliminar gala?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Sí, eliminar",
+                    cancelButtonText: "Cancelar"
+                });
 
                 const res = await fetch(`../php/patrocinador-eliminar.php?id=${id}`);
                 const r = await res.json();
 
-                alert(r.msg);
+                Swal.fire({
+                    icon: r.ok ? "success" : "error",
+                    title: r.ok ? "Eliminado" : "Error",
+                    text: r.msg
+                });
                 if (r.ok) cargarPatrocinadores();
             });
         });
@@ -194,7 +204,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const resultado = await respuesta.json();
 
             if (resultado.ok) {
-                alert("Patrocinador actualizado correctamente");
+                await Swal.fire({
+                        icon: "success",
+                        title: "Evento actualizado",
+                        text: "La gala se ha actualizado correctamente"
+                    });
+
                 window.location.href = "patrocinadores.html";
             } else {
                 errorGlobal.textContent = resultado.msg;
@@ -216,7 +231,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const resultado = await respuesta.json();
 
         if (resultado.ok) {
-            alert("Patrocinador creado correctamente");
+            await Swal.fire({
+                    icon: "success",
+                    title: "Patrocinador creado",
+                    text: "La gala se ha creado correctamente"
+                });
+
             window.location.href = "patrocinadores.html";
         } else {
             errorGlobal.textContent = resultado.msg;

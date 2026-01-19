@@ -60,7 +60,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             body: JSON.stringify({ id_candidatura, id_categoria })
         });
 
-        alert("Candidatura nominada correctamente");
+        await Swal.fire({
+                    icon: "success",
+                    title: "Candidatura nominada",
+                    text: "La candidatura se ha nominado correctamente"
+                });
         window.location.href = "ganadores.html";
     });
 

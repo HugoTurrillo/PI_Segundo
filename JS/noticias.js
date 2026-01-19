@@ -46,12 +46,24 @@ function activarBotonesEliminar() {
         btn.addEventListener("click", async () => {
             const id = btn.dataset.id;
 
-            if (!confirm("¿Seguro que quieres eliminar esta noticia?")) return;
+            const confirmacion = await Swal.fire({
+                    title: "¿Eliminar noticia?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Sí, eliminar",
+                    cancelButtonText: "Cancelar"
+                });
+
+                if (!confirmacion.isConfirmed) return;
 
             const res = await fetch(`../php/noticia-eliminar.php?id_noticia=${id}`);
             const r = await res.json();
 
-            alert(r.msg);
+            Swal.fire({
+                    icon: r.ok ? "success" : "error",
+                    title: r.ok ? "Eliminado" : "Error",
+                    text: r.msg
+                });
             if (r.ok) cargarNoticias();
         });
     });
@@ -141,10 +153,10 @@ cargarNoticiaEditar();
 
         if (id) {
            const datos = {
-    id_noticia: id,
-    titulo: titulo.value,
-    contenido: contenido.value
-};
+                id_noticia: id,
+                titulo: titulo.value,
+                contenido: contenido.value
+            };
 
 
             const respuesta = await fetch("../php/noticia-editar.php", {
@@ -156,7 +168,12 @@ cargarNoticiaEditar();
             const resultado = await respuesta.json();
 
             if (resultado.ok) {
-                alert("Noticia actualizada correctamente");
+                await Swal.fire({
+                    icon: "success",
+                    title: "Noticia editada",
+                    text: "La noticia se ha actualizado correctamente"
+                });
+
                 window.location.href = "noticias.html";
             } else {
                 errorGlobal.textContent = resultado.msg;
@@ -183,8 +200,12 @@ cargarNoticiaEditar();
 
         const resultado = await respuesta.json();
 
-                if (resultado.ok) {
-            alert("Noticia creada correctamente");
+            if (resultado.ok) {
+                await Swal.fire({
+                    icon: "success",
+                    title: "Noticia editada",
+                    text: "La noticia se ha creado correctamente"
+                });
             window.location.href = "noticias.html";
         } else {
             errorGlobal.textContent = resultado.msg;
