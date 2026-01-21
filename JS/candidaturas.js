@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const contenedor = document.getElementById("candidaturas-container");
 
     if (!contenedor) {
-        console.error("❌ ERROR: No existe el contenedor #candidaturas-container en el HTML");
+        console.error("ERROR: No existe el contenedor #candidaturas-container en el HTML");
         return;
     }
 

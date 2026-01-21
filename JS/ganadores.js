@@ -31,7 +31,7 @@ async function cargarGanadores() {
 
         ganadores.forEach(g => {
 
-            // 🔍 DEBUG 2: ver si entra al bucle
+            //DEBUG 2: ver si entra al bucle
             console.log("Pintando ganador:", g);
 
             contenedor.innerHTML += `
