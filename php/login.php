@@ -2,7 +2,7 @@
 // php/login.php
 
 session_start();
-require "conexion.php";
+require "config/conexion.php";
 
 header("Content-Type: application/json");
 
@@ -32,33 +32,39 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     // Buscar usuario por email
-    $stmt = $pdo->prepare("SELECT id_usuario, nombre_completo, password_hash, rol 
+    $stmt = $conexion->prepare("SELECT id_usuario, nombre_completo, password_hash, rol 
                            FROM usuario 
                            WHERE email = ? AND activo = 1");
-    $stmt->execute([$email]);
-    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
 
-    if ($usuario && password_verify($password, $usuario["password_hash"])) {
+    if ($resultado->num_rows >=1){ //El usuario existe en la base de datos
+        $usuario = $resultado->fetch_assoc();
+    
+        if ($usuario && password_verify($password, $usuario["password_hash"])) {
 
-        // Guardar datos en sesión
-        $_SESSION["id_usuario"] = $usuario["id_usuario"];
-        $_SESSION["nombre"] = $usuario["nombre_completo"];
-        $_SESSION["rol"] = $usuario["rol"];
+            // Guardar datos en sesión
+            $_SESSION["id_usuario"] = $usuario["id_usuario"];
+            $_SESSION["nombre"] = $usuario["nombre_completo"];
+            $_SESSION["rol"] = $usuario["rol"];
 
-        // Redirigir según rol
-        if ($usuario["rol"] === "organizador") {
-            $redir = "../HTML/organizador.html";
-        } else {
-            $redir = "../HTML/participantes.html";
+            // Redirigir según rol
+            if ($usuario["rol"] === "organizador") {
+                $redir = "../HTML/organizador.html";
+            } else {
+                $redir = "../HTML/participantes.html";
+            }
+
+            echo json_encode([
+                "ok" => true,
+                "redireccion" => $redir
+            ]);
+            exit;
         }
 
-        echo json_encode([
-            "ok" => true,
-            "redireccion" => $redir
-        ]);
-        exit;
-
     } else {
+        //No ha encontrado el resultado en la base de datos
         echo json_encode([
             "ok" => false,
             "mensaje" => "Email o contraseña incorrectos."
@@ -70,4 +76,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         "ok" => false,
         "mensaje" => "Método no permitido."
     ]);
+    exit;
 }
