@@ -1,36 +1,24 @@
 <?php
-// php/gala-eliminar.php
-require "config/conexion.php";
-
+include("conexion.php");
 header("Content-Type: application/json");
 
-if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    echo json_encode(["ok" => false, "msg" => "Método no permitido"]);
-    exit;
+if (!isset($_GET["id"])) {
+    echo json_encode(["ok" => false, "msg" => "ID no recibido"]);
+    exit();
 }
 
-$entrada = file_get_contents("php://input");
-$datos = json_decode($entrada, true);
+$id = intval($_GET["id"]);
 
-$id = intval($datos["id"] ?? 0);
+$stmt = $pdo->prepare("SELECT imagen FROM gala WHERE id = ?");
+$stmt->execute([$id]);
+$evento = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($id <= 0) {
-    echo json_encode(["ok" => false, "msg" => "ID no válido"]);
-    exit;
-}
-
-$stmt = $conexion->prepare("SELECT imagen FROM gala WHERE id = ?");
-$stmt->bind_param("i", $id);
-$stmt->execute();
-$resultado = $stmt->get_result();
-$evento = $resultado->fetch_assoc();
-
-if ($evento && !empty($evento["imagen"]) && file_exists("../uploads/" . $evento["imagen"])) {
+if ($evento && file_exists("../uploads/" . $evento["imagen"])) {
     unlink("../uploads/" . $evento["imagen"]);
 }
 
-$stmt = $conexion->prepare("DELETE FROM gala WHERE id = ?");
-$stmt->bind_param("i", $id);
-$stmt->execute();
+$stmt = $pdo->prepare("DELETE FROM gala WHERE id = ?");
+$stmt->execute([$id]);
 
 echo json_encode(["ok" => true, "msg" => "Evento eliminado"]);
+?>
