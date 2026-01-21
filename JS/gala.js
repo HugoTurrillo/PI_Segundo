@@ -7,48 +7,53 @@ document.addEventListener("DOMContentLoaded", () => {
         const contenedor = document.querySelector(".panel-grid");
         if (!contenedor) return; // Solo en gala.html
 
-        // RUTA CORRECTA DESDE /HTML/
-        const respuesta = await fetch("../php/gala-listar.php");
-        const eventos = await respuesta.json();
+        try {
+            const respuesta = await fetch("../php/gala-listar.php");
+            const eventos = await respuesta.json();
 
-        contenedor.innerHTML = "";
+            contenedor.innerHTML = "";
 
-        eventos.forEach(ev => {
-            contenedor.innerHTML += `
-                <div class="panel-card">
+            eventos.forEach(ev => {
+                contenedor.innerHTML += `
+                    <div class="panel-card">
 
-                    <img src="../uploads/${ev.imagen}" 
-                         alt="Imagen gala" 
-                         style="width: 100%; max-height: 150px; object-fit: cover; border-radius: 6px; margin-bottom: 1rem;">
+                        <img src="../uploads/${ev.imagen}" 
+                             alt="Imagen gala"
+                             style="width:100%; max-height:150px; object-fit:cover; border-radius:6px; margin-bottom:1rem;">
 
-                    <h3>${ev.titulo}</h3>
+                        <h3>${ev.titulo}</h3>
 
-                    <p><strong>Fecha:</strong> ${ev.fecha}</p>
-                    <p><strong>Hora:</strong> ${ev.hora}</p>
-                    <p><strong>Lugar:</strong> ${ev.lugar}</p>
-                    <p>${ev.descripcion}</p>
+                        <p><strong>Fecha:</strong> ${ev.fecha}</p>
+                        <p><strong>Hora:</strong> ${ev.hora}</p>
+                        <p><strong>Lugar:</strong> ${ev.lugar}</p>
+                        <p>${ev.descripcion ?? ""}</p>
 
-                    <div style="margin-top: 1rem; display:flex; gap:1rem;">
-                        <a href="gala-editar.html?id=${ev.id}" 
-                           class="btn login-btn" 
-                           style="padding:0.5rem 1rem;">Editar</a>
+                        <div style="margin-top:1rem; display:flex; gap:1rem;">
+                            <a href="gala-editar.html?id=${ev.id}"
+                               class="btn login-btn"
+                               style="padding:0.5rem 1rem;">
+                                Editar
+                            </a>
 
-                        <button class="btn login-btn btn-eliminar-gala" 
-                                data-id="${ev.id}" 
-                                style="padding:0.5rem 1rem; background:#555;">
-                            Eliminar
-                        </button>
+                            <button class="btn login-btn btn-eliminar-gala"
+                                    data-id="${ev.id}"
+                                    style="padding:0.5rem 1rem; background:#555;">
+                                Eliminar
+                            </button>
+                        </div>
                     </div>
-                </div>
-            `;
-        });
+                `;
+            });
 
-        activarBotonesEliminar();
+            activarBotonesEliminar();
+
+        } catch (err) {
+            console.error(err);
+            contenedor.innerHTML = "<p>Error cargando las galas.</p>";
+        }
     }
 
     cargarGala();
-
-
 
     // ============================
     // ELIMINAR EVENTO DE GALA
@@ -68,56 +73,71 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (!confirmacion.isConfirmed) return;
 
-                const res = await fetch(`../php/gala-eliminar.php?id=${id}`);
-                const r = await res.json();
+                try {
+                    const res = await fetch("../php/gala-eliminar.php", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ id: id })
+                    });
 
-                Swal.fire({
-                    icon: r.ok ? "success" : "error",
-                    title: r.ok ? "Eliminado" : "Error",
-                    text: r.msg
-                });
-                if (r.ok) cargarGala();
+                    const r = await res.json();
+
+                    await Swal.fire({
+                        icon: r.ok ? "success" : "error",
+                        title: r.ok ? "Eliminado" : "Error",
+                        text: r.msg
+                    });
+
+                    if (r.ok) cargarGala();
+
+                } catch (err) {
+                    console.error(err);
+                    Swal.fire("Error", "No se pudo eliminar la gala", "error");
+                }
             });
         });
     }
-
-
 
     // ============================
     // FORMULARIO (CREAR / EDITAR)
     // ============================
     const form = document.getElementById("form-gala");
+    if (!form) return;
 
-    // Solo ejecutamos esta parte si estamos en gala-nueva o gala-editar
-    if (form) {
+    const titulo = document.getElementById("titulo");
+    const fecha = document.getElementById("fecha");
+    const hora = document.getElementById("hora");
+    const lugar = document.getElementById("lugar");
+    const descripcion = document.getElementById("descripcion");
+    const imagen = document.getElementById("imagen");
 
-        const titulo = document.getElementById("titulo");
-        const fecha = document.getElementById("fecha");
-        const hora = document.getElementById("hora");
-        const lugar = document.getElementById("lugar");
-        const descripcion = document.getElementById("descripcion");
-        const imagen = document.getElementById("imagen");
+    const errorTitulo = document.getElementById("error-titulo");
+    const errorFecha = document.getElementById("error-fecha");
+    const errorHora = document.getElementById("error-hora");
+    const errorLugar = document.getElementById("error-lugar");
+    const errorDescripcion = document.getElementById("error-descripcion");
+    const errorImagen = document.getElementById("error-imagen");
+    const errorGlobal = document.getElementById("error-global");
 
-        const errorTitulo = document.getElementById("error-titulo");
-        const errorFecha = document.getElementById("error-fecha");
-        const errorHora = document.getElementById("error-hora");
-        const errorLugar = document.getElementById("error-lugar");
-        const errorDescripcion = document.getElementById("error-descripcion");
-        const errorImagen = document.getElementById("error-imagen");
-        const errorGlobal = document.getElementById("error-global");
+    // ============================
+    // CARGAR EVENTO PARA EDITAR
+    // ============================
+    async function cargarGalaEditar() {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
+        if (!id) return;
 
+        try {
+            const res = await fetch("../php/gala-obtener.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ id: id })
+            });
 
-
-        // ============================
-        // CARGAR EVENTO PARA EDITAR
-        // ============================
-        async function cargarGalaEditar() {
-            const params = new URLSearchParams(window.location.search);
-            const id = params.get("id");
-
-            if (!id) return;
-
-            const res = await fetch(`../php/gala-obtener.php?id=${id}`);
             const gala = await res.json();
 
             if (!gala || !gala.id) {
@@ -129,140 +149,118 @@ document.addEventListener("DOMContentLoaded", () => {
             fecha.value = gala.fecha;
             hora.value = gala.hora;
             lugar.value = gala.lugar;
-            descripcion.value = gala.descripcion;
+            descripcion.value = gala.descripcion ?? "";
 
             form.dataset.id = id;
+
+        } catch (err) {
+            console.error(err);
+            errorGlobal.textContent = "Error al cargar el evento.";
+        }
+    }
+
+    cargarGalaEditar();
+
+    // ============================
+    // SUBMIT (CREAR O EDITAR)
+    // ============================
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        let valido = true;
+
+        [
+            errorTitulo,
+            errorFecha,
+            errorHora,
+            errorLugar,
+            errorDescripcion,
+            errorImagen,
+            errorGlobal
+        ].forEach(el => el.textContent = "");
+
+        const esNuevo = window.location.pathname.includes("gala-nueva");
+
+        if (titulo.value.trim() === "") {
+            errorTitulo.textContent = "El título es obligatorio.";
+            valido = false;
         }
 
-        cargarGalaEditar();
+        if (fecha.value.trim() === "") {
+            errorFecha.textContent = "La fecha es obligatoria.";
+            valido = false;
+        }
 
+        if (hora.value.trim() === "") {
+            errorHora.textContent = "La hora es obligatoria.";
+            valido = false;
+        }
 
+        if (lugar.value.trim() === "") {
+            errorLugar.textContent = "El lugar es obligatorio.";
+            valido = false;
+        }
 
-        // ============================
-        // SUBMIT (CREAR O EDITAR)
-        // ============================
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault();
+        if (descripcion.value.length > 600) {
+            errorDescripcion.textContent = "Máximo 600 caracteres.";
+            valido = false;
+        }
 
-            let valido = true;
+        if (esNuevo && (!imagen.files || imagen.files.length === 0)) {
+            errorImagen.textContent = "Debes subir una imagen.";
+            valido = false;
+        }
 
-            errorTitulo.textContent = "";
-            errorFecha.textContent = "";
-            errorHora.textContent = "";
-            errorLugar.textContent = "";
-            errorDescripcion.textContent = "";
-            errorImagen.textContent = "";
-            errorGlobal.textContent = "";
+        if (!valido) {
+            errorGlobal.textContent = "Hay errores en el formulario.";
+            return;
+        }
 
-            const esNuevo = window.location.pathname.includes("gala-nueva");
+        const datos = new FormData();
+        datos.append("titulo", titulo.value);
+        datos.append("fecha", fecha.value);
+        datos.append("hora", hora.value);
+        datos.append("lugar", lugar.value);
+        datos.append("descripcion", descripcion.value);
 
-            if (titulo.value.trim() === "") {
-                errorTitulo.textContent = "El título es obligatorio.";
-                valido = false;
-            }
+        if (imagen.files.length > 0) {
+            datos.append("imagen", imagen.files[0]);
+        }
 
-            if (fecha.value.trim() === "") {
-                errorFecha.textContent = "La fecha es obligatoria.";
-                valido = false;
-            }
+        const id = form.dataset.id;
 
-            if (hora.value.trim() === "") {
-                errorHora.textContent = "La hora es obligatoria.";
-                valido = false;
-            }
-
-            if (lugar.value.trim() === "") {
-                errorLugar.textContent = "El lugar es obligatorio.";
-                valido = false;
-            }
-
-            if (descripcion.value.length > 600) {
-                errorDescripcion.textContent = "La descripción no puede superar los 600 caracteres.";
-                valido = false;
-            }
-
-            if (esNuevo && (!imagen.files || imagen.files.length === 0)) {
-                errorImagen.textContent = "Debes subir una imagen.";
-                valido = false;
-            }
-
-            if (!valido) {
-                errorGlobal.textContent = "Hay errores en el formulario.";
-                return;
-            }
-
-
-
-            // ============================
-            // FORM DATA (para imagen)
-            // ============================
-            const datos = new FormData();
-            datos.append("titulo", titulo.value);
-            datos.append("fecha", fecha.value);
-            datos.append("hora", hora.value);
-            datos.append("lugar", lugar.value);
-            datos.append("descripcion", descripcion.value);
-
-            if (imagen.files.length > 0) {
-                datos.append("imagen", imagen.files[0]);
-            }
-
-
-
-            // ============================
-            // EDITAR
-            // ============================
-            const id = form.dataset.id;
-
-            if (id) {
-                datos.append("id", id);
-
-                const respuesta = await fetch("../php/gala-editar.php", {
+        try {
+            const respuesta = await fetch(
+                id ? "../php/gala-editar.php" : "../php/gala-nueva.php",
+                {
                     method: "POST",
-                    body: datos
-                });
-
-                const resultado = await respuesta.json();
-
-                if (resultado.ok) {
-                    await Swal.fire({
-                        icon: "success",
-                        title: "Evento actualizado",
-                        text: "La gala se ha actualizado correctamente"
-                    });
-
-                    window.location.href = "gala.html";
-                } else {
-                    errorGlobal.textContent = resultado.msg;
+                    body: (() => {
+                        if (id) datos.append("id", id);
+                        return datos;
+                    })()
                 }
-
-                return;
-            }
-
-
-
-            // ============================
-            // CREAR
-            // ============================
-            const respuesta = await fetch("../php/gala-nueva.php", {
-                method: "POST",
-                body: datos
-            });
+            );
 
             const resultado = await respuesta.json();
 
             if (resultado.ok) {
                 await Swal.fire({
                     icon: "success",
-                    title: "Gala creada",
-                    text: "La gala se ha creado correctamente"
+                    title: id ? "Evento actualizado" : "Gala creada",
+                    text: id
+                        ? "La gala se ha actualizado correctamente"
+                        : "La gala se ha creado correctamente"
                 });
 
                 window.location.href = "gala.html";
             } else {
                 errorGlobal.textContent = resultado.msg;
             }
-        });
-    }
+
+        } catch (err) {
+            console.error(err);
+            errorGlobal.textContent = "Error al guardar la gala.";
+        }
+    });
 
 });
