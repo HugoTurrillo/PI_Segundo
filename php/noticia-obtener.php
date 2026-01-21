@@ -1,17 +1,33 @@
 <?php
-include("conexion.php");
+require "config/conexion.php";
 header("Content-Type: application/json");
 
 if (!isset($_GET["id_noticia"])) {
-    echo json_encode(["error" => "ID no recibido"]);
-    exit();
+    echo json_encode(["ok" => false, "msg" => "ID no recibido"]);
+    exit;
 }
 
 $id = intval($_GET["id_noticia"]);
 
-$stmt = $pdo->prepare("SELECT * FROM noticia WHERE id_noticia = ?");
-$stmt->execute([$id]);
-$noticia = $stmt->fetch(PDO::FETCH_ASSOC);
+$stmt = $conexion->prepare("SELECT * FROM noticia WHERE id_noticia = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
 
-echo json_encode($noticia ?: []);
+$resultado = $stmt->get_result();
+
+if ($resultado->num_rows >= 1) {
+    $noticia = $resultado->fetch_assoc();
+    echo json_encode([
+        "ok" => true,
+        "noticia" => $noticia
+    ]);
+    exit;
+}
+
+// Si no existe la noticia
+echo json_encode([
+    "ok" => false,
+    "msg" => "Noticia no encontrada"
+]);
+exit;
 ?>

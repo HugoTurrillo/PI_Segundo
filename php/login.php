@@ -37,6 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                            WHERE email = ? AND activo = 1");
     $stmt->bind_param("s", $email);
     $stmt->execute();
+    //get_result se usa para consultas que devuelven datos
     $resultado = $stmt->get_result();
 
     if ($resultado->num_rows >=1){ //El usuario existe en la base de datos
