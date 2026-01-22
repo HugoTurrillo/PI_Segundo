@@ -2,6 +2,11 @@
 require "config/conexion.php";
 header("Content-Type: application/json");
 
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    echo json_encode(["ok" => false, "msg" => "Método no permitido"]);
+    exit;
+}
+
 $data = json_decode(file_get_contents("php://input"), true);
 
 $titulo = trim($data["titulo"] ?? "");
@@ -12,10 +17,10 @@ if ($titulo === "" || $contenido === "") {
     exit;
 }
 
-$stmt = $conexion->prepare("INSERT INTO noticia (titulo, contenido) VALUES (?, ?)");
+$stmt = $conexion->prepare(
+    "INSERT INTO noticia (titulo, contenido) VALUES (?, ?)"
+);
 $stmt->bind_param("ss", $titulo, $contenido);
 $stmt->execute();
 
 echo json_encode(["ok" => true, "msg" => "Noticia creada correctamente"]);
-exit;
-?>

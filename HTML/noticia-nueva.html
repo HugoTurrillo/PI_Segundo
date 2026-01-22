@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Añadir noticia</title>
   <link rel="stylesheet" href="../CSS/estilos.css">
-  <script defer src="../JS/noticias.js"></script>
 </head>
 <body>
 
@@ -19,10 +18,10 @@
   </div>
 
   <nav>
-   <ul class="nav-links">
+    <ul class="nav-links">
       <li><a href="organizador.html">Panel</a></li>
       <li><a href="noticias.html">Noticias</a></li>
-   </ul>
+    </ul>
   </nav>
 
   <div class="nav-buttons">
@@ -40,7 +39,8 @@
     <span class="error-campo" id="error-titulo"></span>
 
     <label for="contenido">Contenido</label>
-    <textarea id="contenido" name="contenido" rows="5" required style="width:100%; padding:0.6rem; border:1px solid #ccc; border-radius:4px;"></textarea>
+    <textarea id="contenido" name="contenido" rows="5" required
+      style="width:100%; padding:0.6rem; border:1px solid #ccc; border-radius:4px;"></textarea>
     <span class="error-campo" id="error-contenido"></span>
 
     <div class="error-global" id="error-global"></div>
@@ -83,7 +83,7 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="../js/noticias.js"></script>
+<script src="../JS/noticias.js"></script>
 
 </body>
 </html>

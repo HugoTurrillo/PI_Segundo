@@ -1,16 +1,24 @@
 <?php
-include("conexion.php");
+// php/categoria-eliminar.php
+require "config/conexion.php";
+
 header("Content-Type: application/json");
 
-if (!isset($_GET["id"])) {
-    echo json_encode(["ok" => false, "msg" => "ID no recibido"]);
-    exit();
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    echo json_encode(["ok" => false, "msg" => "Método no permitido"]);
+    exit;
 }
 
-$id = intval($_GET["id"]);
+$data = json_decode(file_get_contents("php://input"), true);
+$id = intval($data["id"] ?? 0);
 
-$stmt = $pdo->prepare("DELETE FROM categorias WHERE id = ?");
-$stmt->execute([$id]);
+if ($id <= 0) {
+    echo json_encode(["ok" => false, "msg" => "ID no válido"]);
+    exit;
+}
+
+$stmt = $conexion->prepare("DELETE FROM categorias WHERE id=?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
 
 echo json_encode(["ok" => true, "msg" => "Categoría eliminada correctamente"]);
-?>

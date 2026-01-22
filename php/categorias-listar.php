@@ -1,14 +1,19 @@
 <?php
-require "conexion.php";
+// php/categorias-listar.php
+require "config/conexion.php";
 
 header("Content-Type: application/json; charset=utf-8");
 
-$sql = "SELECT id, nombre, premios, premio_fisico FROM categorias ORDER BY id DESC";
-$stmt = $pdo->query($sql);
+$stmt = $conexion->prepare(
+    "SELECT id, nombre, premios, premio_fisico
+     FROM categorias
+     ORDER BY id DESC"
+);
+$stmt->execute();
 
-$categorias = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$res = $stmt->get_result();
 
 echo json_encode([
     "ok" => true,
-    "data" => $categorias
+    "data" => $res->fetch_all(MYSQLI_ASSOC)
 ]);
