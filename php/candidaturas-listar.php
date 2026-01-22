@@ -1,12 +1,14 @@
 <?php
-require "conexion.php";
-
+require "config/conexion.php";
 header("Content-Type: application/json");
 
-$stmt = $pdo->query("
-    SELECT id_candidatura, titulo_obra, nombre_contacto, email_contacto, estado, motivo_rechazo
-    FROM candidatura
-    ORDER BY fecha_creacion DESC
-");
+$stmt = $conexion->prepare(
+    "SELECT id_candidatura, titulo_obra, nombre_contacto,
+            email_contacto, estado, motivo_rechazo
+     FROM candidatura
+     ORDER BY fecha_creacion DESC"
+);
+$stmt->execute();
+$res = $stmt->get_result();
 
-echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+echo json_encode($res->fetch_all(MYSQLI_ASSOC));

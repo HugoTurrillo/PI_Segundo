@@ -2,32 +2,32 @@
 require "config/conexion.php";
 header("Content-Type: application/json");
 
-if (!isset($_GET["id_noticia"])) {
-    echo json_encode(["ok" => false, "msg" => "ID no recibido"]);
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    echo json_encode(["ok" => false, "msg" => "Método no permitido"]);
     exit;
 }
 
-$id = intval($_GET["id_noticia"]);
+$data = json_decode(file_get_contents("php://input"), true);
+$id = intval($data["id_noticia"] ?? 0);
 
-$stmt = $conexion->prepare("SELECT * FROM noticia WHERE id_noticia = ?");
+if ($id <= 0) {
+    echo json_encode(["ok" => false, "msg" => "ID no válido"]);
+    exit;
+}
+
+$stmt = $conexion->prepare(
+    "SELECT * FROM noticia WHERE id_noticia=?"
+);
 $stmt->bind_param("i", $id);
 $stmt->execute();
+$res = $stmt->get_result();
 
-$resultado = $stmt->get_result();
-
-if ($resultado->num_rows >= 1) {
-    $noticia = $resultado->fetch_assoc();
+if ($res->num_rows === 1) {
     echo json_encode([
         "ok" => true,
-        "noticia" => $noticia
+        "noticia" => $res->fetch_assoc()
     ]);
     exit;
 }
 
-// Si no existe la noticia
-echo json_encode([
-    "ok" => false,
-    "msg" => "Noticia no encontrada"
-]);
-exit;
-?>
+echo json_encode(["ok" => false, "msg" => "Noticia no encontrada"]);

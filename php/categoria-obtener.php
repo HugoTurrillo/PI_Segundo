@@ -1,30 +1,37 @@
 <?php
-include("conexion.php");
+// php/categoria-obtener.php
+require "config/conexion.php";
+
 header("Content-Type: application/json");
 
-if (!isset($_GET["id"])) {
-    echo json_encode([
-        "ok" => false,
-        "error" => "ID no recibido"
-    ]);
-    exit();
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    echo json_encode(["ok" => false, "msg" => "Método no permitido"]);
+    exit;
 }
 
-$id = intval($_GET["id"]);
+$data = json_decode(file_get_contents("php://input"), true);
+$id = intval($data["id"] ?? 0);
 
-$stmt = $pdo->prepare("SELECT * FROM categorias WHERE id = ?");
-$stmt->execute([$id]);
-$categoria = $stmt->fetch(PDO::FETCH_ASSOC);
-
-if (!$categoria) {
-    echo json_encode([
-        "ok" => false,
-        "error" => "Categoría no encontrada"
-    ]);
-    exit();
+if ($id <= 0) {
+    echo json_encode(["ok" => false, "msg" => "ID no válido"]);
+    exit;
 }
 
-echo json_encode([
-    "ok" => true,
-    "data" => $categoria
-]);
+$stmt = $conexion->prepare(
+    "SELECT id, nombre, premios, premio_fisico
+     FROM categorias
+     WHERE id=?"
+);
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$res = $stmt->get_result();
+
+if ($res->num_rows === 1) {
+    echo json_encode([
+        "ok" => true,
+        "data" => $res->fetch_assoc()
+    ]);
+    exit;
+}
+
+echo json_encode(["ok" => false, "msg" => "Categoría no encontrada"]);
