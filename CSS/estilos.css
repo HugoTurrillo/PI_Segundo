@@ -246,13 +246,8 @@ nav {
   width: 60px;
   height: 60px;
   /* border-radius: 50%; */
-
   border: 2px solid #000000;
   background-color: #000000;
-
-  border: 2px solid white;
-  background-color: #333;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -412,7 +407,7 @@ nav {
 
 .panel-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   margin-top: 2rem;
 }
@@ -444,3 +439,7 @@ nav {
   line-height: 1.4;
 }
 
+
+.login-container {
+  max-width: 1200px;
+}
