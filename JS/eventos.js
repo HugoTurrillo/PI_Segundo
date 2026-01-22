@@ -8,7 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!contenedor) return; // Solo se ejecuta en eventos.html
 
         const respuesta = await fetch("../php/eventos-listar.php");
-        const eventos = await respuesta.json();
+        const data = await respuesta.json();
+        const eventos = data.eventos || []; // ← CORRECCIÓN IMPORTANTE
 
         contenedor.innerHTML = "";
 
@@ -40,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ============================
-    // ELIMINAR EVENTO
+    // ELIMINAR EVENTO (CORREGIDO)
     // ============================
     function activarBotonesEliminar() {
         document.querySelectorAll(".btn-eliminar-evento").forEach(btn => {
@@ -57,14 +58,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (!confirmacion.isConfirmed) return;
 
-                const res = await fetch(`../php/evento-eliminar.php?id=${id}`);
+                // ← CORRECCIÓN: usar POST con JSON
+                const res = await fetch("../php/evento-eliminar.php", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ id })
+                });
+
                 const r = await res.json();
 
                 Swal.fire({
                     icon: r.ok ? "success" : "error",
                     title: r.ok ? "Eliminado" : "Error",
-                    text: r.msg
+                    text: r.mensaje
                 });
+
                 if (r.ok) cargarEventos();
             });
         });
@@ -109,12 +117,10 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // Rellenar formulario
         titulo.value = evento.titulo;
         fecha.value = evento.fecha;
         descripcion.value = evento.descripcion;
 
-        // Guardar ID para el submit
         form.dataset.id = id;
     }
 
@@ -130,13 +136,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let valido = true;
 
-        // Reset errores
         errorTitulo.textContent = "";
         errorFecha.textContent = "";
         errorDescripcion.textContent = "";
         errorGlobal.textContent = "";
 
-        // VALIDACIONES
         if (titulo.value.trim() === "") {
             errorTitulo.textContent = "El título no puede estar vacío.";
             valido = false;
@@ -163,13 +167,11 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-
+        const id = form.dataset.id;
 
         // ============================
         // EDITAR EVENTO
         // ============================
-        const id = form.dataset.id;
-
         if (id) {
             const datos = {
                 id: id,
@@ -195,13 +197,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 window.location.href = "eventos.html";
             } else {
-                errorGlobal.textContent = resultado.msg;
+                errorGlobal.textContent = resultado.mensaje;
             }
 
             return;
         }
-
-
 
         // ============================
         // CREAR EVENTO
@@ -222,13 +222,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (resultado.ok) {
             await Swal.fire({
-                    icon: "success",
-                    title: "Evento creado",
-                    text: "El evento se ha creado correctamente"
-                });
+                icon: "success",
+                title: "Evento creado",
+                text: "El evento se ha creado correctamente"
+            });
             window.location.href = "eventos.html";
         } else {
-            errorGlobal.textContent = resultado.msg;
+            errorGlobal.textContent = resultado.mensaje;
         }
     });
 
