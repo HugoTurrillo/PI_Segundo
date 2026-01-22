@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function cargarPatrocinadores() {
 
         const contenedor = document.querySelector(".panel-grid");
-        if (!contenedor) return; // Solo en patrocinadores.html
+        if (!contenedor) return;
 
         const respuesta = await fetch("../php/patrocinadores-listar.php");
         const patrocinadores = await respuesta.json();
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
             contenedor.innerHTML += `
                 <div class="panel-card">
                    
-                    <img src="../uploads/${p.logo_ruta}"
+                    <img src="../php/uploads/${p.logo_ruta}"
                          alt="Logo patrocinador" 
                          style="width: 100%; max-height: 120px; object-fit: contain; margin-bottom: 1rem;">
 
@@ -60,12 +60,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 const id = btn.dataset.id;
 
                 const confirmacion = await Swal.fire({
-                    title: "¿Eliminar gala?",
+                    title: "¿Eliminar patrocinador?",
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonText: "Sí, eliminar",
                     cancelButtonText: "Cancelar"
                 });
+
+                if (!confirmacion.isConfirmed) return;
 
                 const res = await fetch(`../php/patrocinador-eliminar.php?id=${id}`);
                 const r = await res.json();
@@ -75,6 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     title: r.ok ? "Eliminado" : "Error",
                     text: r.msg
                 });
+
                 if (r.ok) cargarPatrocinadores();
             });
         });
@@ -86,6 +89,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // FORMULARIO (CREAR / EDITAR)
     // ============================
     const form = document.getElementById("form-patrocinador");
+
+    if (!form) return;
 
     const nombre = document.getElementById("nombre");
     const logo = document.getElementById("logo");
@@ -172,11 +177,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-
-
-        // ============================
-        // FORM DATA (para imagen)
-        // ============================
         const datos = new FormData();
         datos.append("nombre", nombre.value);
         datos.append("enlace", enlace.value);
@@ -186,11 +186,6 @@ document.addEventListener("DOMContentLoaded", () => {
             datos.append("logo", logo.files[0]);
         }
 
-
-
-        // ============================
-        // EDITAR
-        // ============================
         const id = form.dataset.id;
 
         if (id) {
@@ -205,10 +200,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (resultado.ok) {
                 await Swal.fire({
-                        icon: "success",
-                        title: "Evento actualizado",
-                        text: "La gala se ha actualizado correctamente"
-                    });
+                    icon: "success",
+                    title: "Patrocinador actualizado",
+                    text: "Los datos se han guardado correctamente"
+                });
 
                 window.location.href = "patrocinadores.html";
             } else {
@@ -218,11 +213,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-
-
-        // ============================
-        // CREAR
-        // ============================
         const respuesta = await fetch("../php/patrocinador-nuevo.php", {
             method: "POST",
             body: datos
@@ -232,10 +222,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (resultado.ok) {
             await Swal.fire({
-                    icon: "success",
-                    title: "Patrocinador creado",
-                    text: "La gala se ha creado correctamente"
-                });
+                icon: "success",
+                title: "Patrocinador creado",
+                text: "El patrocinador se ha registrado correctamente"
+            });
 
             window.location.href = "patrocinadores.html";
         } else {
