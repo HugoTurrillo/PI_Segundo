@@ -1,5 +1,5 @@
 <?php
-include("conexion.php");
+require "config/conexion.php";
 header("Content-Type: application/json");
 
 $data = json_decode(file_get_contents("php://input"), true);
@@ -9,11 +9,13 @@ $contenido = trim($data["contenido"] ?? "");
 
 if ($titulo === "" || $contenido === "") {
     echo json_encode(["ok" => false, "msg" => "Todos los campos son obligatorios"]);
-    exit();
+    exit;
 }
 
-$stmt = $pdo->prepare("INSERT INTO noticia (titulo, contenido) VALUES (?, ?)");
-$stmt->execute([$titulo, $contenido]);
+$stmt = $conexion->prepare("INSERT INTO noticia (titulo, contenido) VALUES (?, ?)");
+$stmt->bind_param("ss", $titulo, $contenido);
+$stmt->execute();
 
 echo json_encode(["ok" => true, "msg" => "Noticia creada correctamente"]);
+exit;
 ?>

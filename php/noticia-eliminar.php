@@ -1,16 +1,20 @@
 <?php
-include("conexion.php");
+require "config/conexion.php";
 header("Content-Type: application/json");
 
-if (!isset($_GET["id_noticia"])) {
-    echo json_encode(["ok" => false, "msg" => "ID no recibido"]);
-    exit();
+$data = json_decode(file_get_contents("php://input"), true);
+
+$id = intval($data["id_noticia"] ?? 0);
+
+if ($id <= 0) {
+    echo json_encode(["ok" => false, "msg" => "ID no válido"]);
+    exit;
 }
 
-$id = intval($_GET["id_noticia"]);
-
-$stmt = $pdo->prepare("DELETE FROM noticia WHERE id_noticia = ?");
-$stmt->execute([$id]);
+$stmt = $conexion->prepare("DELETE FROM noticia WHERE id_noticia = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
 
 echo json_encode(["ok" => true, "msg" => "Noticia eliminada correctamente"]);
+exit;
 ?>

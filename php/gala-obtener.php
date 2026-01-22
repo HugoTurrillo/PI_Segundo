@@ -1,17 +1,29 @@
 <?php
-include("conexion.php");
+// php/gala-obtener.php
+require "config/conexion.php";
+
 header("Content-Type: application/json");
 
-if (!isset($_GET["id"])) {
-    echo json_encode(["error" => "ID no recibido"]);
-    exit();
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    echo json_encode(["ok" => false, "msg" => "Método no permitido"]);
+    exit;
 }
 
-$id = intval($_GET["id"]);
+$entrada = file_get_contents("php://input");
+$datos = json_decode($entrada, true);
 
-$stmt = $pdo->prepare("SELECT * FROM gala WHERE id = ?");
-$stmt->execute([$id]);
-$evento = $stmt->fetch(PDO::FETCH_ASSOC);
+$id = intval($datos["id"] ?? 0);
+
+if ($id <= 0) {
+    echo json_encode(["ok" => false, "msg" => "ID no válido"]);
+    exit;
+}
+
+$stmt = $conexion->prepare("SELECT * FROM gala WHERE id = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+
+$resultado = $stmt->get_result();
+$evento = $resultado->fetch_assoc();
 
 echo json_encode($evento ?: []);
-?>
