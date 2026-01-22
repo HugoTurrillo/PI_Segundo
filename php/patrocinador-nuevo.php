@@ -1,13 +1,17 @@
 <?php
-include("conexion.php");
+require "config/conexion.php";
 header("Content-Type: application/json");
 
-// Recibir datos
+// ============================
+// RECIBIR DATOS
+// ============================
 $nombre = trim($_POST["nombre"] ?? "");
-$url_web = trim($_POST["enlace"] ?? ""); // sigue viniendo como "enlace" desde el formulario
+$url_web = trim($_POST["enlace"] ?? "");
 $descripcion = trim($_POST["descripcion"] ?? "");
 
-// Validaciones
+// ============================
+// VALIDACIONES
+// ============================
 if ($nombre === "" || $url_web === "") {
     echo json_encode(["ok" => false, "msg" => "Nombre y enlace son obligatorios"]);
     exit();
@@ -18,9 +22,15 @@ if (!isset($_FILES["logo"]) || $_FILES["logo"]["error"] !== UPLOAD_ERR_OK) {
     exit();
 }
 
-// Procesar archivo
+// ============================
+// PROCESAR ARCHIVO
+// ============================
 $logo = $_FILES["logo"];
-$nombreArchivo = time() . "_" . basename($logo["name"]);
+
+// Normalizar nombre
+$nombreLimpio = preg_replace("/[^a-zA-Z0-9_\.-]/", "", basename($logo["name"]));
+$nombreArchivo = time() . "_" . $nombreLimpio;
+
 $rutaDestino = "../uploads/" . $nombreArchivo;
 
 // Crear carpeta si no existe
@@ -33,12 +43,25 @@ if (!move_uploaded_file($logo["tmp_name"], $rutaDestino)) {
     exit();
 }
 
-// Insertar en BD
-$stmt = $pdo->prepare("
+// ============================
+// INSERTAR EN BD
+// ============================
+$stmt = $conexion->prepare("
     INSERT INTO patrocinador (nombre, logo_ruta, url_web, descripcion)
     VALUES (?, ?, ?, ?)
 ");
-$stmt->execute([$nombre, $nombreArchivo, $url_web, $descripcion]);
 
+$stmt->bind_param("ssss", $nombre, $nombreArchivo, $url_web, $descripcion);
+
+if (!$stmt->execute()) {
+    echo json_encode(["ok" => false, "msg" => "Error al insertar en la base de datos"]);
+    exit();
+}
+
+$stmt->close();
+
+// ============================
+// RESPUESTA FINAL
+// ============================
 echo json_encode(["ok" => true, "msg" => "Patrocinador creado correctamente"]);
 ?>

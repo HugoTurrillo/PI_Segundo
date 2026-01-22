@@ -1,11 +1,20 @@
 <?php
-include("conexion.php");
+require "config/conexion.php";
 header("Content-Type: application/json");
 
-// Obtener todos los patrocinadores
-$stmt = $pdo->query("SELECT * FROM patrocinador ORDER BY id_patrocinador DESC");
-$patrocinadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// ============================
+// OBTENER TODOS LOS PATROCINADORES
+// ============================
+$stmt = $conexion->prepare("SELECT * FROM patrocinador ORDER BY id_patrocinador DESC");
+$stmt->execute();
 
-// Devolver lista
+$resultado = $stmt->get_result();
+$patrocinadores = $resultado->fetch_all(MYSQLI_ASSOC);
+
+$stmt->close();
+
+// ============================
+// RESPUESTA
+// ============================
 echo json_encode($patrocinadores);
 ?>
