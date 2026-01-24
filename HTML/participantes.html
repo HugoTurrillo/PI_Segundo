@@ -2,18 +2,16 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Nominar candidatura</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <title>Gestión de Candidaturas - Panel Organizador</title>
   <link rel="stylesheet" href="../CSS/estilos.css">
-  <link rel="icon" href="../IMG/favicon.png">
+  <link rel="icon" href="../IMG/favicon.png" type="image/x-icon">
 </head>
-
 <body>
 
 <header class="navbar">
   <div class="logo">
-    <img src="../IMG/LOGOENTERO.png" alt="Logo">
+    <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
   </div>
 
   <div class="search-bar">
@@ -23,7 +21,6 @@
   <nav>
     <ul class="nav-links">
       <li><a href="organizador.html">Panel</a></li>
-      <li><a href="participantes.html">Candidaturas</a></li>
       <li><a href="calendario.html">Calendario</a></li>
     </ul>
   </nav>
@@ -35,30 +32,24 @@
 
 <main class="login-container">
 
-  <h2>Nominar candidatura a categoría</h2>
+  <h2>Gestión de candidaturas</h2>
+  <p>Aquí puedes revisar, aceptar, rechazar y nominar las candidaturas recibidas.</p>
 
-  <div id="info-candidatura" class="panel-card" style="margin-bottom:2rem;">
-    Cargando candidatura…
-  </div>
-
-  <label>Categoría</label>
-  <select id="categoria"></select>
-
-  <button id="btn-nominar" class="btn login-btn" style="margin-top:1.5rem;">
-    Nominar / Editar nominación
-  </button>
-
-  <p class="error-global" id="error-global"></p>
+  <section style="margin-top: 2rem;">
+    <h3 style="color:#FF3228;">Candidaturas recibidas</h3>
+    <div class="panel-grid" id="candidaturas-container"></div>
+  </section>
 
 </main>
 
 <footer class="footer">
   <div class="footer-bottom">
-    Universidad Europea © 2025
+    Universidad Europea © 2025. Todos los Derechos Reservados
   </div>
 </footer>
 
-<script src="../JS/nominar-categoria.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../JS/candidaturas.js"></script>
 
 </body>
 </html>
