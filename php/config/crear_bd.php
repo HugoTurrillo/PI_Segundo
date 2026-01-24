@@ -58,23 +58,25 @@ if ($resultado->num_rows <=0){
 
     -- Crear tabla candidaturas
     CREATE TABLE IF NOT EXISTS candidatura (
-        id_candidatura INT AUTO_INCREMENT PRIMARY KEY,
-        id_usuario INT NOT NULL,
-        id_edicion INT NOT NULL,
-        id_categoria INT NULL,
-        titulo_obra VARCHAR(255) NOT NULL,
-        sinopsis TEXT,
-        nombre_contacto VARCHAR(150) NOT NULL,
-        email_contacto VARCHAR(150) NOT NULL,
-        dni VARCHAR(20) NOT NULL,
-        estado ENUM('en_proceso','aceptada','rechazada') NOT NULL DEFAULT 'en_proceso',
-        motivo_rechazo TEXT,
-        fecha_creacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    id_candidatura INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    id_edicion INT NOT NULL,
+    id_categoria INT NULL,
+    titulo_obra VARCHAR(255) NOT NULL,
+    sinopsis TEXT,
+    nombre_contacto VARCHAR(150) NOT NULL,
+    email_contacto VARCHAR(150) NOT NULL,
+    dni VARCHAR(20) NOT NULL,
+    estado ENUM('en_proceso','aceptada','rechazada') NOT NULL DEFAULT 'en_proceso',
+    motivo_rechazo TEXT,
+    mensaje_subsanacion TEXT,
+    fecha_creacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-        FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
-        FOREIGN KEY (id_edicion) REFERENCES edicion_festival(id_edicion),
-        FOREIGN KEY (id_categoria) REFERENCES categorias(id)
-    ) ENGINE=InnoDB;
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
+    FOREIGN KEY (id_edicion) REFERENCES edicion_festival(id_edicion),
+    FOREIGN KEY (id_categoria) REFERENCES categorias(id)
+) ENGINE=InnoDB;
+
 
     -- Crear tabla evento
     CREATE TABLE IF NOT EXISTS evento (

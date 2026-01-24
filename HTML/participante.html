@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Nominar candidatura</title>
+  <title>Mi participación</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="../CSS/estilos.css">
@@ -22,8 +22,8 @@
 
   <nav>
     <ul class="nav-links">
-      <li><a href="organizador.html">Panel</a></li>
-      <li><a href="candidaturas.html">Candidaturas</a></li>
+      <li><a href="home.html">Inicio</a></li>
+      <li><a href="calendario.html">Calendario</a></li>
     </ul>
   </nav>
 
@@ -34,20 +34,11 @@
 
 <main class="login-container">
 
-  <h2>Nominar candidatura a categoría</h2>
+  <h2>Mi participación</h2>
+  <p>Aquí puedes consultar el estado de tu candidatura.</p>
 
-  <div id="info-candidatura" class="panel-card" style="margin-bottom:2rem;">
-    Cargando candidatura…
-  </div>
-
-  <label>Categoría</label>
-  <select id="categoria"></select>
-
-  <button id="btn-nominar" class="btn login-btn" style="margin-top:1.5rem;">
-    Nominar
-  </button>
-
-  <p class="error-global" id="error-global"></p>
+  <!-- CONTENIDO DINÁMICO -->
+  <div id="bloque-candidatura"></div>
 
 </main>
 
@@ -57,7 +48,8 @@
   </div>
 </footer>
 
-<script src="../JS/nominar-categoria.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../JS/participante.js"></script>
 
 </body>
 </html>

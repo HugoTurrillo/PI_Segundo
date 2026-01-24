@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Nominar candidatura</title>
+  <title>Detalle del evento</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="../CSS/estilos.css">
@@ -22,32 +22,25 @@
 
   <nav>
     <ul class="nav-links">
-      <li><a href="organizador.html">Panel</a></li>
-      <li><a href="candidaturas.html">Candidaturas</a></li>
+      <li><a href="home.html">Inicio</a></li>
+      <li><a href="calendario.html">Calendario</a></li>
+      <li><a href="#">Sobre nosotros</a></li>
     </ul>
   </nav>
-
-  <div class="nav-buttons">
-    <a href="../php/logout.php" class="btn nav-btn">Salir</a>
-  </div>
 </header>
 
 <main class="login-container">
 
-  <h2>Nominar candidatura a categoría</h2>
+  <a href="calendario.html" class="btn nav-btn" style="margin-bottom:1.5rem; display:inline-block;">
+    ← Volver al calendario
+  </a>
 
-  <div id="info-candidatura" class="panel-card" style="margin-bottom:2rem;">
-    Cargando candidatura…
+  <h2 id="evento-titulo">Cargando evento…</h2>
+  <p id="evento-fecha"></p>
+
+  <div class="panel-card" style="margin-top:1.5rem;">
+    <p id="evento-descripcion"></p>
   </div>
-
-  <label>Categoría</label>
-  <select id="categoria"></select>
-
-  <button id="btn-nominar" class="btn login-btn" style="margin-top:1.5rem;">
-    Nominar
-  </button>
-
-  <p class="error-global" id="error-global"></p>
 
 </main>
 
@@ -57,7 +50,7 @@
   </div>
 </footer>
 
-<script src="../JS/nominar-categoria.js"></script>
+<script src="../JS/evento.js"></script>
 
 </body>
 </html>

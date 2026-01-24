@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Calendario del festival</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- CSS PRINCIPAL -->
+  <link rel="stylesheet" href="../CSS/estilos.css">
+  <link rel="icon" href="../IMG/favicon.png">
+
+  <!-- FULLCALENDAR (VERSIÓN GLOBAL v6) -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet">
+
+  <style>
+    /* Ajuste visual para encajar con tu diseño */
+    #calendar {
+      margin-top: 2rem;
+      background: white;
+      padding: 1.5rem;
+      border: 1px solid #ddd;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="logo">
+      <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
+    </div>
+
+    <div class="search-bar">
+      <input type="text" placeholder="Buscar...">
+    </div>
+
+    <nav>
+      <ul class="nav-links">
+        <li><a href="home.html">Inicio</a></li>
+        <li><a href="calendario.html">Calendario</a></li>
+        <li><a href="#">Sobre nosotros</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- CONTENIDO -->
+  <main class="login-container">
+    <h2>Calendario del festival</h2>
+    <p>Consulta todos los eventos programados.</p>
+
+    <div id="calendar"></div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-bottom">
+      Universidad Europea © 2025. Todos los Derechos Reservados
+    </div>
+  </footer>
+
+  <!-- FULLCALENDAR JS (GLOBAL) -->
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+
+  <!-- TU JS -->
+  <script src="../JS/calendario.js"></script>
+
+</body>
+</html>

@@ -1,7 +1,7 @@
 <?php
 // php/registro.php
 
-require "conexion.php";
+require __DIR__ . "/config/conexion.php";
 
 header("Content-Type: application/json");
 
@@ -36,27 +36,37 @@ if ($nombre === "" || $email === "" || $password === "") {
     exit;
 }
 
-// Comprobar si el email ya existe
-$stmt = $pdo->prepare("SELECT id_usuario FROM usuario WHERE email = ?");
-$stmt->execute([$email]);
+/* ============================
+   COMPROBAR EMAIL EXISTENTE
+   ============================ */
+$stmt = $conexion->prepare(
+    "SELECT id_usuario FROM usuario WHERE email = ?"
+);
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$res = $stmt->get_result();
 
-if ($stmt->fetch()) {
+if ($res->num_rows > 0) {
     echo json_encode([
         "ok" => false,
         "mensaje" => "El email ya está registrado."
     ]);
     exit;
 }
+$stmt->close();
 
-// Cifrar contraseña
+/* ============================
+   INSERTAR USUARIO
+   ============================ */
 $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
-// Insertar usuario
-$stmt = $pdo->prepare("
-    INSERT INTO usuario (nombre_completo, email, password_hash, rol)
-    VALUES (?, ?, ?, 'participante')
-");
-$stmt->execute([$nombre, $email, $password_hash]);
+$stmt = $conexion->prepare(
+    "INSERT INTO usuario (nombre_completo, email, password_hash, rol)
+     VALUES (?, ?, ?, 'participante')"
+);
+$stmt->bind_param("sss", $nombre, $email, $password_hash);
+$stmt->execute();
+$stmt->close();
 
 echo json_encode([
     "ok" => true,
