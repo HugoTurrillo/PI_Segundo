@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Detalle del evento</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="../CSS/estilos.css">
+  <link rel="icon" href="../IMG/favicon.png">
+</head>
+
+<body>
+
+<header class="navbar">
+  <div class="logo">
+    <img src="../IMG/LOGOENTERO.png" alt="Logo">
+  </div>
+
+  <div class="search-bar">
+    <input type="text" placeholder="Buscar...">
+  </div>
+
+  <nav>
+    <ul class="nav-links">
+      <li><a href="home.html">Inicio</a></li>
+      <li><a href="calendario.html">Calendario</a></li>
+      <li><a href="#">Sobre nosotros</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="login-container">
+
+  <a href="calendario.html" class="btn nav-btn" style="margin-bottom:1.5rem; display:inline-block;">
+    ← Volver al calendario
+  </a>
+
+  <h2 id="evento-titulo">Cargando evento…</h2>
+  <p id="evento-fecha"></p>
+
+  <div class="panel-card" style="margin-top:1.5rem;">
+    <p id="evento-descripcion"></p>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-bottom">
+    Universidad Europea © 2025
+  </div>
+</footer>
+
+<script src="../JS/evento.js"></script>
+
+</body>
+</html>
