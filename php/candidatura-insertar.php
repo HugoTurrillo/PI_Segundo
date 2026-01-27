@@ -100,8 +100,8 @@ $id_edicion = $ed["id_edicion"];
 
 $stmt = $conexion->prepare(
     "INSERT INTO candidatura
-     (id_usuario, id_edicion, titulo_obra, sinopsis, dni)
-     VALUES (?, ?, ?, ?, ?)"
+     (id_usuario, id_edicion, titulo_obra, sinopsis, dni, estado)
+     VALUES (?, ?, ?, ?, ?, 'pendiente')"
 );
 
 $stmt->bind_param(

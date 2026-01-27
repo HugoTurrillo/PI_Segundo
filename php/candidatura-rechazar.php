@@ -1,27 +1,62 @@
 <?php
+session_start();
 require "config/conexion.php";
 header("Content-Type: application/json");
 
+// ============================
+// VALIDAR MÉTODO
+// ============================
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     echo json_encode(["ok" => false, "msg" => "Método no permitido"]);
     exit;
 }
 
+// ============================
+// VALIDAR SESIÓN Y ROL
+// ============================
+if (!isset($_SESSION["id_usuario"]) || $_SESSION["rol"] !== "organizador") {
+    echo json_encode(["ok" => false, "msg" => "No autorizado"]);
+    exit;
+}
+
+// ============================
+// LEER JSON
+// ============================
 $data = json_decode(file_get_contents("php://input"), true);
 $id = intval($data["id"] ?? 0);
 $motivo = trim($data["motivo"] ?? "");
 
+// ============================
+// VALIDAR DATOS
+// ============================
 if ($id <= 0 || $motivo === "") {
     echo json_encode(["ok" => false, "msg" => "Datos incorrectos"]);
     exit;
 }
 
-$stmt = $conexion->prepare(
-    "UPDATE candidatura
-     SET estado='rechazada', motivo_rechazo=?
-     WHERE id_candidatura=?"
-);
+// ============================
+// ACTUALIZAR ESTADO
+// ============================
+$stmt = $conexion->prepare("
+    UPDATE candidatura
+    SET estado='rechazada', motivo_rechazo=?
+    WHERE id_candidatura=?
+");
+
 $stmt->bind_param("si", $motivo, $id);
 $stmt->execute();
 
+// Comprobar si realmente se actualizó
+if ($stmt->affected_rows === 0) {
+    echo json_encode([
+        "ok" => false,
+        "msg" => "No se encontró la candidatura o ya estaba rechazada"
+    ]);
+    $stmt->close();
+    exit;
+}
+
+$stmt->close();
+
 echo json_encode(["ok" => true]);
+exit;

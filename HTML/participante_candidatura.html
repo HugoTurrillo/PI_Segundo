@@ -57,24 +57,15 @@
         <p><strong>Descripción:</strong></p>
         <p id="descripcion"></p>
 
-        <p><strong>Vídeo enviado:</strong></p>
-        <video id="videoCorto" width="100%" controls></video>
-
-        <!-- SUBSANACIÓN (solo si RECHAZADO) -->
+        <!-- SUBSANACIÓN (solo si RECHAZADA) -->
         <div id="subsanacionBox" style="display:none; margin-top:1.5rem;">
             <h3>Subsanar candidatura</h3>
 
-            <form action="php/enviar_subsanacion.php" method="POST">
+            <form action="../php/candidatura-subsanar.php" method="POST">
                 <textarea name="mensaje" rows="3" required placeholder="Explica qué has corregido..."></textarea>
                 <input type="hidden" name="candidatura_id" id="candidaturaIdInput">
                 <button type="submit" class="nav-btn" style="margin-top:1rem;">Enviar subsanación</button>
             </form>
-        </div>
-
-        <!-- NOMINADO -->
-        <div id="nominadoBox" style="display:none; margin-top:1.5rem;">
-            <h3>¡Tu candidatura ha sido nominada!</h3>
-            <p>El organizador te notificará más detalles próximamente.</p>
         </div>
 
     </div>
@@ -113,50 +104,9 @@
         Universidad Europea © 2025. Todos los Derechos Reservados
     </div>
 </footer>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
 
-    console.log("JS cargado");
-
-    fetch("../php/obtener_candidatura.php")
-        .then(res => res.json())
-        .then(data => {
-
-            console.log("Respuesta del servidor:", data);
-
-            if (!data.ok) {
-                document.getElementById("sinCandidatura").style.display = "block";
-                return;
-            }
-
-            const c = data.candidatura;
-
-            document.getElementById("conCandidatura").style.display = "block";
-
-            document.getElementById("tituloCorto").textContent = c.titulo_obra;
-            document.getElementById("estadoCandidatura").textContent = c.estado || "En proceso";
-            document.getElementById("categoria").textContent = c.categoria_nombre;
-            document.getElementById("descripcion").textContent = c.sinopsis;
-
-            // Si no tienes campo "video" en la BD, comenta esta línea
-            // document.getElementById("videoCorto").src = "../videos/" + c.video;
-
-            if (c.estado === "rechazado") {
-                document.getElementById("motivoRechazoBox").style.display = "block";
-                document.getElementById("motivoRechazo").textContent = c.motivo_rechazo;
-                document.getElementById("subsanacionBox").style.display = "block";
-                document.getElementById("candidaturaIdInput").value = c.id_candidatura;
-            }
-
-            if (c.estado === "nominado") {
-                document.getElementById("nominadoBox").style.display = "block";
-            }
-
-        })
-        .catch(err => console.error("Error en fetch:", err));
-});
-</script>
-
+<!-- JS DEL PARTICIPANTE -->
+<script src="../JS/candidatura-participante.js"></script>
 
 </body>
 </html>

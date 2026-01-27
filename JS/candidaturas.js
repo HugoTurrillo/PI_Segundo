@@ -52,7 +52,14 @@ document.addEventListener("DOMContentLoaded", () => {
           ` : ""}
 
           <div style="margin-top:1rem; display:flex; gap:1rem; flex-wrap:wrap; align-items:center;">
-            
+
+            <!-- NUEVO BOTÓN -->
+            <button class="btn login-btn btn-ver"
+                    data-id="${c.id_candidatura}"
+                    style="background:#1a73e8;">
+              Ver candidatura
+            </button>
+
             ${c.estado === "en_proceso" ? `
               <button class="btn login-btn btn-aceptar"
                       data-id="${c.id_candidatura}">
@@ -77,6 +84,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function activarBotones() {
+
+    // BOTÓN VER CANDIDATURA
+    document.querySelectorAll(".btn-ver").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const id = btn.dataset.id;
+        window.location.href = `candidatura_detalle.html?id=${id}`;
+      });
+    });
 
     document.querySelectorAll(".btn-aceptar").forEach(btn => {
       btn.addEventListener("click", async () => {
