@@ -12,7 +12,7 @@ if (!$id_usuario) {
 
 $sql = "SELECT c.*, cat.nombre AS categoria_nombre 
         FROM candidatura c
-        LEFT JOIN categorias cat ON c.id_categoria = cat.id
+        JOIN categorias cat ON c.id_categoria = cat.id
         WHERE c.id_usuario = ?";
 
 $stmt = $conexion->prepare($sql);
