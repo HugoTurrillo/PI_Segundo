@@ -4,8 +4,13 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!contenedor) return;
 
   async function cargarCandidaturas() {
+
+    // Llamada correcta al PHP
     const res = await fetch("../php/candidaturas-listar.php");
-    const lista = await res.json();
+    const data = await res.json();
+
+    // EXTRAEMOS EL ARRAY CORRECTO
+    const lista = data.candidaturas;  // ← AQUÍ estaba el problema
 
     contenedor.innerHTML = "";
 
@@ -53,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           <div style="margin-top:1rem; display:flex; gap:1rem; flex-wrap:wrap; align-items:center;">
 
-            <!-- NUEVO BOTÓN -->
+            <!-- BOTÓN VER -->
             <button class="btn login-btn btn-ver"
                     data-id="${c.id_candidatura}"
                     style="background:#1a73e8;">
@@ -93,6 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
+    // BOTÓN ACEPTAR
     document.querySelectorAll(".btn-aceptar").forEach(btn => {
       btn.addEventListener("click", async () => {
         await fetch("../php/candidatura-aceptar.php", {
@@ -104,6 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
+    // BOTÓN RECHAZAR
     document.querySelectorAll(".btn-rechazar").forEach(btn => {
       btn.addEventListener("click", async () => {
         const motivo = prompt("Indica el motivo del rechazo:");

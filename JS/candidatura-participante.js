@@ -1,58 +1,61 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
 
-    fetch("../php/obtener_candidatura.php")
-        .then(res => res.json())
-        .then(data => {
+    const sinCandidatura = document.getElementById("sinCandidatura");
+    const conCandidatura = document.getElementById("conCandidatura");
 
-            // Si no hay candidatura → mostrar mensaje
-            if (!data.ok || !data.candidatura) {
-                document.getElementById("sinCandidatura").style.display = "block";
-                return;
-            }
+    const tituloCorto = document.getElementById("tituloCorto");
+    const estadoCandidatura = document.getElementById("estadoCandidatura");
+    const motivoRechazoBox = document.getElementById("motivoRechazoBox");
+    const motivoRechazo = document.getElementById("motivoRechazo");
+    const categoria = document.getElementById("categoria");
+    const descripcion = document.getElementById("descripcion");
+    const subsanacionBox = document.getElementById("subsanacionBox");
+    const candidaturaIdInput = document.getElementById("candidaturaIdInput");
 
-            const c = data.candidatura;
+    try {
+        const res = await fetch("../php/obtener_candidatura.php");
+        const data = await res.json();
 
-            // Mostrar contenedor principal
-            document.getElementById("conCandidatura").style.display = "block";
+        // NO HAY CANDIDATURA
+        if (!data.ok) {
+            sinCandidatura.style.display = "block";
+            conCandidatura.style.display = "none";
+            return;
+        }
 
-            // Datos básicos
-            document.getElementById("tituloCorto").textContent = c.titulo_obra;
-            document.getElementById("descripcion").textContent = c.sinopsis;
+        // SÍ HAY CANDIDATURA
+        const c = data.candidatura;
 
-            // Estado
-            const estadoSpan = document.getElementById("estadoCandidatura");
-            estadoSpan.textContent = c.estado;
+        sinCandidatura.style.display = "none";
+        conCandidatura.style.display = "block";
 
-            // Categoría (puede ser null)
-            document.getElementById("categoria").textContent =
-                c.categoria_nombre ? c.categoria_nombre : "Sin categoría";
+        // Rellenar datos
+        tituloCorto.textContent = c.titulo_obra;
+        descripcion.textContent = c.sinopsis;
+        categoria.textContent = c.categoria_nombre || "Sin categoría asignada";
+        estadoCandidatura.textContent = c.estado;
 
-            // ============================
-            // ESTADO: RECHAZADA
-            // ============================
-            if (c.estado === "rechazada") {
-                document.getElementById("motivoRechazoBox").style.display = "block";
-                document.getElementById("motivoRechazo").textContent =
-                    c.motivo_rechazo || "No indicado";
+        if (c.estado) {
+            estadoCandidatura.classList.add(c.estado.trim().toLowerCase());
+        }
 
-                document.getElementById("subsanacionBox").style.display = "block";
-                document.getElementById("candidaturaIdInput").value = c.id_candidatura;
-            }
+        // Guardar ID para subsanación
+        candidaturaIdInput.value = c.id_candidatura;
 
-            // ============================
-            // ESTADO: EN PROCESO (subsanación enviada)
-            // ============================
-            if (c.estado === "en_proceso") {
-                estadoSpan.textContent = "Subsanación enviada. Pendiente de revisión.";
-            }
+        // Mostrar motivo de rechazo si existe
+        if (c.estado === "rechazada" && c.motivo_rechazo) {
+            motivoRechazoBox.style.display = "block";
+            motivoRechazo.textContent = c.motivo_rechazo;
+            subsanacionBox.style.display = "block";
+        } else {
+            motivoRechazoBox.style.display = "none";
+            subsanacionBox.style.display = "none";
+        }
 
-            // ============================
-            // ESTADO: ACEPTADA
-            // ============================
-            if (c.estado === "aceptada") {
-                estadoSpan.textContent = "Candidatura aceptada";
-            }
+    } catch (error) {
+        console.error("Error cargando candidatura:", error);
+        sinCandidatura.style.display = "block";
+        conCandidatura.style.display = "none";
+    }
 
-        })
-        .catch(err => console.error("Error en fetch:", err));
 });
