@@ -25,7 +25,7 @@ if (session_status() === PHP_SESSION_NONE) {
       <?php elseif ($_SESSION["rol"] === "participante"): ?>
 
         <!-- PARTICIPANTE -->
-        <li><a href="../php/home.php">Inicio</a></li>
+        <li><a href="../HTML/calendario.html">Calendario</a></li>
         <li><a href="../HTML/participante.html">Panel</a></li>
         <li><a href="../HTML/participante_candidatura.html">Mi candidatura</a></li>
         <li><a href="../HTML/mis_datos.html">Mis datos</a></li>
@@ -33,7 +33,7 @@ if (session_status() === PHP_SESSION_NONE) {
       <?php elseif ($_SESSION["rol"] === "organizador"): ?>
 
         <!-- ORGANIZADOR -->
-        <li><a href="../php/home.php">Inicio</a></li>
+        <li><a href="../HTML/calendario.html">Calendario</a></li>
         <li><a href="../HTML/organizador.html">Panel</a></li>
         <li><a href="../HTML/candidaturas.html">Candidaturas</a></li>
         <li><a href="../HTML/patrocinadores.html">Patrocinadores</a></li>
