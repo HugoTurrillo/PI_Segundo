@@ -9,5 +9,5 @@ if (!file_exists($marcaBD)) {
 }
 
 // Redirigir siempre a la landing
-header("Location: HTML/home.html");
+header("Location: ../php/home.php");
 exit;
