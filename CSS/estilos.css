@@ -424,6 +424,8 @@ nav {
 }
 
 .panel-card:hover {
+  color: white;
+  background-color: black;
   transform: translateY(-4px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
@@ -432,6 +434,10 @@ nav {
   margin-bottom: 0.5rem;
   color: #FF3228;
   font-size: 1.2rem;
+}
+
+.panel-card:hover h3{
+  color: white;
 }
 
 .panel-card p {
