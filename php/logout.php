@@ -2,5 +2,7 @@
 session_start();
 session_unset();
 session_destroy();
-header("Location: ../HTML/home.html");
+
+// Volver SIEMPRE al home dinámico
+header("Location: home.php");
 exit;
