@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (r.ok) {
       window.location.href = "participante_candidatura.html";
     } else {
-      error.textContent = r.mensaje;
+      error.textContent = r.mensaje || "Error al enviar candidatura";
     }
   });
 
