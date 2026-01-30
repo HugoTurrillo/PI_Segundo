@@ -16,7 +16,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("estado").textContent = c.estado;
     document.getElementById("sinopsis").textContent = c.sinopsis;
 
-    // SI ESTÁ RECHAZADA
     if (c.estado === "rechazada") {
       document.getElementById("rechazoBox").style.display = "block";
       document.getElementById("motivoRechazo").textContent = c.motivo_rechazo;
