@@ -1,162 +1,74 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi candidatura</title>
-    <link rel="stylesheet" href="../CSS/estilos.css">
-    <link rel="icon" href="../IMG/favicon.png" type="image/x-icon">
+  <meta charset="UTF-8">
+  <title>Mi candidatura</title>
+  <link rel="stylesheet" href="../CSS/estilos.css">
 </head>
 
 <body>
 
 <header class="navbar">
-    <div class="logo">
-        <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
-    </div>
+  <div class="logo">
+    <img src="../IMG/LOGOENTERO.png" alt="Logo">
+  </div>
 
-    <nav>
-        <ul class="nav-links">
-            <li><a href="participante.html">Inicio</a></li>
-            <li><a href="participante_candidatura.html">Mi candidatura</a></li>
-            <li><a href="mis_datos.html">Mis datos</a></li>
-        </ul>
-    </nav>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="participante.html">Inicio</a></li>
+      <li><a href="participante_candidatura.html">Mi candidatura</a></li>
+    </ul>
+  </nav>
 
-    <div class="nav-buttons">
-        <a href="../php/logout.php" class="btn nav-btn">Salir</a>
-    </div>
+  <div class="nav-buttons">
+    <a href="../php/logout.php" class="btn nav-btn">Salir</a>
+  </div>
 </header>
 
 <main class="login-container">
 
-    <h2>Mi candidatura</h2>
+  <h2>Mi candidatura</h2>
 
-    <!-- SI NO HAY CANDIDATURA -->
-    <div id="sinCandidatura" style="display:none;">
-        <p>No has enviado ninguna candidatura todavía.</p>
-        <a href="form_inscripcion.html" class="nav-btn">Enviar candidatura</a>
+  <!-- SIN CANDIDATURA -->
+  <div id="sinCandidatura" style="display:none;">
+    <p>No has enviado ninguna candidatura todavía.</p>
+    <a href="form_inscripcion.html" class="btn nav-btn">Enviar candidatura</a>
+  </div>
+
+  <!-- CON CANDIDATURA -->
+  <div id="conCandidatura" style="display:none;">
+
+    <h3 id="titulo"></h3>
+    <p><strong>Estado:</strong> <span id="estado"></span></p>
+
+    <p><strong>Descripción:</strong></p>
+    <p id="sinopsis"></p>
+
+    <!-- MOTIVO RECHAZO -->
+    <div id="rechazoBox" style="display:none;">
+      <p style="color:red;"><strong>Motivo del rechazo:</strong></p>
+      <p id="motivoRechazo"></p>
     </div>
 
-    <!-- SI HAY CANDIDATURA -->
-    <div id="conCandidatura" style="display:none;">
+    <!-- SUBSANAR -->
+    <div id="subsanarBox" style="display:none; margin-top:1rem;">
+      <h4>Subsanar candidatura</h4>
 
-        <h3 id="tituloCorto"></h3>
+      <textarea id="mensajeSubsanacion" rows="4"
+        placeholder="Explica qué has corregido..."
+        style="width:100%;"></textarea>
 
-        <!-- ESTADO -->
-        <span id="estadoCandidatura"></span>
+      <button id="btnSubsanar" class="btn nav-btn" style="margin-top:0.5rem;">
+        Enviar subsanación
+      </button>
 
-        <!-- MOTIVO DEL RECHAZO -->
-        <div id="motivoRechazoBox" style="display:none;">
-            <h4>Motivo del rechazo</h4>
-            <p id="motivoRechazo"></p>
-        </div>
-
-        <p><strong>Categoría:</strong> <span id="categoria"></span></p>
-
-        <p><strong>Descripción:</strong></p>
-        <p id="descripcion"></p>
-
-        <p><strong>Vídeo enviado:</strong></p>
-        <video id="videoCorto" width="100%" controls></video>
-
-        <!-- SUBSANACIÓN (solo si RECHAZADO) -->
-        <div id="subsanacionBox" style="display:none; margin-top:1.5rem;">
-            <h3>Subsanar candidatura</h3>
-
-            <form action="php/enviar_subsanacion.php" method="POST">
-                <textarea name="mensaje" rows="3" required placeholder="Explica qué has corregido..."></textarea>
-                <input type="hidden" name="candidatura_id" id="candidaturaIdInput">
-                <button type="submit" class="nav-btn" style="margin-top:1rem;">Enviar subsanación</button>
-            </form>
-        </div>
-
-        <!-- NOMINADO -->
-        <div id="nominadoBox" style="display:none; margin-top:1.5rem;">
-            <h3>¡Tu candidatura ha sido nominada!</h3>
-            <p>El organizador te notificará más detalles próximamente.</p>
-        </div>
-
+      <p id="subsanarError" style="color:red;"></p>
     </div>
+
+  </div>
 
 </main>
 
-<footer class="footer">
-    <div class="footer-main">
-        <div class="footer-left">
-            <div class="footer-social-row">
-                <img src="../IMG/instagram.png" alt="Instagram">
-                <span>@cortosuem</span>
-            </div>
-            <div class="footer-social-row">
-                <img src="../IMG/facebook.png" alt="Facebook">
-                <span>@cortosuem</span>
-            </div>
-            <div class="footer-social-row">
-                <img src="../IMG/twitter.png" alt="Twitter">
-                <span>@cortosuem</span>
-            </div>
-        </div>
-
-        <div class="footer-center">
-            <p>Contacta con nosotros</p>
-        </div>
-
-        <div class="footer-right">
-            <div class="footer-logo-circle">
-                <img src="../IMG/logosimple.jpg" alt="Logo">
-            </div>
-        </div>
-    </div>
-
-    <div class="footer-bottom">
-        Universidad Europea © 2025. Todos los Derechos Reservados
-    </div>
-</footer>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-
-    console.log("JS cargado");
-
-    fetch("../php/obtener_candidatura.php")
-        .then(res => res.json())
-        .then(data => {
-
-            console.log("Respuesta del servidor:", data);
-
-            if (!data.ok) {
-                document.getElementById("sinCandidatura").style.display = "block";
-                return;
-            }
-
-            const c = data.candidatura;
-
-            document.getElementById("conCandidatura").style.display = "block";
-
-            document.getElementById("tituloCorto").textContent = c.titulo_obra;
-            document.getElementById("estadoCandidatura").textContent = c.estado || "En proceso";
-            document.getElementById("categoria").textContent = c.categoria_nombre;
-            document.getElementById("descripcion").textContent = c.sinopsis;
-
-            // Si no tienes campo "video" en la BD, comenta esta línea
-            // document.getElementById("videoCorto").src = "../videos/" + c.video;
-
-            if (c.estado === "rechazado") {
-                document.getElementById("motivoRechazoBox").style.display = "block";
-                document.getElementById("motivoRechazo").textContent = c.motivo_rechazo;
-                document.getElementById("subsanacionBox").style.display = "block";
-                document.getElementById("candidaturaIdInput").value = c.id_candidatura;
-            }
-
-            if (c.estado === "nominado") {
-                document.getElementById("nominadoBox").style.display = "block";
-            }
-
-        })
-        .catch(err => console.error("Error en fetch:", err));
-});
-</script>
-
-
+<script src="../JS/participante-candidatura.js"></script>
 </body>
 </html>

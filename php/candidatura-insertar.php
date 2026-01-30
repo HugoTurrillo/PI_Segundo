@@ -5,18 +5,7 @@ require "config/conexion.php";
 header("Content-Type: application/json");
 
 // ============================
-// VALIDAR MÉTODO
-// ============================
-if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    echo json_encode([
-        "ok" => false,
-        "mensaje" => "Método no permitido"
-    ]);
-    exit;
-}
-
-// ============================
-// VALIDAR SESIÓN PARTICIPANTE
+// VALIDAR SESIÓN
 // ============================
 if (!isset($_SESSION["id_usuario"]) || $_SESSION["rol"] !== "participante") {
     echo json_encode([
@@ -33,48 +22,20 @@ $data = json_decode(file_get_contents("php://input"), true);
 
 $titulo = trim($data["titulo_obra"] ?? "");
 $sinopsis = trim($data["sinopsis"] ?? "");
+$nombre = trim($data["nombre_contacto"] ?? "");
+$email = trim($data["email_contacto"] ?? "");
 $dni = strtoupper(trim($data["dni"] ?? ""));
 
 // ============================
 // VALIDAR CAMPOS
 // ============================
-if ($titulo === "" || $dni === "") {
+if ($titulo === "" || $dni === "" || $email === "") {
     echo json_encode([
         "ok" => false,
-        "mensaje" => "El título y el DNI son obligatorios"
+        "mensaje" => "Faltan datos obligatorios"
     ]);
     exit;
 }
-
-// ============================
-// VALIDAR FORMATO DNI (8 números + letra)
-// ============================
-if (!preg_match("/^[0-9]{8}[A-Z]$/", $dni)) {
-    echo json_encode([
-        "ok" => false,
-        "mensaje" => "El DNI no tiene un formato válido"
-    ]);
-    exit;
-}
-
-// ============================
-// COMPROBAR DNI DUPLICADO
-// ============================
-$stmt = $conexion->prepare(
-    "SELECT id_candidatura FROM candidatura WHERE dni = ? LIMIT 1"
-);
-$stmt->bind_param("s", $dni);
-$stmt->execute();
-$stmt->store_result();
-
-if ($stmt->num_rows > 0) {
-    echo json_encode([
-        "ok" => false,
-        "mensaje" => "Ya existe una candidatura registrada con este DNI"
-    ]);
-    exit;
-}
-$stmt->close();
 
 // ============================
 // OBTENER EDICIÓN ACTIVA
@@ -82,12 +43,12 @@ $stmt->close();
 $res = $conexion->query(
     "SELECT id_edicion FROM edicion_festival WHERE activa = 1 LIMIT 1"
 );
-$ed = $res->fetch_assoc();
+$edicion = $res->fetch_assoc();
 
-if (!$ed) {
+if (!$edicion) {
     echo json_encode([
         "ok" => false,
-        "mensaje" => "No hay una edición activa"
+        "mensaje" => "No hay edición activa"
     ]);
     exit;
 }
@@ -95,28 +56,25 @@ if (!$ed) {
 // ============================
 // INSERTAR CANDIDATURA
 // ============================
-$id_usuario = $_SESSION["id_usuario"];
-$id_edicion = $ed["id_edicion"];
-
-$stmt = $conexion->prepare(
-    "INSERT INTO candidatura
-     (id_usuario, id_edicion, titulo_obra, sinopsis, dni)
-     VALUES (?, ?, ?, ?, ?)"
-);
+$stmt = $conexion->prepare("
+    INSERT INTO candidatura
+    (id_usuario, id_edicion, titulo_obra, sinopsis, nombre_contacto, email_contacto, dni)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+");
 
 $stmt->bind_param(
-    "iisss",
-    $id_usuario,
-    $id_edicion,
+    "iisssss",
+    $_SESSION["id_usuario"],
+    $edicion["id_edicion"],
     $titulo,
     $sinopsis,
+    $nombre,
+    $email,
     $dni
 );
 
 $stmt->execute();
 $stmt->close();
 
-echo json_encode([
-    "ok" => true
-]);
+echo json_encode(["ok" => true]);
 exit;

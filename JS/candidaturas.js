@@ -13,32 +13,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
       let bloqueNominacion = "";
 
-      // CASO 1: aceptada y NO nominada
+      // ACEPTADA Y NO NOMINADA
       if (c.estado === "aceptada" && !c.id_categoria) {
         bloqueNominacion = `
           <a href="nominar-categoria.html?id_candidatura=${c.id_candidatura}"
              class="btn login-btn"
-             style="background:#000000;">
-             Nominar a categoría
+             style="background:#000;">
+            Nominar a categoría
           </a>
         `;
       }
 
-      // CASO 2: aceptada y YA nominada
+      // ACEPTADA Y YA NOMINADA
       if (c.estado === "aceptada" && c.id_categoria) {
         bloqueNominacion = `
           <p><strong>Categoría nominada:</strong> ${c.categoria_nombre}</p>
-
           <a href="nominar-categoria.html?id_candidatura=${c.id_candidatura}"
              class="btn login-btn"
              style="background:#FF3228;">
-             Editar nominación
+            Editar nominación
           </a>
         `;
       }
 
       contenedor.innerHTML += `
         <div class="panel-card">
+
           <h3>${c.titulo_obra}</h3>
 
           <p><strong>Autor:</strong> ${c.nombre_contacto}</p>
@@ -47,12 +47,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
           ${c.estado === "rechazada" ? `
             <p style="color:red;">
-              <strong>Motivo rechazo:</strong> ${c.motivo_rechazo || "No indicado"}
+              <strong>Motivo rechazo:</strong><br>
+              ${c.motivo_rechazo || "No indicado"}
             </p>
           ` : ""}
 
-          <div style="margin-top:1rem; display:flex; gap:1rem; flex-wrap:wrap; align-items:center;">
-            
+          ${c.mensaje_subsanacion ? `
+            <p style="color:#006400;">
+              <strong>Subsanación del participante:</strong><br>
+              ${c.mensaje_subsanacion}
+            </p>
+          ` : ""}
+
+          <div style="margin-top:1rem; display:flex; gap:1rem; flex-wrap:wrap;">
+
             ${c.estado === "en_proceso" ? `
               <button class="btn login-btn btn-aceptar"
                       data-id="${c.id_candidatura}">
@@ -78,6 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function activarBotones() {
 
+    // ACEPTAR
     document.querySelectorAll(".btn-aceptar").forEach(btn => {
       btn.addEventListener("click", async () => {
         await fetch("../php/candidatura-aceptar.php", {
@@ -89,6 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
+    // RECHAZAR
     document.querySelectorAll(".btn-rechazar").forEach(btn => {
       btn.addEventListener("click", async () => {
         const motivo = prompt("Indica el motivo del rechazo:");
