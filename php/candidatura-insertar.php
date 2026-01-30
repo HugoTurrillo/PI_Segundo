@@ -4,9 +4,6 @@ require "config/conexion.php";
 
 header("Content-Type: application/json");
 
-// ============================
-// VALIDAR MÉTODO
-// ============================
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     echo json_encode([
         "ok" => false,
@@ -15,9 +12,6 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit;
 }
 
-// ============================
-// VALIDAR SESIÓN PARTICIPANTE
-// ============================
 if (!isset($_SESSION["id_usuario"]) || $_SESSION["rol"] !== "participante") {
     echo json_encode([
         "ok" => false,
@@ -26,18 +20,12 @@ if (!isset($_SESSION["id_usuario"]) || $_SESSION["rol"] !== "participante") {
     exit;
 }
 
-// ============================
-// LEER JSON
-// ============================
 $data = json_decode(file_get_contents("php://input"), true);
 
 $titulo = trim($data["titulo_obra"] ?? "");
 $sinopsis = trim($data["sinopsis"] ?? "");
 $dni = strtoupper(trim($data["dni"] ?? ""));
 
-// ============================
-// VALIDAR CAMPOS
-// ============================
 if ($titulo === "" || $dni === "") {
     echo json_encode([
         "ok" => false,
@@ -46,9 +34,6 @@ if ($titulo === "" || $dni === "") {
     exit;
 }
 
-// ============================
-// VALIDAR FORMATO DNI (8 números + letra)
-// ============================
 if (!preg_match("/^[0-9]{8}[A-Z]$/", $dni)) {
     echo json_encode([
         "ok" => false,
@@ -57,9 +42,6 @@ if (!preg_match("/^[0-9]{8}[A-Z]$/", $dni)) {
     exit;
 }
 
-// ============================
-// COMPROBAR DNI DUPLICADO
-// ============================
 $stmt = $conexion->prepare(
     "SELECT id_candidatura FROM candidatura WHERE dni = ? LIMIT 1"
 );
@@ -76,9 +58,6 @@ if ($stmt->num_rows > 0) {
 }
 $stmt->close();
 
-// ============================
-// OBTENER EDICIÓN ACTIVA
-// ============================
 $res = $conexion->query(
     "SELECT id_edicion FROM edicion_festival WHERE activa = 1 LIMIT 1"
 );
@@ -92,9 +71,6 @@ if (!$ed) {
     exit;
 }
 
-// ============================
-// INSERTAR CANDIDATURA
-// ============================
 $id_usuario = $_SESSION["id_usuario"];
 $id_edicion = $ed["id_edicion"];
 
