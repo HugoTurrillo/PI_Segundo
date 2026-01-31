@@ -531,3 +531,22 @@ nav {
     display: flex;
     flex-direction: column-reverse;
 }
+
+/*Estilo de los patroinadores en el home*/
+.patro-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.patro-item img {
+    height: 80px;
+    object-fit: contain;
+    transition: transform .2s;
+}
+
+.patro-item img:hover {
+    transform: scale(1.05);
+}

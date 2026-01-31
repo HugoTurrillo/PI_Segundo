@@ -8,9 +8,9 @@ error_reporting(E_ALL);
 // ============================
 // RECIBIR DATOS
 // ============================
-$nombre      = trim($_POST["nombre"] ?? "");
-$url_web     = trim($_POST["enlace"] ?? "");
-$descripcion = trim($_POST["descripcion"] ?? "");
+$nombre      = trim($_REQUEST["nombre"] ?? "");
+$url_web     = trim($_REQUEST["enlace"] ?? "");
+$descripcion = trim($_REQUEST["descripcion"] ?? "");
 
 // ============================
 // VALIDACIONES
@@ -46,8 +46,7 @@ if (!move_uploaded_file($logo["tmp_name"], $rutaDestino)) {
 // ============================
 // INSERTAR EN BD
 // ============================
-// IMPORTANTE: la tabla debe ser EXACTAMENTE:
-//
+// La tabla debe ser:
 // CREATE TABLE patrocinador (
 //   id_patrocinador INT AUTO_INCREMENT PRIMARY KEY,
 //   nombre VARCHAR(100) NOT NULL,
@@ -88,3 +87,4 @@ $stmt->close();
 // RESPUESTA FINAL
 // ============================
 echo json_encode(["ok" => true, "msg" => "Patrocinador creado correctamente"]);
+exit();
