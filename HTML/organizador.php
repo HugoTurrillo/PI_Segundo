@@ -1,0 +1,120 @@
+<?php
+require_once "../php/config/auth.php";
+requireRole("organizador");
+?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel organizador - Festival Cortos UEM</title>
+  <link rel="stylesheet" href="../CSS/estilos.css">
+  <link rel="icon" href="../IMG/favicon.png" type="image/x-icon">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="logo">
+      <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
+  </div>
+
+  <div class="search-bar">
+      <input type="text" placeholder="Buscar...">
+  </div>
+
+  <nav>
+   <ul class="nav-links">
+    <li><a href="../php/home.php">Inicio</a></li>
+     <li><a href="calendario.html">Calendario</a></li>
+      <li><a href="#">Sobre nosotros</a></li>
+   </ul>
+  </nav>
+
+  <div class="nav-buttons">
+      <a href="../php/logout.php" class="btn nav-btn">Salir</a>
+
+  </div>
+</header>
+
+<main class="login-container">
+  <h2>Panel de organizadores</h2>
+  <p>Desde aquí puedes gestionar todas las secciones del festival.</p>
+
+  <div class="panel-grid">
+    <a href="noticias.php" class="panel-card">
+      <h3>Noticias</h3>
+      <p>Publica, edita y elimina noticias del festival.</p>
+    </a>
+
+    <a href="eventos.php" class="panel-card">
+      <h3>Eventos</h3>
+      <p>Gestiona el calendario de actividades del festival.</p>
+    </a>
+
+    <a href="premios.php" class="panel-card">
+      <h3>Premios - Categorías</h3>
+      <p>Define la categorías de los premios.</p>
+    </a>
+ 
+    <a href="candidaturas.php" class="panel-card">
+    <h3>Candidaturas</h3>
+    <p>Listado y gestión de candidaturas.</p>
+    </a>
+
+
+     <a href="ganadores.php" class="panel-card">  
+       <h3>Premios - Ganadores</h3> 
+       <p>Asigna y revisa los ganadores por categoría.</p>
+    </a>  
+
+    <a href="patrocinadores.php" class="panel-card">
+      <h3>Patrocinadores</h3>
+      <p>Añade, edita y muestra los patrocinadores del evento.</p>
+    </a>
+
+    <a href="gala.php" class="panel-card">
+      <h3>Gala</h3>
+      <p>Configura la gala antes y después del evento.</p>
+    </a>
+
+   
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-main">
+    <div class="footer-left">
+      <div class="footer-social-row">
+        <img src="../IMG/instagram.png" alt="Instagram">
+        <span>@cortosuem</span>
+      </div>
+      <div class="footer-social-row">
+        <img src="../IMG/facebook.png" alt="Facebook">
+        <span>@cortosuem</span>
+      </div>
+      <div class="footer-social-row">
+        <img src="../IMG/twitter.png" alt="Twitter">
+        <span>@cortosuem</span>
+      </div>
+    </div>
+
+    <div class="footer-center">
+      <p>Contacta con nosotros</p>
+    </div>
+
+    <div class="footer-right">
+      <div class="footer-logo-circle">
+        <img src="../IMG/logosimple.jpg" alt="Logo">
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    Universidad Europea © 2025. Todos los Derechos Reservados
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+</body>
+</html>

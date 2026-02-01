@@ -40,12 +40,12 @@ $rol = $_SESSION["rol"] ?? null;
         <li><a href="../HTML/calendario.html">Calendario</a></li>
 
         <?php if ($logueado && $rol === "participante"): ?>
-          <li><a href="../HTML/participante.html">Panel</a></li>
-          <li><a href="../HTML/participante_candidatura.html">Mi candidatura</a></li>
-          <li><a href="../HTML/mis_datos.html">Mis datos</a></li>
+          <li><a href="../HTML/participante.php">Panel</a></li>
+          <li><a href="../HTML/participante_candidatura.php">Mi candidatura</a></li>
+          <li><a href="../HTML/mis_datos.php">Mis datos</a></li>
         <?php elseif ($logueado && $rol === "organizador"): ?>
-          <li><a href="../HTML/organizador.html">Panel</a></li>
-          <li><a href="../HTML/candidaturas.html">Candidaturas</a></li>
+          <li><a href="../HTML/organizador.php">Panel</a></li>
+          <li><a href="../HTML/candidaturas.php">Candidaturas</a></li>
         <?php endif; ?>
       </ul>
     </nav>
@@ -77,9 +77,9 @@ $rol = $_SESSION["rol"] ?? null;
         <?php if (!$logueado): ?>
           <a href="../HTML/registro.html" class="btn home-btn">Crea tu cuenta gratis</a>
         <?php elseif ($rol === "participante"): ?>
-          <a href="../HTML/participante.html" class="btn home-btn">Ir a mi panel</a>
+          <a href="../HTML/participante.php" class="btn home-btn">Ir a mi panel</a>
         <?php elseif ($rol === "organizador"): ?>
-          <a href="../HTML/organizador.html" class="btn home-btn">Ir al panel organizador</a>
+          <a href="../HTML/organizador.php" class="btn home-btn">Ir al panel organizador</a>
         <?php endif; ?>
       </section>
 

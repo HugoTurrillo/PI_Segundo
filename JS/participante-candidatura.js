@@ -22,13 +22,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       document.getElementById("subsanarBox").style.display = "block";
 
-      document.getElementById("btnSubsanar").addEventListener("click", async () => {
+      document.getElementById("btnSubsanar").onclick = async () => {
         const mensaje = document.getElementById("mensajeSubsanacion").value.trim();
-        const error = document.getElementById("subsanarError");
-        error.textContent = "";
 
         if (!mensaje) {
-          error.textContent = "Debes escribir un mensaje de subsanación";
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Debes escribir un mensaje de subsanación"
+          });
           return;
         }
 
@@ -41,16 +43,24 @@ document.addEventListener("DOMContentLoaded", async () => {
         const r = await res.json();
 
         if (r.ok) {
+          await Swal.fire({
+            icon: "success",
+            title: "Subsanación enviada",
+            text: r.msg
+          });
           location.reload();
         } else {
-          error.textContent = r.msg || "Error al enviar subsanación";
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: r.msg
+          });
         }
-      });
+      };
     }
 
   } catch (err) {
-    console.error("Error cargando candidatura:", err);
+    console.error(err);
     document.getElementById("sinCandidatura").style.display = "block";
   }
-
 });

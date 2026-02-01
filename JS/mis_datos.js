@@ -8,9 +8,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const errorPassword = document.getElementById("error-password");
   const errorGlobal = document.getElementById("error-global");
 
-  // ============================
-  // CARGAR DATOS
-  // ============================
   try {
     const res = await fetch("../php/usuario-mis-datos.php");
     const data = await res.json();
@@ -23,13 +20,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     nombre.value = data.usuario.nombre_completo;
     email.value = data.usuario.email;
 
-  } catch (e) {
+  } catch {
     errorGlobal.textContent = "Error cargando los datos";
   }
 
-  // ============================
-  // GUARDAR CAMBIOS
-  // ============================
   document.getElementById("form-mis-datos").addEventListener("submit", async e => {
     e.preventDefault();
 
@@ -66,7 +60,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const r = await res.json();
 
     if (r.ok) {
-      alert("Datos actualizados correctamente");
+      await Swal.fire("Guardado", "Datos actualizados correctamente", "success");
       password.value = "";
     } else {
       errorGlobal.textContent = r.mensaje;

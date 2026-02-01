@@ -128,7 +128,7 @@ try {
     $_SESSION["nombre"] = $nombre_completo;
     $_SESSION["rol"] = "participante";
 
-   header("Location: ../HTML/participante.html");
+   header("Location: ../HTML/participante.php");
     exit;
 
 

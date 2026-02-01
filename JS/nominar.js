@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     title: "Candidatura nominada",
                     text: "La candidatura se ha nominado correctamente"
                 });
-        window.location.href = "ganadores.html";
+        window.location.href = "ganadores.php";
     });
 
 });

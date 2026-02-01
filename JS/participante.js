@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         <div class="panel-card">
           <p>No has presentado ninguna candidatura todavía.</p>
 
-          <a href="candidatura-nueva.html"
+          <a href="candidatura-nueva.php"
              class="btn login-btn"
              style="margin-top:1rem; display:inline-block;">
             Presentar candidatura

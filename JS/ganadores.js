@@ -42,7 +42,7 @@ async function cargarGanadores() {
                     <p><strong>Contacto:</strong> ${g.nombre_contacto}</p>
 
                     <div style="margin-top:1rem; display:flex; gap:1rem;">
-                        <a href="ganador_asignar.html?id=${g.id_categoria}"
+                        <a href="ganador_asignar.php?id=${g.id_categoria}"
                            class="btn login-btn"
                            style="padding:0.5rem 1rem;">
                            Reasignar ganador

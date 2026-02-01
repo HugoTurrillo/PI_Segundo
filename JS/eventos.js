@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ============================
     async function cargarEventos() {
         const contenedor = document.getElementById("lista-eventos");
-        if (!contenedor) return; // Solo se ejecuta en eventos.html
+        if (!contenedor) return; // Solo se ejecuta en eventos.php
 
         const respuesta = await fetch("../php/eventos-listar.php");
         const data = await respuesta.json();
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <p>${ev.descripcion}</p>
 
                     <div style="margin-top: 1rem; display: flex; gap: 1rem;">
-                        <a href="evento-editar.html?id=${ev.id}" class="btn login-btn" style="padding: 0.5rem 1rem;">Editar</a>
+                        <a href="evento-editar.php?id=${ev.id}" class="btn login-btn" style="padding: 0.5rem 1rem;">Editar</a>
 
                         <button class="btn login-btn btn-eliminar-evento" 
                                 data-id="${ev.id}" 
@@ -195,7 +195,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     text: "El evento se ha editado correctamente"
                 });
 
-                window.location.href = "eventos.html";
+                window.location.href = "eventos.php";
             } else {
                 errorGlobal.textContent = resultado.mensaje;
             }
@@ -226,7 +226,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 title: "Evento creado",
                 text: "El evento se ha creado correctamente"
             });
-            window.location.href = "eventos.html";
+            window.location.href = "eventos.php";
         } else {
             errorGlobal.textContent = resultado.mensaje;
         }

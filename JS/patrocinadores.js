@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <p>${p.descripcion}</p>
 
                     <div style="margin-top: 1rem; display:flex; gap:1rem;">
-                        <a href="patrocinador-editar.html?id=${p.id_patrocinador}" 
+                        <a href="patrocinador-editar.php?id=${p.id_patrocinador}" 
                            class="btn login-btn" 
                            style="padding:0.5rem 1rem;">Editar</a>
 
@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     text: "Los datos se han guardado correctamente"
                 });
 
-                window.location.href = "patrocinadores.html";
+                window.location.href = "patrocinadores.php";
             } else {
                 errorGlobal.textContent = resultado.msg;
             }
@@ -227,7 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 text: "El patrocinador se ha registrado correctamente"
             });
 
-            window.location.href = "patrocinadores.html";
+            window.location.href = "patrocinadores.php";
         } else {
             errorGlobal.textContent = resultado.msg;
         }

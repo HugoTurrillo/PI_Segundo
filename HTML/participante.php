@@ -1,0 +1,103 @@
+<?php
+require_once "../php/config/auth.php";
+requireRole("participante");
+?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel participante - Festival Cortos UEM</title>
+  <link rel="stylesheet" href="../CSS/estilos.css">
+  <link rel="icon" href="../IMG/favicon.png" type="image/x-icon">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="logo">
+      <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
+  </div>
+
+  <div class="search-bar">
+      <input type="text" placeholder="Buscar...">
+  </div>
+
+  <nav>
+   <ul class="nav-links">
+    <li><a href="../php/home.php">Inicio</a></li>
+     <li><a href="calendario.html">Calendario</a></li>
+      <li><a href="#">Sobre nosotros</a></li>
+   </ul>
+  </nav>
+
+  <div class="nav-buttons">
+      <a href="../php/logout.php" class="btn nav-btn">Salir</a>
+  </div>
+</header>
+
+<main class="login-container">
+  <h2>Panel de participante</h2>
+  <p>Bienvenido al área privada del festival. Desde aquí puedes gestionar tu candidatura y tus datos personales.</p>
+
+  <div class="panel-grid">
+
+    <a href="form_inscripcion.php" class="panel-card">
+      <h3>Formulario de inscripción</h3>
+      <p>Envía tu candidatura al festival.</p>
+    </a>
+
+    <a href="participante_candidatura.php" class="panel-card">
+      <h3>Mi candidatura</h3>
+      <p>Consulta el estado de tu candidatura y subsana si es necesario.</p>
+    </a>
+
+    <a href="mis_datos.php" class="panel-card">
+      <h3>Mis datos</h3>
+      <p>Revisa y edita tu información personal.</p>
+    </a>
+
+    <a href="mensajes.php" class="panel-card">
+      <h3>Mensajes</h3>
+      <p>Comunícate con el organizador para subsanar o consultar dudas.</p>
+    </a>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-main">
+    <div class="footer-left">
+      <div class="footer-social-row">
+        <img src="../IMG/instagram.png" alt="Instagram">
+        <span>@cortosuem</span>
+      </div>
+      <div class="footer-social-row">
+        <img src="../IMG/facebook.png" alt="Facebook">
+        <span>@cortosuem</span>
+      </div>
+      <div class="footer-social-row">
+        <img src="../IMG/twitter.png" alt="Twitter">
+        <span>@cortosuem</span>
+      </div>
+    </div>
+
+    <div class="footer-center">
+      <p>Contacta con nosotros</p>
+    </div>
+
+    <div class="footer-right">
+      <div class="footer-logo-circle">
+        <img src="../IMG/logosimple.jpg" alt="Logo">
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    Universidad Europea © 2025. Todos los Derechos Reservados
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+</body>
+</html>

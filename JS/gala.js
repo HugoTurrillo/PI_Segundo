@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ============================
     async function cargarGala() {
         const contenedor = document.querySelector(".panel-grid");
-        if (!contenedor) return; // Solo en gala.html
+        if (!contenedor) return; // Solo en gala.php
 
         try {
             const respuesta = await fetch("../php/gala-listar.php");
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <p>${ev.descripcion ?? ""}</p>
 
                         <div style="margin-top:1rem; display:flex; gap:1rem;">
-                            <a href="gala-editar.html?id=${ev.id}"
+                            <a href="gala-editar.php?id=${ev.id}"
                                class="btn login-btn"
                                style="padding:0.5rem 1rem;">
                                 Editar
@@ -252,7 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         : "La gala se ha creado correctamente"
                 });
 
-                window.location.href = "gala.html";
+                window.location.href = "gala.php";
             } else {
                 errorGlobal.textContent = resultado.msg;
             }

@@ -67,8 +67,8 @@ $_SESSION["nombre"] = $usuario["nombre_completo"];
 $_SESSION["rol"] = $usuario["rol"];
 
 $redir = ($usuario["rol"] === "organizador")
-    ? "../HTML/organizador.html"
-    : "../HTML/participante.html"; 
+    ? "../HTML/organizador.php"
+    : "../HTML/participante.php"; 
 
 echo json_encode([
     "ok" => true,

@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const r = await res.json();
 
     if (r.ok) {
-      window.location.href = "participante_candidatura.html";
+      window.location.href = "participante_candidatura.php";
     } else {
       error.textContent = r.mensaje || "Error al enviar candidatura";
     }

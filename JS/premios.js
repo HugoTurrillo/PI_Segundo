@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <p>Premio físico: ${cat.premio_fisico}</p>
 
                         <div style="margin-top:1rem; display:flex; gap:1rem;">
-                            <a href="categoria-editar.html?id=${cat.id}"
+                            <a href="categoria-editar.php?id=${cat.id}"
                                class="btn login-btn"
                                style="padding:0.5rem 1rem;">
                                 Editar
@@ -211,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            window.location.href = "premios.html";
+            window.location.href = "premios.php";
 
         } catch (error) {
             console.error(error);

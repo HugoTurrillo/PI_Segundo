@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <p>${n.contenido}</p>
 
                     <div style="margin-top:1rem; display:flex; gap:1rem;">
-                        <a href="noticia-editar.html?id_noticia=${n.id_noticia}"
+                        <a href="noticia-editar.php?id_noticia=${n.id_noticia}"
                            class="btn login-btn">
                            Editar
                         </a>
@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (r.ok) {
             await Swal.fire("OK", r.msg, "success");
-            window.location.href = "noticias.html";
+            window.location.href = "noticias.php";
         } else {
             errorGlobal.textContent = r.msg;
         }
