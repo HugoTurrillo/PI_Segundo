@@ -716,3 +716,85 @@ nav {
 .sobre-nosotros-texto:hover a {
   color: #fff;
 }
+/* ==========================
+   SWEETALERT2 – ESTILO PERSONALIZADO
+   ========================== */
+
+/* Fuente y contenedor */
+.swal2-popup {
+  font-family: 'Hellix', Arial, sans-serif;
+  border-radius: 0 !important;
+  padding: 2rem;
+}
+
+/* Título */
+.swal2-title {
+  color: #000;
+  font-weight: 600;
+}
+
+/* Texto */
+.swal2-html-container {
+  color: #333;
+  font-size: 15px;
+}
+
+/* ==========================
+   BOTÓN PRINCIPAL (CONFIRMAR)
+   ========================== */
+.swal2-confirm {
+  background-color: #FF3228 !important;
+  color: #fff !important;
+  border-radius: 0 !important;
+  border: none !important;
+  font-weight: 600;
+  padding: 0.6rem 1.4rem;
+  transition: background-color 0.2s ease;
+}
+
+.swal2-confirm:hover {
+  background-color: #d62820 !important;
+}
+
+/* ==========================
+   BOTÓN SECUNDARIO (CANCELAR)
+   ========================== */
+.swal2-cancel {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border-radius: 0 !important;
+  border: none !important;
+  font-weight: 600;
+  padding: 0.6rem 1.4rem;
+  transition: background-color 0.2s ease;
+}
+
+.swal2-cancel:hover {
+  background-color: #333333 !important;
+}
+
+/* ==========================
+   ICONOS (SUCCESS / ERROR / WARNING)
+   ========================== */
+.swal2-icon.swal2-success {
+  border-color: #FF3228;
+  color: #FF3228;
+}
+
+.swal2-icon.swal2-error {
+  border-color: #FF3228;
+  color: #FF3228;
+}
+
+.swal2-icon.swal2-warning {
+  border-color: #000000;
+  color: #000000;
+}
+
+/* ==========================
+   BOTONES EN FILA
+   ========================== */
+.swal2-actions {
+  gap: 1rem;
+
+}

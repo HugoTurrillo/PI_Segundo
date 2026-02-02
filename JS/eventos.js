@@ -1,54 +1,74 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    // ============================
-    // LISTAR EVENTOS
-    // ============================
+    /* ======================================================
+       LISTAR EVENTOS (eventos.php)
+    ====================================================== */
     async function cargarEventos() {
         const contenedor = document.getElementById("lista-eventos");
-        if (!contenedor) return; // Solo se ejecuta en eventos.php
+        if (!contenedor) return;
 
-        const respuesta = await fetch("../php/eventos-listar.php");
-        const data = await respuesta.json();
-        const eventos = data.eventos || []; // ← CORRECCIÓN IMPORTANTE
+        try {
+            const respuesta = await fetch("../php/eventos-listar.php");
+            const data = await respuesta.json();
 
-        contenedor.innerHTML = "";
+            if (!data.ok) {
+                contenedor.innerHTML = "<p>Error al cargar eventos</p>";
+                return;
+            }
 
-        eventos.forEach(ev => {
-            contenedor.innerHTML += `
-                <div class="panel-card">
-                    <h3>${ev.titulo}</h3>
-                    <p>Fecha: ${ev.fecha}</p>
-                    <p>${ev.descripcion}</p>
+            const eventos = data.eventos || [];
+            contenedor.innerHTML = "";
 
-                    <div style="margin-top: 1rem; display: flex; gap: 1rem;">
-                        <a href="evento-editar.php?id=${ev.id}" class="btn login-btn" style="padding: 0.5rem 1rem;">Editar</a>
+            if (eventos.length === 0) {
+                contenedor.innerHTML = "<p>No hay eventos creados.</p>";
+                return;
+            }
 
-                        <button class="btn login-btn btn-eliminar-evento" 
-                                data-id="${ev.id}" 
-                                style="padding: 0.5rem 1rem; background-color: #555;">
-                            Eliminar
-                        </button>
+            eventos.forEach(ev => {
+                contenedor.innerHTML += `
+                    <div class="panel-card">
+                        <h3>${ev.titulo}</h3>
+                        <p><strong>Fecha:</strong> ${ev.fecha}</p>
+                        <p><strong>Hora:</strong> ${ev.hora}</p>
+                        <p>${ev.descripcion}</p>
+
+                        <div style="margin-top:1rem; display:flex; gap:1rem;">
+                            <a href="evento-editar.php?id=${ev.id}"
+                               class="btn login-btn"
+                               style="padding:0.5rem 1rem;">
+                               Editar
+                            </a>
+
+                            <button class="btn login-btn btn-eliminar-evento"
+                                    data-id="${ev.id}"
+                                    style="padding:0.5rem 1rem; background:#555;">
+                                Eliminar
+                            </button>
+                        </div>
                     </div>
-                </div>
-            `;
-        });
+                `;
+            });
 
-        activarBotonesEliminar();
+            activarEliminar();
+
+        } catch (e) {
+            console.error(e);
+            contenedor.innerHTML = "<p>Error inesperado</p>";
+        }
     }
 
     cargarEventos();
 
 
-
-    // ============================
-    // ELIMINAR EVENTO (CORREGIDO)
-    // ============================
-    function activarBotonesEliminar() {
+    /* ======================================================
+       ELIMINAR EVENTO
+    ====================================================== */
+    function activarEliminar() {
         document.querySelectorAll(".btn-eliminar-evento").forEach(btn => {
             btn.addEventListener("click", async () => {
                 const id = btn.dataset.id;
 
-                const confirmacion = await Swal.fire({
+                const conf = await Swal.fire({
                     title: "¿Eliminar evento?",
                     icon: "warning",
                     showCancelButton: true,
@@ -56,9 +76,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     cancelButtonText: "Cancelar"
                 });
 
-                if (!confirmacion.isConfirmed) return;
+                if (!conf.isConfirmed) return;
 
-                // ← CORRECCIÓN: usar POST con JSON
                 const res = await fetch("../php/evento-eliminar.php", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -79,19 +98,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-
-    // ============================
-    // FORMULARIO (CREAR / EDITAR)
-    // ============================
+    /* ======================================================
+       FORMULARIO CREAR / EDITAR (evento-nuevo / evento-editar)
+    ====================================================== */
     const form = document.getElementById("form-evento");
-    if (!form) return; // Solo se ejecuta en nuevo o editar
+    if (!form) return;
 
     const titulo = document.getElementById("titulo");
     const fecha = document.getElementById("fecha");
+    const hora = document.getElementById("hora");
     const descripcion = document.getElementById("descripcion");
 
     const errorTitulo = document.getElementById("error-titulo");
     const errorFecha = document.getElementById("error-fecha");
+    const errorHora = document.getElementById("error-hora");
     const errorDescripcion = document.getElementById("error-descripcion");
     const errorGlobal = document.getElementById("error-global");
 
@@ -99,27 +119,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const maxFecha = "2026-12-21";
 
 
-
-    // ============================
-    // CARGAR DATOS PARA EDITAR
-    // ============================
+    /* ============================
+       CARGAR EVENTO PARA EDITAR
+    ============================ */
     async function cargarEventoEditar() {
         const params = new URLSearchParams(window.location.search);
         const id = params.get("id");
-
-        if (!id) return; // No estamos en editar
+        if (!id) return;
 
         const res = await fetch(`../php/evento-obtener.php?id=${id}`);
-        const evento = await res.json();
+        const data = await res.json();
 
-        if (!evento || !evento.id) {
-            errorGlobal.textContent = "No se encontró el evento.";
+        if (!data.ok || !data.evento) {
+            errorGlobal.textContent = "Evento no encontrado";
             return;
         }
 
-        titulo.value = evento.titulo;
-        fecha.value = evento.fecha;
-        descripcion.value = evento.descripcion;
+        const ev = data.evento;
+        titulo.value = ev.titulo;
+        fecha.value = ev.fecha;
+        hora.value = ev.hora;
+        descripcion.value = ev.descripcion;
 
         form.dataset.id = id;
     }
@@ -127,108 +147,119 @@ document.addEventListener("DOMContentLoaded", () => {
     cargarEventoEditar();
 
 
-
-    // ============================
-    // SUBMIT (CREAR O EDITAR)
-    // ============================
+    /* ============================
+       SUBMIT
+    ============================ */
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        let valido = true;
-
         errorTitulo.textContent = "";
         errorFecha.textContent = "";
+        errorHora.textContent = "";
         errorDescripcion.textContent = "";
         errorGlobal.textContent = "";
 
-        if (titulo.value.trim() === "") {
-            errorTitulo.textContent = "El título no puede estar vacío.";
+        let valido = true;
+
+        if (!titulo.value.trim()) {
+            errorTitulo.textContent = "El título es obligatorio";
             valido = false;
         }
 
-        if (fecha.value === "") {
-            errorFecha.textContent = "La fecha es obligatoria.";
+        if (!fecha.value) {
+            errorFecha.textContent = "La fecha es obligatoria";
             valido = false;
-        } else if (fecha.value < hoy) {
-            errorFecha.textContent = "La fecha no puede ser anterior a hoy.";
-            valido = false;
-        } else if (fecha.value > maxFecha) {
-            errorFecha.textContent = "La fecha no puede ser posterior al 21/12/2026.";
+        } else if (fecha.value < hoy || fecha.value > maxFecha) {
+            errorFecha.textContent = "Fecha fuera de rango";
             valido = false;
         }
 
-        if (descripcion.value.trim() === "") {
-            errorDescripcion.textContent = "La descripción no puede estar vacía.";
+        if (!hora.value) {
+            errorHora.textContent = "La hora es obligatoria";
+            valido = false;
+        }
+
+        if (!descripcion.value.trim()) {
+            errorDescripcion.textContent = "La descripción es obligatoria";
             valido = false;
         }
 
         if (!valido) {
-            errorGlobal.textContent = "Hay errores en el formulario. Revísalos antes de continuar.";
+            errorGlobal.textContent = "Revisa los errores del formulario";
             return;
         }
 
+        const datos = {
+            titulo: titulo.value,
+            fecha: fecha.value,
+            hora: hora.value,
+            descripcion: descripcion.value
+        };
+
         const id = form.dataset.id;
 
-        // ============================
-        // EDITAR EVENTO
-        // ============================
+        /* ============================
+           EDITAR
+        ============================ */
         if (id) {
-            const datos = {
-                id: id,
-                titulo: titulo.value,
-                fecha: fecha.value,
-                descripcion: descripcion.value
-            };
+            datos.id = id;
 
-            const respuesta = await fetch("../php/evento-editar.php", {
+            const res = await fetch("../php/evento-editar.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(datos)
             });
 
-            const resultado = await respuesta.json();
+            const r = await res.json();
 
-            if (resultado.ok) {
-                await Swal.fire({
-                    icon: "success",
-                    title: "Evento editado",
-                    text: "El evento se ha editado correctamente"
-                });
-
+            if (r.ok) {
+                await Swal.fire("OK", "Evento editado correctamente", "success");
                 window.location.href = "eventos.php";
             } else {
-                errorGlobal.textContent = resultado.mensaje;
+                errorGlobal.textContent = r.mensaje;
             }
-
             return;
         }
 
-        // ============================
-        // CREAR EVENTO
-        // ============================
-        const datos = {
-            titulo: titulo.value,
-            fecha: fecha.value,
-            descripcion: descripcion.value
-        };
-
-        const respuesta = await fetch("../php/evento-nuevo.php", {
+        /* ============================
+           CREAR (con confirmación)
+        ============================ */
+        const res = await fetch("../php/evento-nuevo.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(datos)
         });
 
-        const resultado = await respuesta.json();
+        const r = await res.json();
 
-        if (resultado.ok) {
-            await Swal.fire({
-                icon: "success",
-                title: "Evento creado",
-                text: "El evento se ha creado correctamente"
+        if (r.confirmar) {
+            const conf = await Swal.fire({
+                title: "Evento duplicado",
+                text: r.mensaje,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Sí, crear",
+                cancelButtonText: "Cancelar"
             });
+
+            if (!conf.isConfirmed) return;
+
+            await fetch("../php/evento-nuevo.php?forzar=1", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(datos)
+            });
+
+            await Swal.fire("Creado", "Evento creado correctamente", "success");
+            window.location.href = "eventos.php";
+            return;
+        }
+
+        if (r.ok) {
+            await Swal.fire("Creado", "Evento creado correctamente", "success");
             window.location.href = "eventos.php";
         } else {
-            errorGlobal.textContent = resultado.mensaje;
+            errorGlobal.textContent = r.mensaje;
         }
     });
 

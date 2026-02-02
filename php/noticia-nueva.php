@@ -49,4 +49,7 @@ $stmt = $conexion->prepare(
 $stmt->bind_param("sss", $titulo, $contenido, $imagen_ruta);
 $stmt->execute();
 
-echo json_encode(["ok" => true, "msg" => "Noticia creada correctamente"]);
+echo json_encode([
+    "ok" => true,
+    "msg" => "Noticia creada correctamente"
+]);

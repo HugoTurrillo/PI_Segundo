@@ -57,7 +57,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonText: "Sí, eliminar",
-                    cancelButtonText: "Cancelar"
+                    confirmButtonColor: "#FF3228",
+                    cancelButtonText: "Cancelar",
+                    cancelButtonColor: "#000000"
                 });
 
                 if (!conf.isConfirmed) return;

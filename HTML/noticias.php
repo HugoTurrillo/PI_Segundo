@@ -42,7 +42,7 @@ requireRole("organizador");
         <a href="noticia-nueva.php"
            class="btn login-btn"
            style="padding: 0.4rem 1rem; font-size: 0.9rem;">
-            Añadir noticias
+            Añadir noticia
         </a>
     </div>
 

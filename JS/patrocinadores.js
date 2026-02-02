@@ -1,10 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    // ============================
-    // LISTAR PATROCINADORES
-    // ============================
+    /* ======================================================
+       LISTAR PATROCINADORES
+    ====================================================== */
     async function cargarPatrocinadores() {
-
         const contenedor = document.querySelector(".panel-grid");
         if (!contenedor) return;
 
@@ -16,27 +15,24 @@ document.addEventListener("DOMContentLoaded", () => {
         patrocinadores.forEach(p => {
             contenedor.innerHTML += `
                 <div class="panel-card">
-                   
                     <img src="../php/uploads/${p.logo_ruta}"
-                         alt="Logo patrocinador" 
-                         style="width: 100%; max-height: 120px; object-fit: contain; margin-bottom: 1rem;">
+                         style="width:100%; max-height:120px; object-fit:contain; margin-bottom:1rem;">
 
                     <h3>${p.nombre}</h3>
 
-                    <p><strong>Web:</strong> 
+                    <p><strong>Web:</strong>
                         <a href="${p.url_web}" target="_blank">${p.url_web}</a>
                     </p>
 
-                    <p>${p.descripcion}</p>
+                    <p>${p.descripcion || ""}</p>
 
-                    <div style="margin-top: 1rem; display:flex; gap:1rem;">
-                        <a href="patrocinador-editar.php?id=${p.id_patrocinador}" 
-                           class="btn login-btn" 
-                           style="padding:0.5rem 1rem;">Editar</a>
+                    <div style="margin-top:1rem; display:flex; gap:1rem;">
+                        <a href="patrocinador-editar.php?id=${p.id_patrocinador}"
+                           class="btn login-btn">Editar</a>
 
-                        <button class="btn login-btn btn-eliminar-patrocinador" 
-                                data-id="${p.id_patrocinador}" 
-                                style="padding:0.5rem 1rem; background:#555;">
+                        <button class="btn login-btn btn-eliminar-patrocinador"
+                                data-id="${p.id_patrocinador}"
+                                style="background:#555;">
                             Eliminar
                         </button>
                     </div>
@@ -44,22 +40,21 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
         });
 
-        activarBotonesEliminar();
+        activarEliminar();
     }
 
     cargarPatrocinadores();
 
 
-
-    // ============================
-    // ELIMINAR PATROCINADOR
-    // ============================
-    function activarBotonesEliminar() {
+    /* ======================================================
+       ELIMINAR
+    ====================================================== */
+    function activarEliminar() {
         document.querySelectorAll(".btn-eliminar-patrocinador").forEach(btn => {
             btn.addEventListener("click", async () => {
                 const id = btn.dataset.id;
 
-                const confirmacion = await Swal.fire({
+                const conf = await Swal.fire({
                     title: "¿Eliminar patrocinador?",
                     icon: "warning",
                     showCancelButton: true,
@@ -67,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     cancelButtonText: "Cancelar"
                 });
 
-                if (!confirmacion.isConfirmed) return;
+                if (!conf.isConfirmed) return;
 
                 const res = await fetch(`../php/patrocinador-eliminar.php?id=${id}`);
                 const r = await res.json();
@@ -84,12 +79,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-
-    // ============================
-    // FORMULARIO (CREAR / EDITAR)
-    // ============================
+    /* ======================================================
+       FORMULARIO CREAR / EDITAR
+    ====================================================== */
     const form = document.getElementById("form-patrocinador");
-
     if (!form) return;
 
     const nombre = document.getElementById("nombre");
@@ -104,42 +97,35 @@ document.addEventListener("DOMContentLoaded", () => {
     const errorGlobal = document.getElementById("error-global");
 
 
-
-    // ============================
-    // CARGAR PATROCINADOR PARA EDITAR
-    // ============================
-    async function cargarPatrocinadorEditar() {
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get("id");
-
+    /* ============================
+       CARGAR PARA EDITAR
+    ============================ */
+    async function cargarEditar() {
+        const id = new URLSearchParams(window.location.search).get("id");
         if (!id) return;
 
         const res = await fetch(`../php/patrocinador-obtener.php?id=${id}`);
-        const patrocinador = await res.json();
+        const p = await res.json();
 
-        if (!patrocinador || !patrocinador.id_patrocinador) {
-            errorGlobal.textContent = "No se encontró el patrocinador.";
+        if (!p || !p.id_patrocinador) {
+            errorGlobal.textContent = "Patrocinador no encontrado";
             return;
         }
 
-        nombre.value = patrocinador.nombre;
-        enlace.value = patrocinador.url_web;
-        descripcion.value = patrocinador.descripcion;
-
+        nombre.value = p.nombre;
+        enlace.value = p.url_web;
+        descripcion.value = p.descripcion || "";
         form.dataset.id = id;
     }
 
-    cargarPatrocinadorEditar();
+    cargarEditar();
 
 
-
-    // ============================
-    // SUBMIT (CREAR O EDITAR)
-    // ============================
+    /* ============================
+       SUBMIT
+    ============================ */
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
-
-        let valido = true;
 
         errorNombre.textContent = "";
         errorLogo.textContent = "";
@@ -147,33 +133,26 @@ document.addEventListener("DOMContentLoaded", () => {
         errorDescripcion.textContent = "";
         errorGlobal.textContent = "";
 
+        let valido = true;
         const esNuevo = !form.dataset.id;
 
-        if (nombre.value.trim() === "") {
-            errorNombre.textContent = "El nombre es obligatorio.";
+        if (!nombre.value.trim()) {
+            errorNombre.textContent = "El nombre es obligatorio";
             valido = false;
         }
 
         if (esNuevo && (!logo.files || logo.files.length === 0)) {
-            errorLogo.textContent = "Debes subir un logo.";
+            errorLogo.textContent = "Debes subir un logo";
             valido = false;
         }
 
-        if (enlace.value.trim() === "") {
-            errorEnlace.textContent = "El enlace es obligatorio.";
-            valido = false;
-        } else if (!enlace.value.startsWith("http://") && !enlace.value.startsWith("https://")) {
-            errorEnlace.textContent = "El enlace debe comenzar por http:// o https://";
-            valido = false;
-        }
-
-        if (descripcion.value.length > 500) {
-            errorDescripcion.textContent = "La descripción no puede superar los 500 caracteres.";
+        if (!enlace.value.startsWith("http://") && !enlace.value.startsWith("https://")) {
+            errorEnlace.textContent = "El enlace debe empezar por http:// o https://";
             valido = false;
         }
 
         if (!valido) {
-            errorGlobal.textContent = "Hay errores en el formulario.";
+            errorGlobal.textContent = "Revisa los errores del formulario";
             return;
         }
 
@@ -186,50 +165,65 @@ document.addEventListener("DOMContentLoaded", () => {
             datos.append("logo", logo.files[0]);
         }
 
-        const id = form.dataset.id;
+        /* ============================
+           EDITAR
+        ============================ */
+        if (form.dataset.id) {
+            datos.append("id", form.dataset.id);
 
-        if (id) {
-            datos.append("id", id);
-
-            const respuesta = await fetch("../php/patrocinador-editar.php", {
+            const res = await fetch("../php/patrocinador-editar.php", {
                 method: "POST",
                 body: datos
             });
 
-            const resultado = await respuesta.json();
+            const r = await res.json();
 
-            if (resultado.ok) {
-                await Swal.fire({
-                    icon: "success",
-                    title: "Patrocinador actualizado",
-                    text: "Los datos se han guardado correctamente"
-                });
-
+            if (r.ok) {
+                await Swal.fire("OK", "Patrocinador actualizado", "success");
                 window.location.href = "patrocinadores.php";
             } else {
-                errorGlobal.textContent = resultado.msg;
+                errorGlobal.textContent = r.msg;
             }
-
             return;
         }
 
-        const respuesta = await fetch("../php/patrocinador-nuevo.php", {
+        /* ============================
+           CREAR (CON CONFIRMACIÓN)
+        ============================ */
+        let res = await fetch("../php/patrocinador-nuevo.php", {
             method: "POST",
             body: datos
         });
 
-        const resultado = await respuesta.json();
+        let r = await res.json();
 
-        if (resultado.ok) {
-            await Swal.fire({
-                icon: "success",
-                title: "Patrocinador creado",
-                text: "El patrocinador se ha registrado correctamente"
+        if (r.confirmar) {
+            const conf = await Swal.fire({
+                title: "Patrocinador duplicado",
+                text: r.msg,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Sí, crear",
+                cancelButtonText: "Cancelar"
             });
 
+            if (!conf.isConfirmed) return;
+
+            res = await fetch("../php/patrocinador-nuevo.php?forzar=1", {
+                method: "POST",
+                body: datos
+            });
+
+            await Swal.fire("Creado", "Patrocinador creado correctamente", "success");
+            window.location.href = "patrocinadores.php";
+            return;
+        }
+
+        if (r.ok) {
+            await Swal.fire("Creado", "Patrocinador creado correctamente", "success");
             window.location.href = "patrocinadores.php";
         } else {
-            errorGlobal.textContent = resultado.msg;
+            errorGlobal.textContent = r.msg;
         }
     });
 
