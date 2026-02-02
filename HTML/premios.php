@@ -45,7 +45,6 @@ requireRole("organizador");
   <section style="margin-top: 2rem;">
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
       <h3 style="color: #d32f2f; font-size: 1.4rem;">Categorías y premios</h3>
-      <a href="categoria-nueva.html" class="btn login-btn" style="padding: 0.6rem 1.2rem;">Añadir categoría</a>
     </div>
   </section>
 

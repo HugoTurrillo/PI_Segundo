@@ -42,7 +42,7 @@ requireRole("organizador");
   <section style="margin-top: 2rem;">
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
       <h3 style="color: #d32f2f; font-size: 1.4rem;">Eventos de la Gala</h3>
-      <a href="gala-nueva.html" class="btn login-btn" style="padding: 0.6rem 1.2rem;">Añadir evento</a>
+      <a href="gala-nueva.php" class="btn login-btn" style="padding: 0.6rem 1.2rem;">Añadir evento</a>
     </div>
   </section>
 
