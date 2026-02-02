@@ -41,7 +41,7 @@ requireRole("organizador");
   <form id="form-categoria" class="login-form">
 
     <label for="nombre">Nombre de la categoría</label>
-    <input type="text" id="nombre" name="nombre" required>
+    <input type="text" id="nombre" name="nombre" disabled>
     <span class="error-campo" id="error-nombre"></span>
 
     <label for="premios">Descripción de premios</label>
