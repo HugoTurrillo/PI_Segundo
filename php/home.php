@@ -41,8 +41,7 @@ $rol = $_SESSION["rol"] ?? null;
 
         <?php if ($logueado && $rol === "participante"): ?>
           <li><a href="../HTML/participante.php">Panel</a></li>
-          <li><a href="../HTML/participante_candidatura.php">Mi candidatura</a></li>
-          <li><a href="../HTML/mis_datos.php">Mis datos</a></li>
+          <li><a href="../HTML/sobre_nosotros.html">Sobre Nosotros</a></li>
         <?php elseif ($logueado && $rol === "organizador"): ?>
           <li><a href="../HTML/organizador.php">Panel</a></li>
           <li><a href="../HTML/candidaturas.php">Candidaturas</a></li>

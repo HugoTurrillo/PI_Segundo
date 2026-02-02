@@ -678,15 +678,25 @@ nav {
   text-align: center;
 }
 
+/* CUADRO GENERAL QUE ENVUELVE IMAGEN + TEXTO */
+.sobre-nosotros-bloque {
+  background-color: #fff;
+  color: #000;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+
+/* IMAGEN ARRIBA, DENTRO DEL CUADRO */
 .sobre-nosotros-imagen {
   width: 100%;
   max-height: 400px;
   object-fit: cover;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
+/* CUADRO DE TEXTO QUE CAMBIA AL HOVER */
 .sobre-nosotros-texto {
   background-color: #fff;
   color: #000;
@@ -702,18 +712,8 @@ nav {
   margin-bottom: 1.2rem;
 }
 
-.sobre-nosotros-texto a {
-  color: #0077cc;
-  text-decoration: underline;
-  transition: color 0.3s ease;
-}
-
 .sobre-nosotros-texto:hover {
   background-color: #000;
-  color: #fff;
-}
-
-.sobre-nosotros-texto:hover a {
   color: #fff;
 }
 /* ==========================

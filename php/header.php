@@ -21,6 +21,7 @@ if (session_status() === PHP_SESSION_NONE) {
         <!-- USUARIO NO LOGUEADO -->
         <li><a href="../php/home.php">Inicio</a></li>
         <li><a href="../HTML/calendario.html">Calendario</a></li>
+        <li><a href="../HTML/sobre_nosotros.html">Sobre Nosotros</a></li>
 
       <?php elseif ($_SESSION["rol"] === "participante"): ?>
 
