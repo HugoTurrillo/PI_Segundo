@@ -4,6 +4,7 @@ requireRole("organizador");
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,83 +13,96 @@ requireRole("organizador");
   <script defer src="../JS/noticias.js"></script>
   <link rel="icon" href="../IMG/favicon.png" type="image/x-icon">
 </head>
+
 <body>
 
-<header class="navbar">
-  <div class="logo">
+  <header class="navbar">
+    <div class="logo">
       <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
-  </div>
+    </div>
 
-  <div class="search-bar">
+    <div class="search-bar">
       <input type="text" placeholder="Buscar...">
-  </div>
+    </div>
 
-  <nav>
-   <ul class="nav-links">
-      <li><a href="organizador.php">Panel</a></li>
-      <li><a href="noticias.php">Noticias</a></li>
-   </ul>
-  </nav>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="organizador.php">Panel</a></li>
+        <li><a href="noticias.php">Noticias</a></li>
+      </ul>
+    </nav>
 
-  <div class="nav-buttons">
+    <div class="nav-buttons">
       <a href="login.html" class="btn nav-btn">Salir</a>
-  </div>
-</header>
+    </div>
+  </header>
 
-<main class="login-container">
-  <h2>Editar noticia</h2>
+  <main class="login-container">
+    <h2>Editar noticia</h2>
 
-  <form id="form-noticia" class="login-form">
+    <!-- IMPORTANTE: enctype añadido -->
+    <form id="form-noticia" class="login-form" enctype="multipart/form-data">
 
-    <label for="titulo">Título</label>
-    <input type="text" id="titulo" name="titulo" required>
-    <span class="error-campo" id="error-titulo"></span>
+      <label for="titulo">Título</label>
+      <input type="text" id="titulo" name="titulo" required>
+      <span class="error-campo" id="error-titulo"></span>
 
-    <label for="contenido">Contenido</label>
-    <textarea id="contenido" name="contenido" rows="5" required style="width:100%; padding:0.6rem; border:1px solid #ccc; border-radius:4px;"></textarea>
-    <span class="error-campo" id="error-contenido"></span>
+      <label for="contenido">Contenido</label>
+      <textarea id="contenido" name="contenido" rows="5" required
+        style="width:100%; padding:0.6rem; border:1px solid #ccc; border-radius:4px;"></textarea>
+      <span class="error-campo" id="error-contenido"></span>
 
-    <div class="error-global" id="error-global"></div>
+      <!-- Vista previa de la imagen actual -->
+      <label>Imagen actual</label>
+      <img id="imagen-actual" src="" alt="Imagen actual"
+        style="width:100%; max-height:200px; object-fit:cover; border-radius:6px; margin-bottom:10px; display:none;">
 
-    <button type="submit" class="btn login-btn">Guardar cambios</button>
-  </form>
-</main>
+      <!-- Subir nueva imagen -->
+      <label for="imagen">Cambiar imagen</label>
+      <input type="file" id="imagen" name="imagen" accept="image/*">
 
-<footer class="footer">
-  <div class="footer-main">
-    <div class="footer-left">
-      <div class="footer-social-row">
-        <img src="../IMG/instagram.png" alt="Instagram">
-        <span>@cortosuem</span>
+      <div class="error-global" id="error-global"></div>
+
+      <button type="submit" class="btn login-btn">Guardar cambios</button>
+    </form>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-main">
+      <div class="footer-left">
+        <div class="footer-social-row">
+          <img src="../IMG/instagram.png" alt="Instagram">
+          <span>@cortosuem</span>
+        </div>
+        <div class="footer-social-row">
+          <img src="../IMG/facebook.png" alt="Facebook">
+          <span>@cortosuem</span>
+        </div>
+        <div class="footer-social-row">
+          <img src="../IMG/twitter.png" alt="Twitter">
+          <span>@cortosuem</span>
+        </div>
       </div>
-      <div class="footer-social-row">
-        <img src="../IMG/facebook.png" alt="Facebook">
-        <span>@cortosuem</span>
+
+      <div class="footer-center">
+        <p>Contacta con nosotros</p>
       </div>
-      <div class="footer-social-row">
-        <img src="../IMG/twitter.png" alt="Twitter">
-        <span>@cortosuem</span>
+
+      <div class="footer-right">
+        <div class="footer-logo-circle">
+          <img src="../IMG/logosimple.jpg" alt="Logo">
+        </div>
       </div>
     </div>
 
-    <div class="footer-center">
-      <p>Contacta con nosotros</p>
+    <div class="footer-bottom">
+      Universidad Europea © 2025. Todos los Derechos Reservados
     </div>
+  </footer>
 
-    <div class="footer-right">
-      <div class="footer-logo-circle">
-        <img src="../IMG/logosimple.jpg" alt="Logo">
-      </div>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    Universidad Europea © 2025. Todos los Derechos Reservados
-  </div>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="../js/noticias.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="../js/noticias.js"></script>
 
 </body>
+
 </html>

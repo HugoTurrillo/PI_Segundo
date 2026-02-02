@@ -39,7 +39,7 @@ requireRole("organizador");
     <h2>Gestión de noticias</h2>
 
     <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
-        <a href="noticia-nueva.html"
+        <a href="noticia-nueva.php"
            class="btn login-btn"
            style="padding: 0.4rem 1rem; font-size: 0.9rem;">
             Añadir noticias

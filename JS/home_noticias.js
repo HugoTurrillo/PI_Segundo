@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             div.classList.add("noticia");
 
             div.innerHTML = `
+                <img class="noticia-img" src="uploads_noticias/${noticia.imagen_ruta}" alt="${noticia.titulo}">
                 <h3>${noticia.titulo}</h3>
                 <p class="fecha">${formatearFecha(noticia.fecha_publicacion)}</p>
                 <p class="contenido">${noticia.contenido}</p>

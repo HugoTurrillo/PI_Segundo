@@ -1,16 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
     const contenedor = document.getElementById("patrocinadores-home");
 
-    fetch("../php/patrocinadores-listar.php")
+    fetch("patrocinadores-listar.php")
         .then(r => r.json())
         .then(lista => {
             contenedor.innerHTML = "";
 
             lista.forEach(p => {
                 contenedor.innerHTML += `
-                    <a href="${p.url_web}" target="_blank" class="patro-item">
-                        <img src="php/uploads/${p.logo_ruta}" alt="${p.nombre}">
-                    </a>
+                    <div class="patro-item">
+                        <a href="${p.url_web}" target="_blank">
+                            <img src="uploads/${p.logo_ruta}" alt="${p.nombre}">
+                        </a>
+                        <h3>${p.nombre}</h3>
+                        <p>${p.descripcion}</p>
+                    </div>
                 `;
             });
         })

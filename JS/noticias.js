@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     // ============================
-    // LISTAR NOTICIAS
+    // LISTAR NOTICIAS (PANEL ORGANIZADOR)
     // ============================
     async function cargarNoticias() {
         const contenedor = document.getElementById("lista-noticias");
@@ -14,7 +14,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         noticias.forEach(n => {
             contenedor.innerHTML += `
-                <div class="panel-card">
+                <div class="panel-card noticia-card">
+
+                    <img class="noticia-img-admin" 
+                         src="../php/uploads_noticias/${n.imagen_ruta}" 
+                         alt="${n.titulo}">
+
                     <h3>${n.titulo}</h3>
                     <p>${n.contenido}</p>
 
@@ -57,10 +62,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (!conf.isConfirmed) return;
 
+                const fd = new FormData();
+                fd.append("id_noticia", id);
+
                 const res = await fetch("../php/noticia-eliminar.php", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ id_noticia: id })
+                    body: fd
                 });
 
                 const r = await res.json();
@@ -77,23 +84,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ============================
-    // FORMULARIO
+    // FORMULARIO (CREAR / EDITAR)
     // ============================
     const form = document.getElementById("form-noticia");
     if (!form) return;
 
     const titulo = document.getElementById("titulo");
     const contenido = document.getElementById("contenido");
+    const imagen = document.getElementById("imagen");
     const errorGlobal = document.getElementById("error-global");
 
     async function cargarEditar() {
         const id = new URLSearchParams(window.location.search).get("id_noticia");
         if (!id) return;
 
+        const fd = new FormData();
+        fd.append("id_noticia", id);
+
         const res = await fetch("../php/noticia-obtener.php", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id_noticia: id })
+            body: fd
         });
 
         const r = await res.json();
@@ -105,6 +115,18 @@ document.addEventListener("DOMContentLoaded", () => {
         titulo.value = r.noticia.titulo;
         contenido.value = r.noticia.contenido;
         form.dataset.id = id;
+
+        // -----------------------------
+        // MOSTRAR IMAGEN ACTUAL
+        // -----------------------------
+        const imgActual = document.getElementById("imagen-actual");
+
+        if (r.noticia.imagen_ruta) {
+            imgActual.src = "../php/uploads_noticias/" + r.noticia.imagen_ruta;
+            imgActual.style.display = "block";
+        } else {
+            imgActual.style.display = "none";
+        }
     }
 
     cargarEditar();
@@ -115,14 +137,21 @@ document.addEventListener("DOMContentLoaded", () => {
         const id = form.dataset.id;
         const url = id ? "noticia-editar.php" : "noticia-nueva.php";
 
+        const formData = new FormData();
+        formData.append("titulo", titulo.value);
+        formData.append("contenido", contenido.value);
+
+        if (imagen && imagen.files.length > 0) {
+            formData.append("imagen", imagen.files[0]);
+        }
+
+        if (id) {
+            formData.append("id_noticia", id);
+        }
+
         const res = await fetch(`../php/${url}`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                id_noticia: id,
-                titulo: titulo.value,
-                contenido: contenido.value
-            })
+            body: formData
         });
 
         const r = await res.json();

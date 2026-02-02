@@ -7,17 +7,14 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit;
 }
 
-$data = json_decode(file_get_contents("php://input"), true);
-$id = intval($data["id_noticia"] ?? 0);
+$id = intval($_POST["id_noticia"] ?? 0);
 
 if ($id <= 0) {
     echo json_encode(["ok" => false, "msg" => "ID no válido"]);
     exit;
 }
 
-$stmt = $conexion->prepare(
-    "SELECT * FROM noticia WHERE id_noticia=?"
-);
+$stmt = $conexion->prepare("SELECT * FROM noticia WHERE id_noticia = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $res = $stmt->get_result();
