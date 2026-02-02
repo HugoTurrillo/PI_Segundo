@@ -79,6 +79,17 @@ if ($check->num_rows == 0) {
     ");
 
     $conexion->query("
+        CREATE TABLE IF NOT EXISTS ganadores (
+            id_ganador INT AUTO_INCREMENT PRIMARY KEY,
+            id_categoria INT NOT NULL,
+            numero_premio INT NOT NULL,
+            id_candidatura INT NOT NULL,
+            FOREIGN KEY (id_categoria) REFERENCES categorias(id),
+            FOREIGN KEY (id_candidatura) REFERENCES candidatura(id_candidatura)
+        ) ENGINE=InnoDB;
+    ");
+
+    $conexion->query("
     CREATE TABLE IF NOT EXISTS evento (
         id INT AUTO_INCREMENT PRIMARY KEY,
         titulo VARCHAR(255) NOT NULL,

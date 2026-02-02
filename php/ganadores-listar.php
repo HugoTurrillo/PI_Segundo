@@ -1,50 +1,35 @@
 <?php
-session_start();
 require __DIR__ . "/config/conexion.php";
+header("Content-Type: application/json; charset=utf-8");
 
+$sql = "
+    SELECT 
+        g.id_ganador,
+        g.id_categoria,
+        g.numero_premio,
+        c.nombre AS categoria,
+        cand.titulo_obra,
+        cand.nombre_contacto
+    FROM ganadores g
+    INNER JOIN categorias c ON c.id = g.id_categoria
+    INNER JOIN candidatura cand ON cand.id_candidatura = g.id_candidatura
+    ORDER BY g.id_categoria, g.numero_premio
+";
 
-header("Content-Type: application/json");
+$stmt = $conexion->prepare($sql);
 
-// Solo permitir GET
-if ($_SERVER["REQUEST_METHOD"] !== "GET") {
+if (!$stmt) {
     echo json_encode([
         "ok" => false,
-        "mensaje" => "Método no permitido."
+        "error" => "Error en prepare(): " . $conexion->error
     ]);
     exit;
 }
 
-try {
+$stmt->execute();
+$res = $stmt->get_result();
 
-    $sql = "
-        SELECT 
-            g.id_ganador,
-            g.id_categoria,
-            g.numero_premio,
-            c.nombre AS categoria,
-            cand.titulo_obra,
-            cand.nombre_contacto
-        FROM ganadores g
-        INNER JOIN categorias c ON c.id = g.id_categoria
-        INNER JOIN candidatura cand ON cand.id_candidatura = g.id_candidatura
-        ORDER BY g.id_categoria, g.numero_premio
-    ";
-
-    $stmt = $pdo->query($sql);
-    $ganadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    echo json_encode([
-        "ok" => true,
-        "data" => $ganadores
-    ]);
-    exit;
-
-} catch (Exception $e) {
-
-    echo json_encode([
-        "ok" => false,
-        "mensaje" => "Error al obtener ganadores.",
-        "error" => $e->getMessage()
-    ]);
-    exit;
-}
+echo json_encode([
+    "ok" => true,
+    "data" => $res->fetch_all(MYSQLI_ASSOC)
+]);
