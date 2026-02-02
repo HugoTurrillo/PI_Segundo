@@ -151,8 +151,8 @@ if ($check->num_rows == 0) {
         INSERT INTO categorias (nombre, premios, premio_fisico)
         VALUES 
         ('Alumnos', 3, 1),
-        ('Alumni', 2, 0),
-        ('Profesionales', 1, 0);
+        ('Alumni', 3, 0),
+        ('Profesionales', 3, 0);
     ");
 
     $conexion->query("
