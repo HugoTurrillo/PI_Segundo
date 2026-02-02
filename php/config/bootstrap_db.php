@@ -79,12 +79,13 @@ if ($check->num_rows == 0) {
     ");
 
     $conexion->query("
-        CREATE TABLE IF NOT EXISTS evento (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            titulo VARCHAR(255) NOT NULL,
-            fecha DATE NOT NULL,
-            descripcion TEXT NOT NULL
-        ) ENGINE=InnoDB;
+    CREATE TABLE IF NOT EXISTS evento (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        titulo VARCHAR(255) NOT NULL,
+        fecha DATE NOT NULL,
+        hora TIME NOT NULL,
+        descripcion TEXT NOT NULL
+    ) ENGINE=InnoDB;
     ");
 
     $conexion->query("

@@ -20,8 +20,8 @@
 
   <nav>
    <ul class="nav-links">
-      <li><a href="organizador.html">Panel</a></li>
-      <li><a href="eventos.html">Eventos</a></li>
+      <li><a href="organizador.php">Panel</a></li>
+      <li><a href="eventos.php">Eventos</a></li>
    </ul>
   </nav>
 
@@ -42,6 +42,10 @@
     <label for="fecha">Fecha</label>
     <input type="date" id="fecha" name="fecha" required>
     <span class="error-campo" id="error-fecha"></span>
+
+    <label for="hora">Hora</label>
+    <input type="time" id="hora" name="hora" required>
+    <span class="error-campo" id="error-hora"></span>
 
     <label for="descripcion">Descripción</label>
     <textarea id="descripcion" name="descripcion" rows="5" required style="width:100%; padding:0.6rem; border:1px solid #ccc; border-radius:4px;"></textarea>
@@ -87,7 +91,6 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 
 </body>
 </html>

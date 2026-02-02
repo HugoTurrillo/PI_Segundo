@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const respuesta = await fetch("../php/eventos-listar.php");
         const data = await respuesta.json();
-        const eventos = data.eventos || []; // ← CORRECCIÓN IMPORTANTE
+        const eventos = data.eventos || [];
 
         contenedor.innerHTML = "";
 
@@ -17,7 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
             contenedor.innerHTML += `
                 <div class="panel-card">
                     <h3>${ev.titulo}</h3>
-                    <p>Fecha: ${ev.fecha}</p>
+                    <p><strong>Fecha:</strong> ${ev.fecha}</p>
+                    <p><strong>Hora:</strong> ${ev.hora}</p>
                     <p>${ev.descripcion}</p>
 
                     <div style="margin-top: 1rem; display: flex; gap: 1rem;">
@@ -41,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ============================
-    // ELIMINAR EVENTO (CORREGIDO)
+    // ELIMINAR EVENTO
     // ============================
     function activarBotonesEliminar() {
         document.querySelectorAll(".btn-eliminar-evento").forEach(btn => {
@@ -58,7 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (!confirmacion.isConfirmed) return;
 
-                // ← CORRECCIÓN: usar POST con JSON
                 const res = await fetch("../php/evento-eliminar.php", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -84,14 +84,16 @@ document.addEventListener("DOMContentLoaded", () => {
     // FORMULARIO (CREAR / EDITAR)
     // ============================
     const form = document.getElementById("form-evento");
-    if (!form) return; // Solo se ejecuta en nuevo o editar
+    if (!form) return;
 
     const titulo = document.getElementById("titulo");
     const fecha = document.getElementById("fecha");
+    const hora = document.getElementById("hora"); // ← AÑADIDO
     const descripcion = document.getElementById("descripcion");
 
     const errorTitulo = document.getElementById("error-titulo");
     const errorFecha = document.getElementById("error-fecha");
+    const errorHora = document.getElementById("error-hora"); // ← AÑADIDO
     const errorDescripcion = document.getElementById("error-descripcion");
     const errorGlobal = document.getElementById("error-global");
 
@@ -107,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const params = new URLSearchParams(window.location.search);
         const id = params.get("id");
 
-        if (!id) return; // No estamos en editar
+        if (!id) return;
 
         const res = await fetch(`../php/evento-obtener.php?id=${id}`);
         const evento = await res.json();
@@ -119,6 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         titulo.value = evento.titulo;
         fecha.value = evento.fecha;
+        hora.value = evento.hora; // ← AÑADIDO
         descripcion.value = evento.descripcion;
 
         form.dataset.id = id;
@@ -138,6 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         errorTitulo.textContent = "";
         errorFecha.textContent = "";
+        errorHora.textContent = ""; // ← AÑADIDO
         errorDescripcion.textContent = "";
         errorGlobal.textContent = "";
 
@@ -154,6 +158,11 @@ document.addEventListener("DOMContentLoaded", () => {
             valido = false;
         } else if (fecha.value > maxFecha) {
             errorFecha.textContent = "La fecha no puede ser posterior al 21/12/2026.";
+            valido = false;
+        }
+
+        if (hora.value === "") { // ← AÑADIDO
+            errorHora.textContent = "La hora es obligatoria.";
             valido = false;
         }
 
@@ -177,6 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 id: id,
                 titulo: titulo.value,
                 fecha: fecha.value,
+                hora: hora.value, // ← AÑADIDO
                 descripcion: descripcion.value
             };
 
@@ -209,6 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const datos = {
             titulo: titulo.value,
             fecha: fecha.value,
+            hora: hora.value, // ← AÑADIDO
             descripcion: descripcion.value
         };
 
