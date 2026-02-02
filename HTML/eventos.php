@@ -38,7 +38,7 @@ requireRole("organizador");
 <main class="login-container">
   <h2>Gestión de eventos</h2>
 
-  <a href="evento-nuevo.html" class="btn login-btn" style="margin-bottom: 1.5rem;">Añadir evento</a>
+  <a href="evento-nuevo.php" class="btn login-btn" style="margin-bottom: 1.5rem;">Añadir evento</a>
 
   <div class="panel-grid" id="lista-eventos">
     <!-- Aquí se insertarán los eventos dinámicamente -->

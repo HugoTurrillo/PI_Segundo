@@ -102,7 +102,8 @@ if ($resultado->num_rows <=0){
         id_noticia INT AUTO_INCREMENT PRIMARY KEY,
         titulo VARCHAR(255) NOT NULL,
         contenido TEXT NOT NULL,
-        fecha_publicacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+        fecha_publicacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        imagen_ruta VARCHAR(255) NULL
     ) ENGINE=InnoDB;
 
     -- Crear tabla patrocinador
@@ -110,7 +111,8 @@ if ($resultado->num_rows <=0){
         id_patrocinador INT AUTO_INCREMENT PRIMARY KEY,
         nombre VARCHAR(150) NOT NULL,
         logo_ruta VARCHAR(255),
-        url_web VARCHAR(255)
+        url_web VARCHAR(255),
+        descripcion VARCHAR(255)
     ) ENGINE=InnoDB;
 
 
