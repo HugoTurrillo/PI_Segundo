@@ -1,90 +1,75 @@
 <?php
 require "config/conexion.php";
-
 header("Content-Type: application/json");
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
 
 // ============================
-// RECIBIR DATOS
+// DATOS
 // ============================
-$nombre      = trim($_REQUEST["nombre"] ?? "");
-$url_web     = trim($_REQUEST["enlace"] ?? "");
-$descripcion = trim($_REQUEST["descripcion"] ?? "");
+$nombre      = trim($_POST["nombre"] ?? "");
+$url_web     = trim($_POST["enlace"] ?? "");
+$descripcion = trim($_POST["descripcion"] ?? "");
+$forzar      = isset($_GET["forzar"]);
 
-// ============================
-// VALIDACIONES
-// ============================
 if ($nombre === "" || $url_web === "") {
-    echo json_encode(["ok" => false, "msg" => "Nombre y enlace son obligatorios"]);
-    exit();
+    echo json_encode(["ok" => false, "msg" => "Nombre y enlace obligatorios"]);
+    exit;
 }
 
+// ============================
+// COMPROBAR DUPLICADO
+// ============================
+if (!$forzar) {
+    $stmt = $conexion->prepare("SELECT id_patrocinador FROM patrocinador WHERE nombre = ?");
+    $stmt->bind_param("s", $nombre);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        echo json_encode([
+            "ok" => false,
+            "confirmar" => true,
+            "msg" => "Ya existe un patrocinador con ese nombre. ¿Deseas crearlo igualmente?"
+        ]);
+        exit;
+    }
+    $stmt->close();
+}
+
+// ============================
+// LOGO
+// ============================
 if (!isset($_FILES["logo"]) || $_FILES["logo"]["error"] !== UPLOAD_ERR_OK) {
-    echo json_encode(["ok" => false, "msg" => "Debes subir un logo válido"]);
-    exit();
+    echo json_encode(["ok" => false, "msg" => "Debes subir un logo"]);
+    exit;
 }
 
-// ============================
-// PROCESAR ARCHIVO
-// ============================
 $logo = $_FILES["logo"];
+$nombreArchivo = time() . "_" . preg_replace("/[^a-zA-Z0-9._-]/", "", $logo["name"]);
 
-$nombreLimpio  = preg_replace("/[^a-zA-Z0-9_\.-]/", "", basename($logo["name"]));
-$nombreArchivo = time() . "_" . $nombreLimpio;
-$rutaDestino   = "uploads/" . $nombreArchivo;
+$ruta = "uploads/" . $nombreArchivo;
+if (!is_dir("uploads")) mkdir("uploads", 0777, true);
 
-if (!is_dir("uploads")) {
-    mkdir("uploads", 0777, true);
-}
-
-if (!move_uploaded_file($logo["tmp_name"], $rutaDestino)) {
-    echo json_encode(["ok" => false, "msg" => "Error al guardar el archivo en el servidor"]);
-    exit();
+if (!move_uploaded_file($logo["tmp_name"], $ruta)) {
+    echo json_encode(["ok" => false, "msg" => "Error al subir el logo"]);
+    exit;
 }
 
 // ============================
-// INSERTAR EN BD
+// INSERTAR
 // ============================
-// La tabla debe ser:
-// CREATE TABLE patrocinador (
-//   id_patrocinador INT AUTO_INCREMENT PRIMARY KEY,
-//   nombre VARCHAR(100) NOT NULL,
-//   logo_ruta VARCHAR(255) NOT NULL,
-//   url_web VARCHAR(255) NOT NULL,
-//   descripcion TEXT
-// );
-
-$sql = "
+$stmt = $conexion->prepare("
     INSERT INTO patrocinador (nombre, logo_ruta, url_web, descripcion)
     VALUES (?, ?, ?, ?)
-";
-
-$stmt = $conexion->prepare($sql);
-
-if (!$stmt) {
-    echo json_encode([
-        "ok"  => false,
-        "msg" => "Error en prepare(): " . $conexion->error
-    ]);
-    exit();
-}
+");
 
 $stmt->bind_param("ssss", $nombre, $nombreArchivo, $url_web, $descripcion);
 
 if (!$stmt->execute()) {
-    echo json_encode([
-        "ok"  => false,
-        "msg" => "Error al insertar: " . $stmt->error
-    ]);
-    $stmt->close();
-    exit();
+    echo json_encode(["ok" => false, "msg" => "Error al guardar"]);
+    exit;
 }
 
 $stmt->close();
 
-// ============================
-// RESPUESTA FINAL
-// ============================
-echo json_encode(["ok" => true, "msg" => "Patrocinador creado correctamente"]);
-exit();
+echo json_encode(["ok" => true, "msg" => "Patrocinador creado"]);
+exit;
