@@ -663,3 +663,56 @@ nav {
     object-fit: cover;
     border-radius: 6px;
 }
+
+/* ===== SOBRE NOSOTROS ===== */
+
+.sobre-nosotros-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.sobre-nosotros-container h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.sobre-nosotros-imagen {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.sobre-nosotros-texto {
+  background-color: #fff;
+  color: #000;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  line-height: 1.6;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sobre-nosotros-texto p {
+  margin-bottom: 1.2rem;
+}
+
+.sobre-nosotros-texto a {
+  color: #0077cc;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.sobre-nosotros-texto:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+.sobre-nosotros-texto:hover a {
+  color: #fff;
+}
