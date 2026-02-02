@@ -110,7 +110,8 @@ if ($resultado->num_rows <=0){
         id_patrocinador INT AUTO_INCREMENT PRIMARY KEY,
         nombre VARCHAR(150) NOT NULL,
         logo_ruta VARCHAR(255),
-        url_web VARCHAR(255)
+        url_web VARCHAR(255),
+        descripcion VARCHAR(255)
     ) ENGINE=InnoDB;
 
 
