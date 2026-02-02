@@ -1,27 +1,19 @@
 <?php
-// php/categoria-obtener.php
-require "config/conexion.php";
-
+require __DIR__ . "/config/conexion.php";
 header("Content-Type: application/json");
 
-if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    echo json_encode(["ok" => false, "msg" => "Método no permitido"]);
-    exit;
-}
-
-$data = json_decode(file_get_contents("php://input"), true);
-$id = intval($data["id"] ?? 0);
+$id = intval($_GET["id"] ?? 0);
 
 if ($id <= 0) {
     echo json_encode(["ok" => false, "msg" => "ID no válido"]);
     exit;
 }
 
-$stmt = $conexion->prepare(
-    "SELECT id, nombre, premios, premio_fisico
-     FROM categorias
-     WHERE id=?"
-);
+$stmt = $conexion->prepare("
+    SELECT id, nombre, premios, premio_fisico
+    FROM categorias
+    WHERE id = ?
+");
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $res = $stmt->get_result();

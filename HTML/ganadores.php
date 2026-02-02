@@ -42,7 +42,7 @@ requireRole("organizador");
   <section style="margin-top: 2rem;">
     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
       <h3 style="color:#d32f2f; font-size:1.4rem;">Ganadores por categoría</h3>
-      <a href="ganador_asignar.html" class="btn login-btn" style="padding:0.6rem 1.2rem;">
+      <a href="ganador_asignar.php" class="btn login-btn" style="padding:0.6rem 1.2rem;">
         Gestionar ganadores
       </a>
     </div>
