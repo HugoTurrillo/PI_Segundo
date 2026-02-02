@@ -27,9 +27,8 @@ requireRole("organizador");
 
   <nav>
     <ul class="nav-links">
-      <li><a href="../php/home.php">Inicio</a></li>
-      <li><a href="calendario.html">Calendario</a></li>
       <li><a href="organizador.php">Panel</a></li>
+      <li><a href="calendario.html">Calendario</a></li>
     </ul>
   </nav>
 
