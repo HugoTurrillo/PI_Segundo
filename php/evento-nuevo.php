@@ -22,7 +22,7 @@ if ($titulo === "" || $fecha === "" || $hora === "" || $descripcion === "") {
     exit;
 }
 
-/*  COMPROBAR EVENTO DUPLICADO */
+/* COMPROBAR DUPLICADO */
 $stmt = $conexion->prepare(
     "SELECT id FROM evento WHERE fecha = ? AND hora = ?"
 );
@@ -30,7 +30,11 @@ $stmt->bind_param("ss", $fecha, $hora);
 $stmt->execute();
 $stmt->store_result();
 
-if ($stmt->num_rows > 0) {
+$hayDuplicado = $stmt->num_rows > 0;
+$stmt->close();
+
+/* SI HAY DUPLICADO Y NO VIENE forzar=1 → PEDIR CONFIRMACIÓN */
+if ($hayDuplicado && !isset($_GET["forzar"])) {
     echo json_encode([
         "ok" => false,
         "confirmar" => true,
@@ -38,15 +42,22 @@ if ($stmt->num_rows > 0) {
     ]);
     exit;
 }
-$stmt->close();
 
-/* INSERTAR */
+/* INSERTAR (normal o forzado) */
 $stmt = $conexion->prepare(
     "INSERT INTO evento (titulo, fecha, hora, descripcion)
      VALUES (?, ?, ?, ?)"
 );
 $stmt->bind_param("ssss", $titulo, $fecha, $hora, $descripcion);
-$stmt->execute();
+
+if (!$stmt->execute()) {
+    echo json_encode([
+        "ok" => false,
+        "mensaje" => "Error al crear el evento"
+    ]);
+    exit;
+}
+
 $stmt->close();
 
 echo json_encode(["ok" => true]);
