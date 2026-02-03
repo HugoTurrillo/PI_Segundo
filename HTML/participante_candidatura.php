@@ -35,7 +35,7 @@ requireRole("participante");
 
     <div id="sinCandidatura" style="display:none;">
       <p>No has enviado ninguna candidatura todavía.</p>
-      <a href="form_inscripcion.html" class="btn nav-btn">Enviar candidatura</a>
+      <a href="form_inscripcion.php" class="btn nav-btn">Enviar candidatura</a>
     </div>
 
     <div id="conCandidatura" style="display:none;">

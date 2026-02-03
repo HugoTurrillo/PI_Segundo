@@ -210,15 +210,16 @@ nav {
   padding: 0.8rem;
   background-color: #FF3228;
   color: white;
-  border: none;
-  /* border-radius: 4px; */
+  border: #FF3228;
   font-weight: bold;
   cursor: pointer;
   transition: 0.2s;
 }
 
-.login-btn:hover {
-  background-color: #b71c1c;
+.login-btn:hover{
+  background-color: white;
+  color: #FF3228;
+  border:1px, solid#FF3228;
 }
 
 .forgot-link {
@@ -359,9 +360,9 @@ nav {
   background-color: #FF3228;
   color: white;
   font-weight: bold;
-  /* border-radius: 6px; */
   text-decoration: none;
   font-size: 1rem;
+  
 }
 
 .home-btn:hover{
@@ -856,6 +857,10 @@ nav {
   margin-bottom: 0.6rem;
   font-size: 1rem;
   color: #333;
+}
+.contacto-bloque:hover{
+  transform: translateY(-4px);
+  
 }
 
 .contacto-dato-principal {
