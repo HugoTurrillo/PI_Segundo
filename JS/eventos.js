@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     /* ======================================================
-       LISTAR EVENTOS (eventos.php)
+       LISTAR EVENTOS (eventos.html)
     ====================================================== */
     async function cargarEventos() {
         const contenedor = document.getElementById("lista-eventos");
@@ -214,7 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (r.ok) {
                 await Swal.fire("OK", "Evento editado correctamente", "success");
-                window.location.href = "eventos.php";
+                window.location.href = "eventos.html";
             } else {
                 errorGlobal.textContent = r.mensaje;
             }
@@ -251,13 +251,13 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             await Swal.fire("Creado", "Evento creado correctamente", "success");
-            window.location.href = "eventos.php";
+            window.location.href = "eventos.html";
             return;
         }
 
         if (r.ok) {
             await Swal.fire("Creado", "Evento creado correctamente", "success");
-            window.location.href = "eventos.php";
+            window.location.href = "eventos.html";
         } else {
             errorGlobal.textContent = r.mensaje;
         }

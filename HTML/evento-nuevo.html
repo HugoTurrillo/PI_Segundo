@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Editar evento</title>
+  <title>Añadir evento</title>
   <link rel="stylesheet" href="../CSS/estilos.css">
-  <link rel="icon" href="../IMG/favicon.png">
+  <script defer src="../JS/eventos.js"></script>
 </head>
-
-<body data-rol="organizador">
+<body>
 
 <header class="navbar">
   <div class="logo">
@@ -22,7 +21,7 @@
   <nav>
    <ul class="nav-links">
       <li><a href="organizador.html">Panel</a></li>
-      <li><a href="eventos.php">Eventos</a></li>
+      <li><a href="eventos.html">Eventos</a></li>
    </ul>
   </nav>
 
@@ -32,7 +31,7 @@
 </header>
 
 <main class="login-container">
-  <h2>Editar evento</h2>
+  <h2>Añadir evento</h2>
 
   <form id="form-evento" class="login-form">
 
@@ -44,13 +43,17 @@
     <input type="date" id="fecha" name="fecha" required>
     <span class="error-campo" id="error-fecha"></span>
 
+    <label for="hora">Hora</label>
+    <input type="time" id="hora" name="hora" required>
+    <span class="error-campo" id="error-hora"></span>
+
     <label for="descripcion">Descripción</label>
-    <textarea id="descripcion" name="descripcion" rows="5" required></textarea>
+    <textarea id="descripcion" name="descripcion" rows="5" required style="width:100%; padding:0.6rem; border:1px solid #ccc; border-radius:4px;"></textarea>
     <span class="error-campo" id="error-descripcion"></span>
 
     <div class="error-global" id="error-global"></div>
 
-    <button type="submit" class="btn login-btn">Guardar cambios</button>
+    <button type="submit" class="btn login-btn">Guardar evento</button>
   </form>
 </main>
 
@@ -89,7 +92,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="../JS/auth.js"></script>
-<script src="../JS/eventos.js"></script>
+
 
 </body>
 </html>

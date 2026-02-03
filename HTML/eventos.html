@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Añadir evento</title>
+  <title>Eventos - Panel Organizador</title>
   <link rel="stylesheet" href="../CSS/estilos.css">
-  <script defer src="../JS/eventos.js"></script>
+  <link rel="icon" href="../IMG/favicon.png">
 </head>
-<body>
+
+<body data-rol="organizador">
 
 <header class="navbar">
   <div class="logo">
@@ -21,7 +22,8 @@
   <nav>
    <ul class="nav-links">
       <li><a href="organizador.html">Panel</a></li>
-      <li><a href="eventos.php">Eventos</a></li>
+      <li><a href="calendario.html">Calendario</a></li>
+      <li><a href="#">Sobre nosotros</a></li>
    </ul>
   </nav>
 
@@ -31,30 +33,12 @@
 </header>
 
 <main class="login-container">
-  <h2>Añadir evento</h2>
+  <h2>Gestión de eventos</h2>
 
-  <form id="form-evento" class="login-form">
+  <a href="evento-nuevo.html" class="btn login-btn" style="margin-bottom: 1.5rem;">Añadir evento</a>
 
-    <label for="titulo">Título</label>
-    <input type="text" id="titulo" name="titulo" required>
-    <span class="error-campo" id="error-titulo"></span>
+  <div class="panel-grid" id="lista-eventos"></div>
 
-    <label for="fecha">Fecha</label>
-    <input type="date" id="fecha" name="fecha" required>
-    <span class="error-campo" id="error-fecha"></span>
-
-    <label for="hora">Hora</label>
-    <input type="time" id="hora" name="hora" required>
-    <span class="error-campo" id="error-hora"></span>
-
-    <label for="descripcion">Descripción</label>
-    <textarea id="descripcion" name="descripcion" rows="5" required style="width:100%; padding:0.6rem; border:1px solid #ccc; border-radius:4px;"></textarea>
-    <span class="error-campo" id="error-descripcion"></span>
-
-    <div class="error-global" id="error-global"></div>
-
-    <button type="submit" class="btn login-btn">Guardar evento</button>
-  </form>
 </main>
 
 <footer class="footer">
@@ -92,7 +76,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="../JS/auth.js"></script>
-
+<script src="../JS/eventos.js"></script>
 
 </body>
 </html>

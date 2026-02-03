@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Eventos - Panel Organizador</title>
+  <title>Editar evento</title>
   <link rel="stylesheet" href="../CSS/estilos.css">
   <link rel="icon" href="../IMG/favicon.png">
 </head>
@@ -22,8 +22,7 @@
   <nav>
    <ul class="nav-links">
       <li><a href="organizador.html">Panel</a></li>
-      <li><a href="calendario.html">Calendario</a></li>
-      <li><a href="#">Sobre nosotros</a></li>
+      <li><a href="eventos.html">Eventos</a></li>
    </ul>
   </nav>
 
@@ -33,12 +32,26 @@
 </header>
 
 <main class="login-container">
-  <h2>Gestión de eventos</h2>
+  <h2>Editar evento</h2>
 
-  <a href="evento-nuevo.php" class="btn login-btn" style="margin-bottom: 1.5rem;">Añadir evento</a>
+  <form id="form-evento" class="login-form">
 
-  <div class="panel-grid" id="lista-eventos"></div>
+    <label for="titulo">Título</label>
+    <input type="text" id="titulo" name="titulo" required>
+    <span class="error-campo" id="error-titulo"></span>
 
+    <label for="fecha">Fecha</label>
+    <input type="date" id="fecha" name="fecha" required>
+    <span class="error-campo" id="error-fecha"></span>
+
+    <label for="descripcion">Descripción</label>
+    <textarea id="descripcion" name="descripcion" rows="5" required></textarea>
+    <span class="error-campo" id="error-descripcion"></span>
+
+    <div class="error-global" id="error-global"></div>
+
+    <button type="submit" class="btn login-btn">Guardar cambios</button>
+  </form>
 </main>
 
 <footer class="footer">
