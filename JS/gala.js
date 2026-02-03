@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ============================
     async function cargarGala() {
         const contenedor = document.querySelector(".panel-grid");
-        if (!contenedor) return; // Solo en gala.html
+        if (!contenedor) return;
 
         try {
             const respuesta = await fetch("../php/gala-listar.php");
@@ -13,6 +13,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
             contenedor.innerHTML = "";
 
+            // ===== TARJETA PARA SELECCIONAR EVENTO EXISTENTE =====
+            contenedor.innerHTML += `
+                <div class="panel-card" style="border:2px dashed #ccc; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
+
+                    <h3>Seleccionar evento existente</h3>
+                    <p>Elige un evento ya creado para añadirlo a la gala.</p>
+
+                    <a href="eventos.html" 
+                       class="btn login-btn"
+                       style="margin-top:1rem;">
+                       Seleccionar evento
+                    </a>
+                </div>
+            `;
+
+            // ===== EVENTOS DE GALA =====
             eventos.forEach(ev => {
                 contenedor.innerHTML += `
                     <div class="panel-card">
@@ -55,12 +71,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     cargarGala();
 
+
     // ============================
     // ELIMINAR EVENTO DE GALA
     // ============================
     function activarBotonesEliminar() {
         document.querySelectorAll(".btn-eliminar-gala").forEach(btn => {
+
             btn.addEventListener("click", async () => {
+
                 const id = btn.dataset.id;
 
                 const confirmacion = await Swal.fire({
@@ -74,11 +93,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (!confirmacion.isConfirmed) return;
 
                 try {
+
                     const res = await fetch("../php/gala-eliminar.php", {
                         method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
+                        headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ id: id })
                     });
 
@@ -99,6 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     }
+
 
     // ============================
     // FORMULARIO (CREAR / EDITAR)
@@ -121,10 +140,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const errorImagen = document.getElementById("error-imagen");
     const errorGlobal = document.getElementById("error-global");
 
+
     // ============================
     // BLOQUEO FECHA Y HORA PASADAS
     // ============================
-
     const hoy = new Date();
     const yyyy = hoy.getFullYear();
     const mm = String(hoy.getMonth() + 1).padStart(2, "0");
@@ -137,6 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
     hora.addEventListener("change", validarFechaHora);
 
     function validarFechaHora() {
+
         if (!fecha.value || !hora.value) return;
 
         const ahora = new Date();
@@ -153,20 +173,21 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+
     // ============================
     // CARGAR EVENTO PARA EDITAR
     // ============================
     async function cargarGalaEditar() {
+
         const params = new URLSearchParams(window.location.search);
         const id = params.get("id");
         if (!id) return;
 
         try {
+
             const res = await fetch("../php/gala-obtener.php", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ id: id })
             });
 
@@ -193,10 +214,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     cargarGalaEditar();
 
+
     // ============================
     // SUBMIT (CREAR O EDITAR)
     // ============================
     form.addEventListener("submit", async (e) => {
+
         e.preventDefault();
 
         let valido = true;
@@ -262,6 +285,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const id = form.dataset.id;
 
         try {
+
             const respuesta = await fetch(
                 id ? "../php/gala-editar.php" : "../php/gala-nueva.php",
                 {
@@ -276,6 +300,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const resultado = await respuesta.json();
 
             if (resultado.ok) {
+
                 await Swal.fire({
                     icon: "success",
                     title: id ? "Evento actualizado" : "Gala creada",
@@ -285,6 +310,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
 
                 window.location.href = "gala.html";
+
             } else {
                 errorGlobal.textContent = resultado.msg;
             }
