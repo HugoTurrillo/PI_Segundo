@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gala – Post‑evento</title>
+  <link rel="stylesheet" href="../CSS/estilos.css">
+  <link rel="icon" href="../IMG/favicon.png" type="image/x-icon">
+</head>
+
+<body data-rol="organizador">
+
+  <header class="navbar">
+    <div class="logo">
+      <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
+    </div>
+
+    <div class="search-bar">
+      <input type="text" placeholder="Buscar...">
+    </div>
+
+    <nav>
+      <ul class="nav-links">
+        <li><a href="organizador.html">Panel</a></li>
+        <li><a href="calendario.html">Calendario</a></li>
+        <li><a href="#">Sobre nosotros</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-buttons">
+      <a href="login.html" class="btn nav-btn">Salir</a>
+    </div>
+  </header>
+
+  <main class="login-container">
+
+    <h2 style="margin-bottom: 1rem;">Gestión de la Gala</h2>
+
+    <!-- SWITCH PRE / POST -->
+    <div style="display:flex; justify-content:center; margin:1rem 0 2rem 0;">
+      <a href="gala.html"
+         style="padding:0.8rem 1.5rem; background:#000; color:#fff; text-decoration:none; font-weight:600; border:1px solid #000;">
+        Pre‑evento
+      </a>
+
+      <a href="gala-postevento.html"
+         style="padding:0.8rem 1.5rem; background:#FF3228; color:#fff; text-decoration:none; font-weight:600; border:1px solid #FF3228;">
+        Post‑evento
+      </a>
+    </div>
+
+    <!-- FORMULARIO POST‑EVENTO -->
+    <form id="form-postevento" class="form-wrapper" enctype="multipart/form-data">
+
+      <h3 style="margin-top:1rem;">Resumen del evento</h3>
+      <p style="color:#555; margin-bottom:1rem;">
+        Este texto aparecerá en la página pública de la gala como introducción al resumen del evento.
+      </p>
+      <textarea id="resumen" name="resumen" rows="4" maxlength="800"></textarea>
+
+      <h3 style="margin-top:2rem;">Ganadores del Festival</h3>
+
+      <label for="ganador_alumnos">Ganador categoría Alumnos</label>
+      <input type="text" id="ganador_alumnos" name="ganador_alumnos">
+
+      <label for="ganador_profesional">Ganador categoría Carrera Profesional</label>
+      <input type="text" id="ganador_profesional" name="ganador_profesional">
+
+      <label for="ganador_alumni">Ganador categoría Alumni</label>
+      <input type="text" id="ganador_alumni" name="ganador_alumni">
+
+      <h3 style="margin-top:2rem;">Imágenes del evento</h3>
+      <p style="color:#555; margin-bottom:1rem;">
+        Estas imágenes se mostrarán en la página pública como galería del evento.
+      </p>
+      <input type="file" id="imagenes" name="imagenes[]" accept="image/*" multiple>
+
+      <h3 style="margin-top:2rem;">Añadir esta edición a ediciones anteriores</h3>
+
+      <label for="fecha_nueva_edicion">Fecha de la nueva edición</label>
+      <input type="date" id="fecha_nueva_edicion" name="fecha_nueva_edicion">
+
+      <label for="anio_edicion">Año de la edición</label>
+      <input type="number" id="anio_edicion" name="anio_edicion" min="2000" max="2100">
+
+      <label for="participantes">Número de participantes</label>
+      <input type="number" id="participantes" name="participantes" min="0">
+
+      <label for="titulo_corto_alumnos">Título corto ganador Alumnos</label>
+      <input type="text" id="titulo_corto_alumnos" name="titulo_corto_alumnos">
+
+      <label for="titulo_corto_alumni">Título corto ganador Alumni</label>
+      <input type="text" id="titulo_corto_alumni" name="titulo_corto_alumni">
+
+      <label for="cortos_ganadores">Subir cortos ganadores</label>
+      <input type="file" id="cortos_ganadores" name="cortos_ganadores[]" accept="video/*" multiple>
+
+      <!-- BOTÓN ACTUALIZADO AL ESTILO UE -->
+      <button type="submit"
+              class="btn-submit"
+              style="
+                margin-top:2rem;
+                background-color:#FF3228;
+                color:white;
+                border:none;
+                padding:0.8rem;
+                font-weight:600;
+                cursor:pointer;
+              ">
+        Guardar Post‑evento
+      </button>
+
+      <p id="error-global" style="color:#D32F2F; font-weight:600;"></p>
+
+    </form>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-main">
+      <div class="footer-left">
+        <div class="footer-social-row">
+          <img src="../IMG/instagram.png" alt="Instagram">
+          <span>@cortosuem</span>
+        </div>
+        <div class="footer-social-row">
+          <img src="../IMG/facebook.png" alt="Facebook">
+          <span>@cortosuem</span>
+        </div>
+        <div class="footer-social-row">
+          <img src="../IMG/twitter.png" alt="Twitter">
+          <span>@cortosuem</span>
+        </div>
+      </div>
+
+      <div class="footer-center">
+        <a href="../HTML/contacto.html" class="footer-contact-link">Contacta con nosotros</a>
+      </div>
+
+      <div class="footer-right">
+        <div class="footer-logo-circle">
+          <img src="../IMG/logosimple.jpg" alt="Logo">
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      Universidad Europea © 2025. Todos los Derechos Reservados
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="../JS/postevento.js"></script>
+
+</body>
+
+</html>

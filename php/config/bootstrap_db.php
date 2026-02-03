@@ -72,8 +72,6 @@ if ($check->num_rows == 0) {
             motivo_rechazo TEXT,
             mensaje_subsanacion TEXT,
             fecha_creacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            video_ruta VARCHAR(255) NOT NULL,
-            portada_ruta VARCHAR(255) NOT NULL;
             FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
             FOREIGN KEY (id_edicion) REFERENCES edicion_festival(id_edicion),
             FOREIGN KEY (id_categoria) REFERENCES categorias(id)
@@ -92,13 +90,13 @@ if ($check->num_rows == 0) {
     ");
 
     $conexion->query("
-    CREATE TABLE IF NOT EXISTS evento (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        titulo VARCHAR(255) NOT NULL,
-        fecha DATE NOT NULL,
-        hora TIME NOT NULL,
-        descripcion TEXT NOT NULL
-    ) ENGINE=InnoDB;
+        CREATE TABLE IF NOT EXISTS evento (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            titulo VARCHAR(255) NOT NULL,
+            fecha DATE NOT NULL,
+            hora TIME NOT NULL,
+            descripcion TEXT NOT NULL
+        ) ENGINE=InnoDB;
     ");
 
     $conexion->query("
@@ -133,7 +131,47 @@ if ($check->num_rows == 0) {
         ) ENGINE=InnoDB;
     ");
 
-    // DATOS INICIALES
+    /* TABLAS NUEVAS PARA EL POST‑EVENTO */
+
+    $conexion->query("
+        CREATE TABLE IF NOT EXISTS post_evento (
+            id_post_evento INT AUTO_INCREMENT PRIMARY KEY,
+            id_edicion INT NOT NULL,
+            resumen TEXT,
+            ganador_alumnos VARCHAR(255),
+            corto_alumnos VARCHAR(255),
+            ganador_alumni VARCHAR(255),
+            corto_alumni VARCHAR(255),
+            ganador_profesional VARCHAR(255),
+            corto_profesional VARCHAR(255),
+            anio_edicion INT,
+            numero_participantes INT,
+            ganadores_json TEXT,
+            fecha_creacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (id_edicion) REFERENCES edicion_festival(id_edicion)
+        ) ENGINE=InnoDB;
+    ");
+
+    $conexion->query("
+        CREATE TABLE IF NOT EXISTS post_evento_imagen (
+            id_imagen INT AUTO_INCREMENT PRIMARY KEY,
+            id_post_evento INT NOT NULL,
+            ruta_imagen VARCHAR(255) NOT NULL,
+            FOREIGN KEY (id_post_evento) REFERENCES post_evento(id_post_evento)
+        ) ENGINE=InnoDB;
+    ");
+
+    $conexion->query("
+        CREATE TABLE IF NOT EXISTS post_evento_corto (
+            id_corto INT AUTO_INCREMENT PRIMARY KEY,
+            id_post_evento INT NOT NULL,
+            ruta_corto VARCHAR(255) NOT NULL,
+            FOREIGN KEY (id_post_evento) REFERENCES post_evento(id_post_evento)
+        ) ENGINE=InnoDB;
+    ");
+
+    /* DATOS INICIALES */
+
     $password_organizador = password_hash("organizador123", PASSWORD_DEFAULT);
     $password_participante = password_hash("participante123", PASSWORD_DEFAULT);
 

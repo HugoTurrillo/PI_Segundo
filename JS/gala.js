@@ -122,6 +122,38 @@ document.addEventListener("DOMContentLoaded", () => {
     const errorGlobal = document.getElementById("error-global");
 
     // ============================
+    // BLOQUEO FECHA Y HORA PASADAS
+    // ============================
+
+    const hoy = new Date();
+    const yyyy = hoy.getFullYear();
+    const mm = String(hoy.getMonth() + 1).padStart(2, "0");
+    const dd = String(hoy.getDate()).padStart(2, "0");
+
+    const fechaMinima = `${yyyy}-${mm}-${dd}`;
+    fecha.setAttribute("min", fechaMinima);
+
+    fecha.addEventListener("change", validarFechaHora);
+    hora.addEventListener("change", validarFechaHora);
+
+    function validarFechaHora() {
+        if (!fecha.value || !hora.value) return;
+
+        const ahora = new Date();
+        const fechaEvento = new Date(`${fecha.value}T${hora.value}`);
+
+        if (fechaEvento <= ahora) {
+            Swal.fire({
+                icon: "error",
+                title: "Fecha u hora no válida",
+                text: "No puedes crear un evento en una fecha pasada ni en una hora anterior a la actual."
+            });
+
+            hora.value = "";
+        }
+    }
+
+    // ============================
     // CARGAR EVENTO PARA EDITAR
     // ============================
     async function cargarGalaEditar() {
@@ -231,7 +263,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             const respuesta = await fetch(
-                id ? "../php/gala-editar.html" : "../php/gala-nueva.html",
+                id ? "../php/gala-editar.php" : "../php/gala-nueva.php",
                 {
                     method: "POST",
                     body: (() => {

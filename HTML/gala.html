@@ -35,21 +35,37 @@
 
   <main class="login-container">
 
-    <h2>Gestión de la Gala</h2>
+    <h2 style="margin-bottom: 1rem;">Gestión de la Gala</h2>
+
+    <!-- SWITCH PRE / POST -->
+    <div style="display:flex; justify-content:center; margin:1rem 0 2rem 0;">
+      <a href="gala.html"
+         style="padding:0.8rem 1.5rem; background:#FF3228; color:#fff; text-decoration:none; font-weight:600; border:1px solid #FF3228;">
+        Pre‑evento
+      </a>
+
+      <a href="gala-postevento.html"
+         style="padding:0.8rem 1.5rem; background:#000; color:#fff; text-decoration:none; font-weight:600; border:1px solid #000;">
+        Post‑evento
+      </a>
+    </div>
 
     <section style="margin-top: 2rem;">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-        <h3 style="color: #d32f2f; font-size: 1.4rem;">Eventos de la Gala</h3>
-        <a href="gala-nueva.html" class="btn login-btn" style="padding: 0.6rem 1.2rem;">Añadir evento</a>
+        <h3 style="color: #d32f2f; font-size: 1.6rem;">Eventos de la Gala</h3>
+        <a href="gala-nueva.html" class="btn login-btn" style="padding: 0.7rem 1.4rem;">Añadir evento</a>
       </div>
+
+      <p style="margin-top: 0.5rem; color:#555;">
+        En este apartado puedes añadir, modificar o eliminar las secciones que formarán parte de la gala.
+      </p>
     </section>
 
     <!-- CONTENEDOR VACÍO PARA QUE EL JS LO RELLENE -->
-    <div class="panel-grid"></div>
+    <div class="panel-grid" style="margin-top:2rem;"></div>
 
   </main>
 
-  <!-- CARGA DEL SCRIPT -->
   <script src="../JS/gala.js" defer></script>
 
   <footer class="footer">
@@ -87,8 +103,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="../JS/auth.js"></script>
-  <script src="../js/gala.js"></script>
-
 
 </body>
 
