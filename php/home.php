@@ -2,21 +2,14 @@
 session_start();
 $logueado = isset($_SESSION["id_usuario"]);
 $rol = $_SESSION["rol"] ?? null;
-
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
   <meta charset="UTF-8">
-
   <title>Inicio - Universidad Europea</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inicio - Universidad Europea</title>
-
 
   <link rel="stylesheet" href="../CSS/estilos.css">
   <link rel="icon" href="../IMG/favicon.png">
@@ -24,40 +17,8 @@ $rol = $_SESSION["rol"] ?? null;
 
 <body>
 
-
   <!-- ================= NAVBAR ================= -->
-  <header class="navbar">
-    <div class="logo">
-      <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
-    </div>
-
-    <div class="search-bar">
-      <input type="text" placeholder="Buscar...">
-    </div>
-
-    <nav>
-      <ul class="nav-links">
-        <li><a href="../HTML/calendario.html">Calendario</a></li>
-
-        <?php if ($logueado && $rol === "participante"): ?>
-          <li><a href="../HTML/participante.php">Panel</a></li>
-          <li><a href="../HTML/sobre_nosotros.html">Sobre Nosotros</a></li>
-        <?php elseif ($logueado && $rol === "organizador"): ?>
-          <li><a href="../HTML/organizador.php">Panel</a></li>
-          <li><a href="../HTML/candidaturas.php">Candidaturas</a></li>
-        <?php endif; ?>
-      </ul>
-    </nav>
-
-    <div class="nav-buttons">
-      <?php if (!$logueado): ?>
-        <a href="../HTML/login.html" class="btn nav-btn">Acceso</a>
-        <a href="../HTML/registro.html" class="btn nav-btn">Unirse</a>
-      <?php else: ?>
-        <a href="../php/logout.php" class="btn nav-btn">Salir</a>
-      <?php endif; ?>
-    </div>
-  </header>
+  <?php include "header.php"; ?>
 
   <!-- ========= CONTENEDOR QUE EMPUJA EL FOOTER ========= -->
   <div class="home-wrapper">
@@ -75,10 +36,13 @@ $rol = $_SESSION["rol"] ?? null;
 
         <?php if (!$logueado): ?>
           <a href="../HTML/registro.html" class="btn home-btn">Crea tu cuenta gratis</a>
+
         <?php elseif ($rol === "participante"): ?>
           <a href="../HTML/participante.php" class="btn home-btn">Ir a mi panel</a>
+
         <?php elseif ($rol === "organizador"): ?>
           <a href="../HTML/organizador.php" class="btn home-btn">Ir al panel organizador</a>
+
         <?php endif; ?>
       </section>
 
@@ -105,8 +69,6 @@ $rol = $_SESSION["rol"] ?? null;
 
         </div>
       </section>
-
-
 
     </main>
 
@@ -141,7 +103,7 @@ $rol = $_SESSION["rol"] ?? null;
       </div>
 
       <div class="footer-center">
-        <p>Contacta con nosotros</p>
+        <a href="../HTML/contacto.html" class="footer-contact-link">Contacta con nosotros</a>
       </div>
 
       <div class="footer-right">
@@ -155,10 +117,9 @@ $rol = $_SESSION["rol"] ?? null;
       Universidad Europea © 2025. Todos los Derechos Reservados
     </div>
   </footer>
+
   <script src="../JS/carrusel.js"></script>
-
   <script src="../JS/home_noticias.js"></script>
-
   <script src="../JS/home-patrocinadores.js"></script>
 
 </body>

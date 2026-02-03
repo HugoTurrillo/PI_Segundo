@@ -316,6 +316,17 @@ nav {
   font-size: 0.85rem;
 }
 
+.footer-contact-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.footer-contact-link:hover {
+  color: #FF3228;
+}
+
 /* HOME MAIN */
 .home-main {
   display: flex;
@@ -797,4 +808,72 @@ nav {
 .swal2-actions {
   gap: 1rem;
 
+}
+
+/* ==========================
+   CONTACTA CON NOSOTROS (DOS COLUMNAS)
+========================== */
+
+.contacto-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.contacto-container h2 {
+  text-align: center;
+  font-size: 2.2rem;
+  color: #FF3228;
+  margin-bottom: 1rem;
+}
+
+.contacto-intro {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #444;
+  margin-bottom: 2.5rem;
+}
+
+.contacto-dos-columnas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.contacto-bloque {
+  background-color: #fff;
+  padding: 2rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.contacto-bloque h3 {
+  font-size: 1.4rem;
+  color: #FF3228;
+  margin-bottom: 0.8rem;
+}
+
+.contacto-bloque p {
+  margin-bottom: 0.6rem;
+  font-size: 1rem;
+  color: #333;
+}
+
+.contacto-dato-principal {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.contacto-dato-principal a {
+  color: #000;
+  text-decoration: none;
+}
+
+.contacto-dato-principal a:hover {
+  color: #FF3228;
+  text-decoration: underline;
+}
+
+.contacto-secundario {
+  font-size: 0.95rem;
+  color: #666;
 }

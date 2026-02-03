@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,26 +13,26 @@
 
   <!-- NAVBAR -->
   <header class="navbar">
-      <div class="logo">
-          <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
-      </div>
+    <div class="logo">
+      <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
+    </div>
 
-      <div class="search-bar">
-          <input type="text" placeholder="Buscar...">
-      </div>
+    <div class="search-bar">
+      <input type="text" placeholder="Buscar...">
+    </div>
 
-      <nav>
-       <ul class="nav-links">
+    <nav>
+      <ul class="nav-links">
         <li><a href="../php/home.php">Inicio</a></li>
-          <li><a href="calendario.html">Calendario</a></li>
-          <li><a href="sobre_nosotros.html">Sobre nosotros</a></li>
-       </ul>
-      </nav>
+        <li><a href="calendario.html">Calendario</a></li>
+        <li><a href="sobre_nosotros.html">Sobre nosotros</a></li>
+      </ul>
+    </nav>
 
-      <div class="nav-buttons">
-          <a href="login.html" class="btn nav-btn">Acceso</a>
-          <a href="registro.html" class="btn nav-btn">Unirse</a>
-      </div>
+    <div class="nav-buttons">
+      <a href="login.html" class="btn nav-btn">Acceso</a>
+      <a href="registro.html" class="btn nav-btn">Unirse</a>
+    </div>
   </header>
 
   <!-- LOGIN -->
@@ -49,51 +50,52 @@
       <input type="password" id="password" name="password" required>
       <span class="error-campo" id="error-password"></span>
 
-      
+
 
       <button type="submit" class="btn login-btn">Acceder</button>
 
       <div id="loginErrorGlobal" class="error-global"></div>
 
-      
+
     </form>
   </main>
 
 
   <footer class="footer">
-  <div class="footer-main">
-    <div class="footer-left">
-      <div class="footer-social-row">
-        <img src="../IMG/instagram.png" alt="Instagram">
-        <span>@cortosuem</span>
+    <div class="footer-main">
+      <div class="footer-left">
+        <div class="footer-social-row">
+          <img src="../IMG/instagram.png" alt="Instagram">
+          <span>@cortosuem</span>
+        </div>
+        <div class="footer-social-row">
+          <img src="../IMG/facebook.png" alt="Facebook">
+          <span>@cortosuem</span>
+        </div>
+        <div class="footer-social-row">
+          <img src="../IMG/twitter.png" alt="Twitter">
+          <span>@cortosuem</span>
+        </div>
       </div>
-      <div class="footer-social-row">
-        <img src="../IMG/facebook.png" alt="Facebook">
-        <span>@cortosuem</span>
+
+      <div class="footer-center">
+        <a href="../HTML/contacto.html" class="footer-contact-link">Contacta con nosotros</a>
       </div>
-      <div class="footer-social-row">
-        <img src="../IMG/twitter.png" alt="Twitter">
-        <span>@cortosuem</span>
+
+      <div class="footer-right">
+        <div class="footer-logo-circle">
+          <img src="../IMG/logosimple.jpg" alt="Logo">
+        </div>
       </div>
     </div>
 
-    <div class="footer-center">
-      <p>Contacta con nosotros</p>
+    <div class="footer-bottom">
+      Universidad Europea © 2025. Todos los Derechos Reservados
     </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <div class="footer-right">
-      <div class="footer-logo-circle">
-        <img src="../IMG/logosimple.jpg" alt="Logo">
-      </div>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    Universidad Europea © 2025. Todos los Derechos Reservados
-  </div>
-</footer>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<script src="../JS/login.js"></script>
+  <script src="../JS/login.js"></script>
 </body>
+
 </html>

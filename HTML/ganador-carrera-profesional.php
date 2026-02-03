@@ -80,7 +80,7 @@ requireRole("organizador");
     </div>
 
     <div class="footer-center">
-      <p>Contacta con nosotros</p>
+      <a href="../HTML/contacto.html" class="footer-contact-link">Contacta con nosotros</a>
     </div>
 
     <div class="footer-right">

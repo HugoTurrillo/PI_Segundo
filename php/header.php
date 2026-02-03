@@ -16,25 +16,18 @@ if (session_status() === PHP_SESSION_NONE) {
   <nav>
     <ul class="nav-links">
 
-      <?php if (!isset($_SESSION["id_usuario"])): ?>
+      <!-- ENLACES COMUNES PARA TODOS -->
+      <li><a href="../HTML/calendario.html">Calendario</a></li>
+      <li><a href="../HTML/sobre_nosotros.html">Sobre Nosotros</a></li>
 
-        <!-- USUARIO NO LOGUEADO -->
-        <li><a href="../php/home.php">Inicio</a></li>
-        <li><a href="../HTML/calendario.html">Calendario</a></li>
-        <li><a href="../HTML/sobre_nosotros.html">Sobre Nosotros</a></li>
-
-      <?php elseif ($_SESSION["rol"] === "participante"): ?>
+      <?php if (isset($_SESSION["id_usuario"]) && $_SESSION["rol"] === "participante"): ?>
 
         <!-- PARTICIPANTE -->
-        <li><a href="../HTML/calendario.html">Calendario</a></li>
         <li><a href="../HTML/participante.php">Panel</a></li>
-        <li><a href="../HTML/participante_candidatura.php">Mi candidatura</a></li>
-        <li><a href="../HTML/mis_datos.php">Mis datos</a></li>
 
-      <?php elseif ($_SESSION["rol"] === "organizador"): ?>
+      <?php elseif (isset($_SESSION["id_usuario"]) && $_SESSION["rol"] === "organizador"): ?>
 
         <!-- ORGANIZADOR -->
-        <li><a href="../HTML/calendario.html">Calendario</a></li>
         <li><a href="../HTML/organizador.php">Panel</a></li>
         <li><a href="../HTML/candidaturas.php">Candidaturas</a></li>
         <li><a href="../HTML/patrocinadores.php">Patrocinadores</a></li>
