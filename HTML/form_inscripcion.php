@@ -1,7 +1,3 @@
-<?php
-require_once "../php/config/auth.php";
-requireRole("participante");
-?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -12,92 +8,91 @@ requireRole("participante");
   <link rel="stylesheet" href="../CSS/estilos.css">
 </head>
 
-<body>
+<body data-rol="participante">
 
-  <header class="navbar">
-    <div class="logo">
-      <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
-    </div>
+<header class="navbar">
+  <div class="logo">
+    <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
+  </div>
 
-    <nav>
-      <ul class="nav-links">
-        <li><a href="participante.php">Panel</a></li>
-      </ul>
-    </nav>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="participante.php">Panel</a></li>
+    </ul>
+  </nav>
 
-    <div class="nav-buttons">
-      <a href="../php/logout.php" class="btn nav-btn">Salir</a>
-    </div>
-  </header>
+  <div class="nav-buttons">
+    <a href="../php/logout.php" class="btn nav-btn">Salir</a>
+  </div>
+</header>
 
-  <main class="login-container">
+<main class="login-container">
 
-    <h2>Enviar candidatura</h2>
+  <h2>Enviar candidatura</h2>
 
-    <form id="form-candidatura">
+  <form id="form-candidatura">
 
-      <label>Título del cortometraje</label>
-      <input type="text" id="titulo_obra" required>
+    <label>Título del cortometraje</label>
+    <input type="text" id="titulo_obra" required>
 
-      <label>Sinopsis</label>
-      <textarea id="sinopsis" required></textarea>
+    <label>Sinopsis</label>
+    <textarea id="sinopsis" required></textarea>
 
-      <label>Nombre de contacto</label>
-      <input type="text" id="nombre_contacto" required>
+    <label>Nombre de contacto</label>
+    <input type="text" id="nombre_contacto" required>
 
-      <label>Email de contacto</label>
-      <input type="email" id="email_contacto" required>
+    <label>Email de contacto</label>
+    <input type="email" id="email_contacto" required>
 
-      <label>DNI</label>
-      <input type="text" id="dni" required>
+    <label>DNI</label>
+    <input type="text" id="dni" required>
 
-      <p id="error-global" style="color:red;"></p>
+    <p id="error-global" style="color:red;"></p>
 
-      <button type="submit" class="btn login-btn">
-        Enviar candidatura
-      </button>
+    <button type="submit" class="btn login-btn">
+      Enviar candidatura
+    </button>
 
-    </form>
+  </form>
 
-  </main>
+</main>
 
-  <footer class="footer">
-    <div class="footer-main">
-      <div class="footer-left">
-        <div class="footer-social-row">
-          <img src="../IMG/instagram.png" alt="Instagram">
-          <span>@cortosuem</span>
-        </div>
-        <div class="footer-social-row">
-          <img src="../IMG/facebook.png" alt="Facebook">
-          <span>@cortosuem</span>
-        </div>
-        <div class="footer-social-row">
-          <img src="../IMG/twitter.png" alt="Twitter">
-          <span>@cortosuem</span>
-        </div>
+<footer class="footer">
+  <div class="footer-main">
+    <div class="footer-left">
+      <div class="footer-social-row">
+        <img src="../IMG/instagram.png" alt="Instagram">
+        <span>@cortosuem</span>
       </div>
-
-      <div class="footer-center">
-        <a href="../HTML/contacto.html" class="footer-contact-link">Contacta con nosotros</a>
+      <div class="footer-social-row">
+        <img src="../IMG/facebook.png" alt="Facebook">
+        <span>@cortosuem</span>
       </div>
-
-      <div class="footer-right">
-        <div class="footer-logo-circle">
-          <img src="../IMG/logosimple.jpg" alt="Logo">
-        </div>
+      <div class="footer-social-row">
+        <img src="../IMG/twitter.png" alt="Twitter">
+        <span>@cortosuem</span>
       </div>
     </div>
 
-    <div class="footer-bottom">
-      Universidad Europea © 2025. Todos los Derechos Reservados
+    <div class="footer-center">
+      <a href="../HTML/contacto.html" class="footer-contact-link">Contacta con nosotros</a>
     </div>
-  </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="../JS/auth.js"></script>
-  <script src="../JS/candidatura-nueva.js"></script>
+    <div class="footer-right">
+      <div class="footer-logo-circle">
+        <img src="../IMG/logosimple.jpg" alt="Logo">
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    Universidad Europea © 2025. Todos los Derechos Reservados
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../JS/auth.js"></script>
+<script src="../JS/candidatura-nueva.js"></script>
 
 </body>
-
 </html>

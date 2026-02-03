@@ -1,7 +1,3 @@
-<?php
-require_once "../php/config/auth.php";
-requireRole("organizador");
-?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -13,7 +9,6 @@ requireRole("organizador");
   <link rel="icon" href="../IMG/favicon.png" type="image/x-icon">
 </head>
 
-<!-- Rol requerido -->
 <body data-rol="organizador">
 
 <header class="navbar">
@@ -47,11 +42,11 @@ requireRole("organizador");
     <span class="error-campo" id="error-nombre"></span>
 
     <label for="premios">Descripción de premios</label>
-    <input type="text" id="premios" name="premios" placeholder="Ej: 1º y 2º premio" required>
+    <input type="text" id="premios" name="premios" required>
     <span class="error-campo" id="error-premios"></span>
 
     <label for="premio-fisico">Premio físico</label>
-    <input type="text" id="premio-fisico" name="premio-fisico" placeholder="Ej: Cámara Canon, ninguno..." required>
+    <input type="text" id="premio-fisico" name="premio-fisico" required>
     <span class="error-campo" id="error-premio-fisico"></span>
 
     <div class="error-global" id="error-global"></div>
@@ -93,13 +88,8 @@ requireRole("organizador");
   </div>
 </footer>
 
-<!-- SCRIPTS -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<!-- Primero el auth global -->
 <script src="../JS/auth.js"></script>
-
-<!-- Luego el JS de esta página -->
 <script src="../JS/premios.js"></script>
 
 </body>

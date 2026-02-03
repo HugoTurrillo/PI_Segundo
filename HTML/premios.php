@@ -1,7 +1,4 @@
-<?php
-require_once "../php/config/auth.php";
-requireRole("organizador");
-?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,7 +8,7 @@ requireRole("organizador");
   <link rel="stylesheet" href="../CSS/estilos.css">
   <link rel="icon" href="../IMG/favicon.png" type="image/x-icon">
 </head>
-<body>
+<body data-rol="organizador">
 
 <header class="navbar">
   <div class="logo">

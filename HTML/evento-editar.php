@@ -1,7 +1,3 @@
-<?php
-require_once "../php/config/auth.php";
-requireRole("organizador");
-?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,9 +5,10 @@ requireRole("organizador");
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Editar evento</title>
   <link rel="stylesheet" href="../CSS/estilos.css">
-  <script defer src="../JS/eventos.js"></script>
+  <link rel="icon" href="../IMG/favicon.png">
 </head>
-<body>
+
+<body data-rol="organizador">
 
 <header class="navbar">
   <div class="logo">
@@ -48,7 +45,7 @@ requireRole("organizador");
     <span class="error-campo" id="error-fecha"></span>
 
     <label for="descripcion">Descripción</label>
-    <textarea id="descripcion" name="descripcion" rows="5" required style="width:100%; padding:0.6rem; border:1px solid #ccc; border-radius:4px;"></textarea>
+    <textarea id="descripcion" name="descripcion" rows="5" required></textarea>
     <span class="error-campo" id="error-descripcion"></span>
 
     <div class="error-global" id="error-global"></div>
@@ -92,9 +89,7 @@ requireRole("organizador");
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="../JS/auth.js"></script>
-<script src="../js/eventos.js"></script>
-
-
+<script src="../JS/eventos.js"></script>
 
 </body>
 </html>

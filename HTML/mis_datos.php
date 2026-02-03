@@ -1,7 +1,3 @@
-<?php
-require_once "../php/config/auth.php";
-requireRole("participante");
-?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -13,7 +9,7 @@ requireRole("participante");
   <link rel="icon" href="../IMG/favicon.png">
 </head>
 
-<body>
+<body data-rol="participante">
 
   <header class="navbar">
     <div class="logo">

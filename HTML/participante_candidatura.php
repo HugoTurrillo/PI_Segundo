@@ -1,7 +1,3 @@
-<?php
-require_once "../php/config/auth.php";
-requireRole("participante");
-?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -11,7 +7,7 @@ requireRole("participante");
   <link rel="stylesheet" href="../CSS/estilos.css">
 </head>
 
-<body>
+<body data-rol="participante">
 
   <header class="navbar">
     <div class="logo">

@@ -1,7 +1,3 @@
-<?php
-require_once "../php/config/auth.php";
-requireRole("organizador");
-?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,10 +5,10 @@ requireRole("organizador");
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Editar categoría</title>
   <link rel="stylesheet" href="../CSS/estilos.css">
-  <script defer src="../JS/premios.js"></script>
   <link rel="icon" href="../IMG/favicon.png" type="image/x-icon">
 </head>
-<body>
+
+<body data-rol="organizador">
 
 <header class="navbar">
   <div class="logo">
@@ -45,11 +41,11 @@ requireRole("organizador");
     <span class="error-campo" id="error-nombre"></span>
 
     <label for="premios">Descripción de premios</label>
-    <input type="text" id="premios" name="premios" placeholder="Ej: 1º y 2º premio" required>
+    <input type="text" id="premios" name="premios" required>
     <span class="error-campo" id="error-premios"></span>
 
     <label for="premio-fisico">Premio físico</label>
-    <input type="text" id="premio-fisico" name="premio-fisico" placeholder="Ej: Cámara Canon, ninguno..." required>
+    <input type="text" id="premio-fisico" name="premio-fisico" required>
     <span class="error-campo" id="error-premio-fisico"></span>
 
     <div class="error-global" id="error-global"></div>
@@ -90,9 +86,10 @@ requireRole("organizador");
     Universidad Europea © 2025. Todos los Derechos Reservados
   </div>
 </footer>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="../JS/auth.js"></script>
-
+<script src="../JS/premios.js"></script>
 
 </body>
 </html>

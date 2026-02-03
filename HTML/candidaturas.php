@@ -1,7 +1,3 @@
-<?php
-require_once "../php/config/auth.php";
-requireRole("organizador");
-?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -13,7 +9,7 @@ requireRole("organizador");
   <link rel="icon" href="../IMG/favicon.png">
 </head>
 
-<body>
+<body data-rol="organizador">
 
 <!-- NAVBAR -->
 <header class="navbar">
@@ -47,45 +43,48 @@ requireRole("organizador");
 
 </main>
 
-
 <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-main">
-      <div class="footer-left">
-        <div class="footer-social-row">
-          <img src="../IMG/instagram.png" alt="Instagram">
-          <span>@cortosuem</span>
-        </div>
-        <div class="footer-social-row">
-          <img src="../IMG/facebook.png" alt="Facebook">
-          <span>@cortosuem</span>
-        </div>
-        <div class="footer-social-row">
-          <img src="../IMG/twitter.png" alt="Twitter">
-          <span>@cortosuem</span>
-        </div>
+<footer class="footer">
+  <div class="footer-main">
+    <div class="footer-left">
+      <div class="footer-social-row">
+        <img src="../IMG/instagram.png" alt="Instagram">
+        <span>@cortosuem</span>
       </div>
-
-      <div class="footer-center">
-        <a href="../HTML/contacto.html" class="footer-contact-link">Contacta con nosotros</a>
+      <div class="footer-social-row">
+        <img src="../IMG/facebook.png" alt="Facebook">
+        <span>@cortosuem</span>
       </div>
-
-      <div class="footer-right">
-        <div class="footer-logo-circle">
-          <img src="../IMG/logosimple.jpg" alt="Logo">
-        </div>
+      <div class="footer-social-row">
+        <img src="../IMG/twitter.png" alt="Twitter">
+        <span>@cortosuem</span>
       </div>
     </div>
 
-    <div class="footer-bottom">
-      Universidad Europea © 2025. Todos los Derechos Reservados
+    <div class="footer-center">
+      <a href="../HTML/contacto.html" class="footer-contact-link">Contacta con nosotros</a>
     </div>
-  </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="../JS/auth.js"></script>
+    <div class="footer-right">
+      <div class="footer-logo-circle">
+        <img src="../IMG/logosimple.jpg" alt="Logo">
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    Universidad Europea © 2025. Todos los Derechos Reservados
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Autenticación global -->
+<script src="../JS/auth.js"></script>
+
+<!-- JS de esta página -->
 <script src="../JS/candidaturas.js"></script>
-
 
 </body>
 </html>

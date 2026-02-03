@@ -1,7 +1,3 @@
-<?php
-require_once "../php/config/auth.php";
-requireRole("organizador");
-?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,7 +7,8 @@ requireRole("organizador");
   <link rel="stylesheet" href="../CSS/estilos.css">
   <link rel="icon" href="../IMG/favicon.png">
 </head>
-<body>
+
+<body data-rol="organizador">
 
 <header class="navbar">
   <div class="logo">
@@ -38,15 +35,10 @@ requireRole("organizador");
 <main class="login-container">
   <h2>Gestión de eventos</h2>
 
-  <a href="evento-nuevo.php" class="btn login-btn" style="margin-bottom: 1.5rem;">Añadir evento</a>
+  <a href="evento-nuevo.html" class="btn login-btn" style="margin-bottom: 1.5rem;">Añadir evento</a>
 
-  <div class="panel-grid" id="lista-eventos">
-    <!-- Aquí se insertarán los eventos dinámicamente -->
-  </div>
+  <div class="panel-grid" id="lista-eventos"></div>
 
-<script src="../JS/eventos.js"></script>
-
-  </div>
 </main>
 
 <footer class="footer">
@@ -84,8 +76,7 @@ requireRole("organizador");
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="../JS/auth.js"></script>
-
-
+<script src="../JS/eventos.js"></script>
 
 </body>
 </html>
