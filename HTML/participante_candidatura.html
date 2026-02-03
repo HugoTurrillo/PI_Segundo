@@ -1,105 +1,104 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <title>Mi candidatura</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../CSS/estilos.css">
 </head>
 
 <body data-rol="participante">
 
-  <header class="navbar">
-    <div class="logo">
-      <img src="../IMG/LOGOENTERO.png" alt="Logo">
-    </div>
+<header class="navbar">
+  <div class="logo">
+    <img src="../IMG/LOGOENTERO.png" alt="Logo">
+  </div>
 
-    <nav>
-      <ul class="nav-links">
-        <li><a href="participante.html">Panel</a></li>
-      </ul>
-    </nav>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="participante.html">Panel</a></li>
+    </ul>
+  </nav>
 
-    <div class="nav-buttons">
-      <a href="../php/logout.php" class="btn nav-btn">Salir</a>
-    </div>
-  </header>
+  <div class="nav-buttons">
+    <a href="../php/logout.php" class="btn nav-btn">Salir</a>
+  </div>
+</header>
 
-  <main class="login-container">
+<main class="login-container">
 
-    <h2>Mi candidatura</h2>
+  <h2>Mi candidatura</h2>
 
-    <div id="sinCandidatura" style="display:none;">
-      <p>No has enviado ninguna candidatura todavía.</p>
-      <a href="form_inscripcion.html" class="btn nav-btn">Enviar candidatura</a>
-    </div>
+  <!-- SIN CANDIDATURA -->
+  <div id="sinCandidatura" style="display:none;">
+    <p>No has enviado ninguna candidatura todavía.</p>
+    <a href="form_inscripcion.html" class="btn login-btn">Enviar candidatura</a>
+  </div>
 
-    <div id="conCandidatura" style="display:none;">
+  <!-- CON CANDIDATURA -->
+  <div id="conCandidatura" style="display:none;">
+
+    <div class="panel-card">
 
       <h3 id="titulo"></h3>
-      <p><strong>Estado:</strong> <span id="estado"></span></p>
 
-      <p><strong>Descripción:</strong></p>
+      <p>
+        <strong>Estado:</strong>
+        <span id="estado"></span>
+      </p>
+
+      <!-- VIDEO + PORTADA -->
+      <div style="margin:1.5rem 0;">
+        <video
+          id="video"
+          controls
+          style="width:100%; border-radius:8px;"
+          poster="">
+          Tu navegador no soporta vídeo HTML5
+        </video>
+      </div>
+
+      <h4>Sinopsis</h4>
       <p id="sinopsis"></p>
 
-      <div id="rechazoBox" style="display:none;">
+      <!-- RECHAZO -->
+      <div id="rechazoBox" style="display:none; margin-top:1rem;">
         <p style="color:red;"><strong>Motivo del rechazo:</strong></p>
         <p id="motivoRechazo"></p>
       </div>
 
-      <div id="subsanarBox" style="display:none; margin-top:1rem;">
+      <!-- SUBSANAR -->
+      <div id="subsanarBox" style="display:none; margin-top:1.5rem;">
         <h4>Subsanar candidatura</h4>
 
-        <textarea id="mensajeSubsanacion"
+        <textarea
+          id="mensajeSubsanacion"
           rows="4"
           placeholder="Explica qué has corregido..."
           style="width:100%;"></textarea>
 
-        <button id="btnSubsanar" class="btn nav-btn" style="margin-top:0.5rem;">
+        <button
+          id="btnSubsanar"
+          class="btn login-btn"
+          style="margin-top:0.5rem;">
           Enviar subsanación
         </button>
-
-        <p id="subsanarError" style="color:red;"></p>
       </div>
 
     </div>
+  </div>
 
-  </main>
-  <footer class="footer">
-    <div class="footer-main">
-      <div class="footer-left">
-        <div class="footer-social-row">
-          <img src="../IMG/instagram.png" alt="Instagram">
-          <span>@cortosuem</span>
-        </div>
-        <div class="footer-social-row">
-          <img src="../IMG/facebook.png" alt="Facebook">
-          <span>@cortosuem</span>
-        </div>
-        <div class="footer-social-row">
-          <img src="../IMG/twitter.png" alt="Twitter">
-          <span>@cortosuem</span>
-        </div>
-      </div>
+</main>
 
-      <div class="footer-center">
-        <a href="../HTML/contacto.html" class="footer-contact-link">Contacta con nosotros</a>
-      </div>
+<footer class="footer">
+  <div class="footer-bottom">
+    Universidad Europea © 2025
+  </div>
+</footer>
 
-      <div class="footer-right">
-        <div class="footer-logo-circle">
-          <img src="../IMG/logosimple.jpg" alt="Logo">
-        </div>
-      </div>
-    </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../JS/auth.js"></script>
+<script src="../JS/participante-candidatura.js"></script>
 
-    <div class="footer-bottom">
-      Universidad Europea © 2025. Todos los Derechos Reservados
-    </div>
-  </footer>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="../JS/auth.js"></script>
-  <script src="../JS/participante-candidatura.js"></script>
 </body>
-
 </html>

@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const res = await fetch("../php/candidatura-mi-estado.php");
     const data = await res.json();
 
+    // NO HAY CANDIDATURA
     if (!data.ok || !data.candidatura) {
       document.getElementById("sinCandidatura").style.display = "block";
       return;
@@ -11,11 +12,29 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const c = data.candidatura;
 
+    // MOSTRAR BLOQUE
     document.getElementById("conCandidatura").style.display = "block";
+
+    // TÍTULO
     document.getElementById("titulo").textContent = c.titulo_obra;
-    document.getElementById("estado").textContent = c.estado;
+
+    // ESTADO
+    const estadoEl = document.getElementById("estado");
+    estadoEl.textContent = c.estado.replace("_", " ");
+
+    if (c.estado === "aceptada") estadoEl.style.color = "green";
+    if (c.estado === "rechazada") estadoEl.style.color = "red";
+    if (c.estado === "en_proceso") estadoEl.style.color = "orange";
+
+    // SINOPSIS
     document.getElementById("sinopsis").textContent = c.sinopsis;
 
+    // VIDEO + PORTADA
+    const video = document.getElementById("video");
+    video.src = c.video_ruta;
+    video.poster = c.portada_ruta;
+
+    // RECHAZADA → SUBSANAR
     if (c.estado === "rechazada") {
       document.getElementById("rechazoBox").style.display = "block";
       document.getElementById("motivoRechazo").textContent = c.motivo_rechazo;
@@ -23,44 +42,33 @@ document.addEventListener("DOMContentLoaded", async () => {
       document.getElementById("subsanarBox").style.display = "block";
 
       document.getElementById("btnSubsanar").onclick = async () => {
-        const mensaje = document.getElementById("mensajeSubsanacion").value.trim();
+        const mensaje = document
+          .getElementById("mensajeSubsanacion")
+          .value.trim();
 
         if (!mensaje) {
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "Debes escribir un mensaje de subsanación"
-          });
+          Swal.fire("Error", "Debes escribir un mensaje de subsanación", "error");
           return;
         }
 
-        const res = await fetch("../php/candidatura-subsanar.php", {
+        const r = await fetch("../php/candidatura-subsanar.php", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ mensaje })
-        });
-
-        const r = await res.json();
+        }).then(r => r.json());
 
         if (r.ok) {
-          await Swal.fire({
-            icon: "success",
-            title: "Subsanación enviada",
-            text: r.msg
-          });
+          Swal.fire("Enviado", r.msg, "success");
           location.reload();
         } else {
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: r.msg
-          });
+          Swal.fire("Error", r.msg, "error");
         }
       };
     }
 
-  } catch (err) {
-    console.error(err);
+  } catch (e) {
+    console.error(e);
     document.getElementById("sinCandidatura").style.display = "block";
   }
+
 });
