@@ -29,8 +29,6 @@ if (session_status() === PHP_SESSION_NONE) {
 
         <!-- ORGANIZADOR -->
         <li><a href="../HTML/organizador.html">Panel</a></li>
-        <li><a href="../HTML/candidatura.html">Candidaturas</a></li>
-        <li><a href="../HTML/patrocinadores.html">Patrocinadores</a></li>
 
       <?php endif; ?>
 

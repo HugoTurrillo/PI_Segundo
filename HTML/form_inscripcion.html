@@ -31,28 +31,28 @@
 
     <h2>Enviar candidatura</h2>
 
-    <form id="form-candidatura">
+    <form id="form-candidatura" enctype="multipart/form-data">
 
       <label>Título del cortometraje</label>
-      <input type="text" id="titulo_obra" required>
+      <input type="text" id="titulo_obra" name="titulo_obra" required>
 
       <label>Sinopsis</label>
-      <textarea id="sinopsis" required></textarea>
+      <textarea id="sinopsis" name="sinopsis" required></textarea>
 
       <label>Nombre de contacto</label>
-      <input type="text" id="nombre_contacto" required>
+      <input type="text" id="nombre_contacto" name="nombre_contacto" required>
 
       <label>Email de contacto</label>
-      <input type="email" id="email_contacto" required>
+      <input type="email" id="email_contacto" name="email_contacto" required>
 
       <label>DNI</label>
-      <input type="text" id="dni" required>
+      <input type="text" id="dni" name="dni" required>
 
       <label>Vídeo de la obra</label>
-      <input type="file" name="video" accept="video/*" required>
+      <input type="file" id="video" name="video" accept="video/*" required>
 
       <label>Imagen de portada</label>
-      <input type="file" name="portada" accept="image/*" required>
+      <input type="file" id="portada" name="portada" accept="image/*" required>
 
       <p id="error-global" style="color:red;"></p>
 
