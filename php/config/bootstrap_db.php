@@ -72,6 +72,8 @@ if ($check->num_rows == 0) {
             motivo_rechazo TEXT,
             mensaje_subsanacion TEXT,
             fecha_creacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            video_ruta VARCHAR(255) NOT NULL,
+            portada_ruta VARCHAR(255) NOT NULL;
             FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
             FOREIGN KEY (id_edicion) REFERENCES edicion_festival(id_edicion),
             FOREIGN KEY (id_categoria) REFERENCES categorias(id)
