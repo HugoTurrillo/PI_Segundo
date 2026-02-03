@@ -4,63 +4,59 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Añadir patrocinador</title>
+  <title>Mis datos - Festival Cortos UEM</title>
   <link rel="stylesheet" href="../CSS/estilos.css">
-  <script defer src="../JS/patrocinadores.js"></script>
-  <link rel="icon" href="../IMG/favicon.png" type="image/x-icon">
+  <link rel="icon" href="../IMG/favicon.png">
 </head>
 
-<body data-rol="organizador">
+<body data-rol="participante">
 
   <header class="navbar">
     <div class="logo">
       <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
     </div>
 
-    <div class="search-bar">
-      <input type="text" placeholder="Buscar...">
-    </div>
-
     <nav>
       <ul class="nav-links">
-        <li><a href="organizador.php">Panel</a></li>
-        <li><a href="patrocinadores.php">Patrocinadores</a></li>
+        <li><a href="participante.html">Panel</a></li>
       </ul>
     </nav>
 
     <div class="nav-buttons">
-      <a href="login.html" class="btn nav-btn">Salir</a>
+      <a href="../php/logout.php" class="btn nav-btn">Salir</a>
     </div>
   </header>
 
   <main class="login-container">
-    <h2>Añadir patrocinador</h2>
 
-    <form id="form-patrocinador" class="login-form" method="POST" enctype="multipart/form-data">
+    <h2>Mis datos personales</h2>
+    <p>Revisa y actualiza tu información personal.</p>
 
+    <form id="form-mis-datos" class="login-form">
 
-      <label for="nombre">Nombre del patrocinador</label>
-      <input type="text" id="nombre" name="nombre" required>
+      <label>Nombre completo</label>
+      <input type="text" id="nombre">
       <span class="error-campo" id="error-nombre"></span>
 
-      <label for="logo">Logo (imagen)</label>
-      <input type="file" id="logo" name="logo" accept="image/*" required>
-      <span class="error-campo" id="error-logo"></span>
+      <label>Email</label>
+      <input type="email" id="email" disabled>
+      <small style="color:#666;">El email no se puede modificar</small>
 
-      <label for="enlace">Enlace web</label>
-      <input type="text" id="enlace" name="enlace" placeholder="https://www.ejemplo.com" required>
-      <span class="error-campo" id="error-enlace"></span>
+      <label>Nueva contraseña</label>
+      <input type="password" id="password">
+      <span class="error-campo" id="error-password"></span>
 
-      <label for="descripcion">Descripción</label>
-      <textarea id="descripcion" name="descripcion" rows="4" style="width:100%; padding:0.6rem; border:1px solid #ccc; border-radius:4px;"></textarea>
-      <span class="error-campo" id="error-descripcion"></span>
+      <button type="submit" class="btn login-btn" style="margin-top:1rem;">
+        Guardar cambios
+      </button>
 
-      <div class="error-global" id="error-global"></div>
+      <p class="error-global" id="error-global"></p>
 
-      <button type="submit" class="btn login-btn">Guardar patrocinador</button>
     </form>
+
   </main>
 
+  <!-- ================= FOOTER ================= -->
   <footer class="footer">
     <div class="footer-main">
       <div class="footer-left">
@@ -93,12 +89,9 @@
       Universidad Europea © 2025. Todos los Derechos Reservados
     </div>
   </footer>
-
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="../JS/auth.js"></script>
-
-
-
+  <script src="../JS/mis_datos.js"></script>
 </body>
 
 </html>

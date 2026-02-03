@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <p>${ev.descripcion}</p>
 
                         <div style="margin-top:1rem; display:flex; gap:1rem;">
-                            <a href="evento-editar.php?id=${ev.id}"
+                            <a href="evento-editar.html?id=${ev.id}"
                                class="btn login-btn"
                                style="padding:0.5rem 1rem;">
                                Editar
@@ -204,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (id) {
             datos.id = id;
 
-            const res = await fetch("../php/evento-editar.php", {
+            const res = await fetch("../php/evento-editar.html", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(datos)
@@ -224,7 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
         /* ============================
            CREAR (con confirmación)
         ============================ */
-        const res = await fetch("../php/evento-nuevo.php", {
+        const res = await fetch("../php/evento-nuevo.html", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(datos)
@@ -244,7 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!conf.isConfirmed) return;
 
-            await fetch("../php/evento-nuevo.php?forzar=1", {
+            await fetch("../php/evento-nuevo.html?forzar=1", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(datos)

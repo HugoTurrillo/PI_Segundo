@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Añadir evento de gala</title>
+  <title>Gala - Panel Organizador</title>
   <link rel="stylesheet" href="../CSS/estilos.css">
   <link rel="icon" href="../IMG/favicon.png" type="image/x-icon">
 </head>
@@ -22,8 +22,9 @@
 
     <nav>
       <ul class="nav-links">
-        <li><a href="organizador.php">Panel</a></li>
-        <li><a href="gala.php">Gala</a></li>
+        <li><a href="organizador.html">Panel</a></li>
+        <li><a href="calendario.html">Calendario</a></li>
+        <li><a href="#">Sobre nosotros</a></li>
       </ul>
     </nav>
 
@@ -33,39 +34,23 @@
   </header>
 
   <main class="login-container">
-    <h2>Añadir evento de gala</h2>
 
-    <form id="form-gala" class="login-form">
+    <h2>Gestión de la Gala</h2>
 
-      <label for="titulo">Título del evento</label>
-      <input type="text" id="titulo" name="titulo" required>
-      <span class="error-campo" id="error-titulo"></span>
+    <section style="margin-top: 2rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+        <h3 style="color: #d32f2f; font-size: 1.4rem;">Eventos de la Gala</h3>
+        <a href="gala-nueva.html" class="btn login-btn" style="padding: 0.6rem 1.2rem;">Añadir evento</a>
+      </div>
+    </section>
 
-      <label for="fecha">Fecha</label>
-      <input type="date" id="fecha" name="fecha" required>
-      <span class="error-campo" id="error-fecha"></span>
+    <!-- CONTENEDOR VACÍO PARA QUE EL JS LO RELLENE -->
+    <div class="panel-grid"></div>
 
-      <label for="hora">Hora</label>
-      <input type="time" id="hora" name="hora" required>
-      <span class="error-campo" id="error-hora"></span>
-
-      <label for="lugar">Lugar</label>
-      <input type="text" id="lugar" name="lugar" required>
-      <span class="error-campo" id="error-lugar"></span>
-
-      <label for="descripcion">Descripción</label>
-      <textarea id="descripcion" name="descripcion" rows="4"></textarea>
-      <span class="error-campo" id="error-descripcion"></span>
-
-      <label for="imagen">Imagen del evento</label>
-      <input type="file" id="imagen" name="imagen" accept="image/*" required>
-      <span class="error-campo" id="error-imagen"></span>
-
-      <div class="error-global" id="error-global"></div>
-
-      <button type="submit" class="btn login-btn">Guardar evento</button>
-    </form>
   </main>
+
+  <!-- CARGA DEL SCRIPT -->
+  <script src="../JS/gala.js" defer></script>
 
   <footer class="footer">
     <div class="footer-main">
@@ -102,7 +87,8 @@
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="../JS/auth.js"></script>
-  <script src="../JS/gala.js"></script>
+  <script src="../js/gala.js"></script>
+
 
 </body>
 

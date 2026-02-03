@@ -1,5 +1,5 @@
 <?php
-// php/gala-editar.php
+// php/gala-editar.html
 require "config/conexion.php";
 
 header("Content-Type: application/json");

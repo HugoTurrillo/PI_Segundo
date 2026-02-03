@@ -96,5 +96,5 @@ async function guardarGanador(e) {
   }
 
   await Swal.fire("Correcto", "Ganador asignado correctamente", "success");
-  window.location.href = "ganadores.php";
+  window.location.href = "ganadores.html";
 }

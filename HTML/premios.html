@@ -1,13 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Editar categoría</title>
+  <title>Premios - Panel Organizador</title>
   <link rel="stylesheet" href="../CSS/estilos.css">
   <link rel="icon" href="../IMG/favicon.png" type="image/x-icon">
 </head>
-
 <body data-rol="organizador">
 
 <header class="navbar">
@@ -21,8 +21,9 @@
 
   <nav>
    <ul class="nav-links">
-      <li><a href="organizador.php">Panel</a></li>
-      <li><a href="premios.php">Premios</a></li>
+      <li><a href="organizador.html">Panel</a></li>
+      <li><a href="calendario.html">Calendario</a></li>
+      <li><a href="#">Sobre nosotros</a></li>
    </ul>
   </nav>
 
@@ -32,26 +33,25 @@
 </header>
 
 <main class="login-container">
-  <h2>Editar categoría</h2>
+  
+  <h2>Gestión de las Categorías de los Premios</h2>
 
-  <form id="form-categoria" class="login-form">
+  <!-- ============================
+       CATEGORÍAS
+  ============================= -->
+  <section style="margin-top: 2rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+      <h3 style="color: #d32f2f; font-size: 1.4rem;">Categorías y premios</h3>
+    </div>
+  </section>
 
-    <label for="nombre">Nombre de la categoría</label>
-    <input type="text" id="nombre" name="nombre" disabled>
-    <span class="error-campo" id="error-nombre"></span>
+ 
+<div class="panel-grid" id="categorias-container"></div>
 
-    <label for="premios">Descripción de premios</label>
-    <input type="text" id="premios" name="premios" required>
-    <span class="error-campo" id="error-premios"></span>
+  <hr class="home-separator">
 
-    <label for="premio-fisico">Premio físico</label>
-    <input type="text" id="premio-fisico" name="premio-fisico" required>
-    <span class="error-campo" id="error-premio-fisico"></span>
+ 
 
-    <div class="error-global" id="error-global"></div>
-
-    <button type="submit" class="btn login-btn">Guardar cambios</button>
-  </form>
 </main>
 
 <footer class="footer">
@@ -87,9 +87,11 @@
   </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="../JS/auth.js"></script>
-<script src="../JS/premios.js"></script>
+
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+ <script src="../JS/auth.js"></script>
+
+<script src="../JS/premios.js" defer></script>
 
 </body>
 </html>

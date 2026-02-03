@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ganador Carrera Profesional</title>
+  <title>Editar evento de gala</title>
   <link rel="stylesheet" href="../CSS/estilos.css">
-  <script defer src="../JS/premios.js"></script>
+  <script defer src="../JS/gala.js"></script>
   <link rel="icon" href="../IMG/favicon.png" type="image/x-icon">
 </head>
 <body data-rol="organizador">
+
 
 <header class="navbar">
   <div class="logo">
@@ -21,8 +22,8 @@
 
   <nav>
    <ul class="nav-links">
-      <li><a href="organizador.php">Panel</a></li>
-      <li><a href="premios.php">Premios</a></li>
+      <li><a href="organizador.html">Panel</a></li>
+      <li><a href="gala.html">Gala</a></li>
    </ul>
   </nav>
 
@@ -32,29 +33,37 @@
 </header>
 
 <main class="login-container">
-  <h2>Ganador Carrera Profesional</h2>
+  <h2>Editar evento de gala</h2>
 
-  <form id="form-carrera" class="login-form">
+  <form id="form-gala" class="login-form">
 
-    <label for="nombre">Nombre y apellidos</label>
-    <input type="text" id="nombre" name="nombre" required>
-    <span class="error-campo" id="error-nombre"></span>
+    <label for="titulo">Título del evento</label>
+    <input type="text" id="titulo" name="titulo" required>
+    <span class="error-campo" id="error-titulo"></span>
 
-    <label for="email">Correo electrónico</label>
-    <input type="email" id="email" name="email" required>
-    <span class="error-campo" id="error-email"></span>
+    <label for="fecha">Fecha</label>
+    <input type="date" id="fecha" name="fecha" required>
+    <span class="error-campo" id="error-fecha"></span>
 
-    <label for="telefono">Teléfono de contacto</label>
-    <input type="tel" id="telefono" name="telefono" required>
-    <span class="error-campo" id="error-telefono"></span>
+    <label for="hora">Hora</label>
+    <input type="time" id="hora" name="hora" required>
+    <span class="error-campo" id="error-hora"></span>
 
-    <label for="video">Vídeo del recorrido profesional</label>
-    <input type="file" id="video" name="video" accept="video/*" required>
-    <span class="error-campo" id="error-video"></span>
+    <label for="lugar">Lugar</label>
+    <input type="text" id="lugar" name="lugar" required>
+    <span class="error-campo" id="error-lugar"></span>
+
+    <label for="descripcion">Descripción</label>
+    <textarea id="descripcion" name="descripcion" rows="4" style="width:100%; padding:0.6rem; border:1px solid #ccc; border-radius:4px;"></textarea>
+    <span class="error-campo" id="error-descripcion"></span>
+
+    <label for="imagen">Imagen del evento (opcional)</label>
+    <input type="file" id="imagen" name="imagen" accept="image/*">
+    <span class="error-campo" id="error-imagen"></span>
 
     <div class="error-global" id="error-global"></div>
 
-    <button type="submit" class="btn login-btn">Guardar ganador</button>
+    <button type="submit" class="btn login-btn">Guardar cambios</button>
   </form>
 </main>
 
@@ -90,9 +99,10 @@
     Universidad Europea © 2025. Todos los Derechos Reservados
   </div>
 </footer>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="../JS/auth.js"></script>
-
+<script src="../js/gala.js"></script>
 
 
 </body>

@@ -23,14 +23,14 @@ if (session_status() === PHP_SESSION_NONE) {
       <?php if (isset($_SESSION["id_usuario"]) && $_SESSION["rol"] === "participante"): ?>
 
         <!-- PARTICIPANTE -->
-        <li><a href="../HTML/participante.php">Panel</a></li>
+        <li><a href="../HTML/participante.html">Panel</a></li>
 
       <?php elseif (isset($_SESSION["id_usuario"]) && $_SESSION["rol"] === "organizador"): ?>
 
         <!-- ORGANIZADOR -->
-        <li><a href="../HTML/organizador.php">Panel</a></li>
-        <li><a href="../HTML/candidaturas.php">Candidaturas</a></li>
-        <li><a href="../HTML/patrocinadores.php">Patrocinadores</a></li>
+        <li><a href="../HTML/organizador.html">Panel</a></li>
+        <li><a href="../HTML/candidatura.html">Candidaturas</a></li>
+        <li><a href="../HTML/patrocinadores.html">Patrocinadores</a></li>
 
       <?php endif; ?>
 

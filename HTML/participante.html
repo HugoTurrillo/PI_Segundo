@@ -1,15 +1,14 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Añadir categoría</title>
-
+  <title>Panel participante - Festival Cortos UEM</title>
   <link rel="stylesheet" href="../CSS/estilos.css">
   <link rel="icon" href="../IMG/favicon.png" type="image/x-icon">
 </head>
-
-<body data-rol="organizador">
+<body data-rol="participante">
 
 <header class="navbar">
   <div class="logo">
@@ -22,37 +21,44 @@
 
   <nav>
    <ul class="nav-links">
-      <li><a href="organizador.php">Panel</a></li>
-      <li><a href="premios.php">Premios</a></li>
+    <li><a href="../php/home.php">Inicio</a></li>
+     <li><a href="calendario.html">Calendario</a></li>
+      <li><a href="sobre_nosotros.html">Sobre nosotros</a></li>
    </ul>
   </nav>
 
   <div class="nav-buttons">
-      <a href="login.html" class="btn nav-btn">Salir</a>
+      <a href="../php/logout.php" class="btn nav-btn">Salir</a>
   </div>
 </header>
 
 <main class="login-container">
-  <h2>Añadir categoría</h2>
+  <h2>Panel de participante</h2>
+  <p>Bienvenido al área privada del festival. Desde aquí puedes gestionar tu candidatura y tus datos personales.</p>
 
-  <form id="form-categoria" class="login-form">
+  <div class="panel-grid">
 
-    <label for="nombre">Nombre de la categoría</label>
-    <input type="text" id="nombre" name="nombre" required>
-    <span class="error-campo" id="error-nombre"></span>
+    <a href="form_inscripcion.html" class="panel-card">
+      <h3>Formulario de inscripción</h3>
+      <p>Envía tu candidatura al festival.</p>
+    </a>
 
-    <label for="premios">Descripción de premios</label>
-    <input type="text" id="premios" name="premios" required>
-    <span class="error-campo" id="error-premios"></span>
+    <a href="participante_candidatura.html" class="panel-card">
+      <h3>Mi candidatura</h3>
+      <p>Consulta el estado de tu candidatura y subsana si es necesario.</p>
+    </a>
 
-    <label for="premio-fisico">Premio físico</label>
-    <input type="text" id="premio-fisico" name="premio-fisico" required>
-    <span class="error-campo" id="error-premio-fisico"></span>
+    <a href="mis_datos.html" class="panel-card">
+      <h3>Mis datos</h3>
+      <p>Revisa y edita tu información personal.</p>
+    </a>
 
-    <div class="error-global" id="error-global"></div>
+    <a href="mensajes.php" class="panel-card">
+      <h3>Mensajes</h3>
+      <p>Comunícate con el organizador para subsanar o consultar dudas.</p>
+    </a>
 
-    <button type="submit" class="btn login-btn">Guardar categoría</button>
-  </form>
+  </div>
 </main>
 
 <footer class="footer">
@@ -87,10 +93,10 @@
     Universidad Europea © 2025. Todos los Derechos Reservados
   </div>
 </footer>
-
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="../JS/auth.js"></script>
-<script src="../JS/premios.js"></script>
+
+
 
 </body>
 </html>

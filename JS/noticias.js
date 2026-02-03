@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <p>${n.contenido}</p>
 
                     <div style="margin-top:1rem; display:flex; gap:1rem;">
-                        <a href="noticia-editar.php?id_noticia=${n.id_noticia}"
+                        <a href="noticia-editar.html?id_noticia=${n.id_noticia}"
                            class="btn login-btn">
                            Editar
                         </a>
@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
 
         const id = form.dataset.id;
-        const url = id ? "noticia-editar.php" : "noticia-nueva.php";
+        const url = id ? "noticia-editar.html" : "noticia-nueva.html";
 
         const formData = new FormData();
         formData.append("titulo", titulo.value);
@@ -160,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (r.ok) {
             await Swal.fire("OK", r.msg, "success");
-            window.location.href = "noticias.php";
+            window.location.href = "noticias.html";
         } else {
             errorGlobal.textContent = r.msg;
         }

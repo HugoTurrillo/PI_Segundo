@@ -4,8 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Añadir noticia</title>
+  <title>Añadir patrocinador</title>
   <link rel="stylesheet" href="../CSS/estilos.css">
+  <script defer src="../JS/patrocinadores.js"></script>
   <link rel="icon" href="../IMG/favicon.png" type="image/x-icon">
 </head>
 
@@ -22,8 +23,8 @@
 
     <nav>
       <ul class="nav-links">
-        <li><a href="organizador.php">Panel</a></li>
-        <li><a href="noticias.php">Noticias</a></li>
+        <li><a href="organizador.html">Panel</a></li>
+        <li><a href="patrocinadores.html">Patrocinadores</a></li>
       </ul>
     </nav>
 
@@ -33,25 +34,30 @@
   </header>
 
   <main class="login-container">
-    <h2>Añadir noticia</h2>
+    <h2>Añadir patrocinador</h2>
 
-    <form id="form-noticia" class="login-form" enctype="multipart/form-data">
+    <form id="form-patrocinador" class="login-form" method="POST" enctype="multipart/form-data">
 
-      <label for="titulo">Título</label>
-      <input type="text" id="titulo" name="titulo" required>
-      <span class="error-campo" id="error-titulo"></span>
 
-      <label for="contenido">Contenido</label>
-      <textarea id="contenido" name="contenido" rows="5" required
-        style="width:100%; padding:0.6rem; border:1px solid #ccc; border-radius:4px;"></textarea>
-      <span class="error-campo" id="error-contenido"></span>
+      <label for="nombre">Nombre del patrocinador</label>
+      <input type="text" id="nombre" name="nombre" required>
+      <span class="error-campo" id="error-nombre"></span>
 
-      <label for="imagen">Imagen de la noticia</label>
-      <input type="file" id="imagen" name="imagen" accept="image/*">
+      <label for="logo">Logo (imagen)</label>
+      <input type="file" id="logo" name="logo" accept="image/*" required>
+      <span class="error-campo" id="error-logo"></span>
+
+      <label for="enlace">Enlace web</label>
+      <input type="text" id="enlace" name="enlace" placeholder="https://www.ejemplo.com" required>
+      <span class="error-campo" id="error-enlace"></span>
+
+      <label for="descripcion">Descripción</label>
+      <textarea id="descripcion" name="descripcion" rows="4" style="width:100%; padding:0.6rem; border:1px solid #ccc; border-radius:4px;"></textarea>
+      <span class="error-campo" id="error-descripcion"></span>
 
       <div class="error-global" id="error-global"></div>
 
-      <button type="submit" class="btn login-btn">Guardar noticia</button>
+      <button type="submit" class="btn login-btn">Guardar patrocinador</button>
     </form>
   </main>
 
@@ -90,7 +96,8 @@
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="../JS/auth.js"></script>
-  <script src="../JS/noticias.js"></script>
+
+
 
 </body>
 

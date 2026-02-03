@@ -1,56 +1,59 @@
-
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premios - Panel Organizador</title>
+  <title>Formulario de inscripción - Festival Cortos UEM</title>
   <link rel="stylesheet" href="../CSS/estilos.css">
-  <link rel="icon" href="../IMG/favicon.png" type="image/x-icon">
 </head>
-<body data-rol="organizador">
+
+<body data-rol="participante">
 
 <header class="navbar">
   <div class="logo">
-      <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
-  </div>
-
-  <div class="search-bar">
-      <input type="text" placeholder="Buscar...">
+    <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
   </div>
 
   <nav>
-   <ul class="nav-links">
-      <li><a href="organizador.php">Panel</a></li>
-      <li><a href="calendario.html">Calendario</a></li>
-      <li><a href="#">Sobre nosotros</a></li>
-   </ul>
+    <ul class="nav-links">
+      <li><a href="participante.html">Panel</a></li>
+    </ul>
   </nav>
 
   <div class="nav-buttons">
-      <a href="login.html" class="btn nav-btn">Salir</a>
+    <a href="../php/logout.php" class="btn nav-btn">Salir</a>
   </div>
 </header>
 
 <main class="login-container">
-  
-  <h2>Gestión de las Categorías de los Premios</h2>
 
-  <!-- ============================
-       CATEGORÍAS
-  ============================= -->
-  <section style="margin-top: 2rem;">
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-      <h3 style="color: #d32f2f; font-size: 1.4rem;">Categorías y premios</h3>
-    </div>
-  </section>
+  <h2>Enviar candidatura</h2>
 
- 
-<div class="panel-grid" id="categorias-container"></div>
+  <form id="form-candidatura">
 
-  <hr class="home-separator">
+    <label>Título del cortometraje</label>
+    <input type="text" id="titulo_obra" required>
 
- 
+    <label>Sinopsis</label>
+    <textarea id="sinopsis" required></textarea>
+
+    <label>Nombre de contacto</label>
+    <input type="text" id="nombre_contacto" required>
+
+    <label>Email de contacto</label>
+    <input type="email" id="email_contacto" required>
+
+    <label>DNI</label>
+    <input type="text" id="dni" required>
+
+    <p id="error-global" style="color:red;"></p>
+
+    <button type="submit" class="btn login-btn">
+      Enviar candidatura
+    </button>
+
+  </form>
 
 </main>
 
@@ -87,11 +90,9 @@
   </div>
 </footer>
 
-
- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
- <script src="../JS/auth.js"></script>
-
-<script src="../JS/premios.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../JS/auth.js"></script>
+<script src="../JS/candidatura-nueva.js"></script>
 
 </body>
 </html>

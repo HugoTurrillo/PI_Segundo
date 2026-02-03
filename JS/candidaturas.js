@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (c.estado === "aceptada" && !c.id_categoria) {
         bloqueNominacion = `
-          <a href="nominar-categoria.php?id_candidatura=${c.id_candidatura}"
+          <a href="nominar-categoria.html?id_candidatura=${c.id_candidatura}"
              class="btn login-btn" style="background:#000;">
             Nominar a categoría
           </a>
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (c.estado === "aceptada" && c.id_categoria) {
         bloqueNominacion = `
           <p><strong>Categoría nominada:</strong> ${c.categoria_nombre}</p>
-          <a href="nominar-categoria.php?id_candidatura=${c.id_candidatura}"
+          <a href="nominar-categoria.html?id_candidatura=${c.id_candidatura}"
              class="btn login-btn" style="background:#FF3228;">
             Editar nominación
           </a>

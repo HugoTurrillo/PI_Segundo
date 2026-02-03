@@ -1,49 +1,56 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Candidaturas - Panel organizador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <title>Patrocinadores - Panel Organizador</title>
   <link rel="stylesheet" href="../CSS/estilos.css">
-  <link rel="icon" href="../IMG/favicon.png">
+  <link rel="icon" href="../IMG/favicon.png" type="image/x-icon">
 </head>
-
 <body data-rol="organizador">
 
-<!-- NAVBAR -->
 <header class="navbar">
   <div class="logo">
-    <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
+      <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
   </div>
 
   <div class="search-bar">
-    <input type="text" placeholder="Buscar...">
+      <input type="text" placeholder="Buscar...">
   </div>
 
   <nav>
-    <ul class="nav-links">
-      <li><a href="organizador.php">Panel</a></li>
+   <ul class="nav-links">
+      <li><a href="organizador.html">Panel</a></li>
       <li><a href="calendario.html">Calendario</a></li>
-    </ul>
+      <li><a href="#">Sobre nosotros</a></li>
+   </ul>
   </nav>
 
   <div class="nav-buttons">
-    <a href="../php/logout.php" class="btn nav-btn">Salir</a>
+      <a href="login.html" class="btn nav-btn">Salir</a>
   </div>
 </header>
 
-<!-- CONTENIDO -->
 <main class="login-container">
 
-  <h2>Gestión de candidaturas</h2>
-  <p>Revisa, acepta o rechaza las candidaturas enviadas.</p>
+  <h2>Gestión de patrocinadores</h2>
 
-  <div id="candidaturas-container" class="panel-grid"></div>
+  <section style="margin-top: 2rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+      <h3 style="color: #d32f2f; font-size: 1.4rem;">Patrocinadores</h3>
+      <a href="patrocinador-nuevo.html" class="btn login-btn" style="padding: 0.6rem 1.2rem;">Añadir patrocinador</a>
+    </div>
+  </section>
+
+  <!-- CONTENEDOR VACÍO PARA QUE EL JS LO RELLENE -->
+  <div class="panel-grid"></div>
 
 </main>
 
-<!-- FOOTER -->
+<!-- CARGA DEL JS -->
+<script src="../JS/patrocinadores.js" defer></script>
+
 <footer class="footer">
   <div class="footer-main">
     <div class="footer-left">
@@ -77,14 +84,9 @@
   </div>
 </footer>
 
-<!-- SCRIPTS -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<!-- Autenticación global -->
 <script src="../JS/auth.js"></script>
 
-<!-- JS de esta página -->
-<script src="../JS/candidaturas.js"></script>
 
 </body>
 </html>

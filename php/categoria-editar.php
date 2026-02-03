@@ -1,5 +1,5 @@
 <?php
-// php/categoria-editar.php
+// php/categoria-editar.html
 require "config/conexion.php";
 
 header("Content-Type: application/json");

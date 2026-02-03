@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <p>${p.descripcion || ""}</p>
 
                     <div style="margin-top:1rem; display:flex; gap:1rem;">
-                        <a href="patrocinador-editar.php?id=${p.id_patrocinador}"
+                        <a href="patrocinador-editar.html?id=${p.id_patrocinador}"
                            class="btn login-btn">Editar</a>
 
                         <button class="btn login-btn btn-eliminar-patrocinador"
@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (form.dataset.id) {
             datos.append("id", form.dataset.id);
 
-            const res = await fetch("../php/patrocinador-editar.php", {
+            const res = await fetch("../php/patrocinador-editar.html", {
                 method: "POST",
                 body: datos
             });
@@ -180,7 +180,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (r.ok) {
                 await Swal.fire("OK", "Patrocinador actualizado", "success");
-                window.location.href = "patrocinadores.php";
+                window.location.href = "patrocinadores.html";
             } else {
                 errorGlobal.textContent = r.msg;
             }
@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
         /* ============================
            CREAR (CON CONFIRMACIÓN)
         ============================ */
-        let res = await fetch("../php/patrocinador-nuevo.php", {
+        let res = await fetch("../php/patrocinador-nuevo.html", {
             method: "POST",
             body: datos
         });
@@ -209,19 +209,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!conf.isConfirmed) return;
 
-            res = await fetch("../php/patrocinador-nuevo.php?forzar=1", {
+            res = await fetch("../php/patrocinador-nuevo.html?forzar=1", {
                 method: "POST",
                 body: datos
             });
 
             await Swal.fire("Creado", "Patrocinador creado correctamente", "success");
-            window.location.href = "patrocinadores.php";
+            window.location.href = "patrocinadores.html";
             return;
         }
 
         if (r.ok) {
             await Swal.fire("Creado", "Patrocinador creado correctamente", "success");
-            window.location.href = "patrocinadores.php";
+            window.location.href = "patrocinadores.html";
         } else {
             errorGlobal.textContent = r.msg;
         }

@@ -3,68 +3,58 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Mi candidatura</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Añadir noticia</title>
   <link rel="stylesheet" href="../CSS/estilos.css">
+  <link rel="icon" href="../IMG/favicon.png" type="image/x-icon">
 </head>
 
-<body data-rol="participante">
+<body data-rol="organizador">
 
   <header class="navbar">
     <div class="logo">
-      <img src="../IMG/LOGOENTERO.png" alt="Logo">
+      <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
+    </div>
+
+    <div class="search-bar">
+      <input type="text" placeholder="Buscar...">
     </div>
 
     <nav>
       <ul class="nav-links">
-        <li><a href="participante.php">Panel</a></li>
+        <li><a href="organizador.html">Panel</a></li>
+        <li><a href="noticias.html">Noticias</a></li>
       </ul>
     </nav>
 
     <div class="nav-buttons">
-      <a href="../php/logout.php" class="btn nav-btn">Salir</a>
+      <a href="login.html" class="btn nav-btn">Salir</a>
     </div>
   </header>
 
   <main class="login-container">
+    <h2>Añadir noticia</h2>
 
-    <h2>Mi candidatura</h2>
+    <form id="form-noticia" class="login-form" enctype="multipart/form-data">
 
-    <div id="sinCandidatura" style="display:none;">
-      <p>No has enviado ninguna candidatura todavía.</p>
-      <a href="form_inscripcion.php" class="btn nav-btn">Enviar candidatura</a>
-    </div>
+      <label for="titulo">Título</label>
+      <input type="text" id="titulo" name="titulo" required>
+      <span class="error-campo" id="error-titulo"></span>
 
-    <div id="conCandidatura" style="display:none;">
+      <label for="contenido">Contenido</label>
+      <textarea id="contenido" name="contenido" rows="5" required
+        style="width:100%; padding:0.6rem; border:1px solid #ccc; border-radius:4px;"></textarea>
+      <span class="error-campo" id="error-contenido"></span>
 
-      <h3 id="titulo"></h3>
-      <p><strong>Estado:</strong> <span id="estado"></span></p>
+      <label for="imagen">Imagen de la noticia</label>
+      <input type="file" id="imagen" name="imagen" accept="image/*">
 
-      <p><strong>Descripción:</strong></p>
-      <p id="sinopsis"></p>
+      <div class="error-global" id="error-global"></div>
 
-      <div id="rechazoBox" style="display:none;">
-        <p style="color:red;"><strong>Motivo del rechazo:</strong></p>
-        <p id="motivoRechazo"></p>
-      </div>
-
-      <div id="subsanarBox" style="display:none; margin-top:1rem;">
-        <h4>Subsanar candidatura</h4>
-
-        <textarea id="mensajeSubsanacion"
-          rows="4"
-          placeholder="Explica qué has corregido..."
-          style="width:100%;"></textarea>
-
-        <button id="btnSubsanar" class="btn nav-btn" style="margin-top:0.5rem;">
-          Enviar subsanación
-        </button>
-
-        <p id="subsanarError" style="color:red;"></p>
-      </div>
-
-    </div>
-
+      <button type="submit" class="btn login-btn">Guardar noticia</button>
+    </form>
   </main>
+
   <footer class="footer">
     <div class="footer-main">
       <div class="footer-left">
@@ -97,9 +87,11 @@
       Universidad Europea © 2025. Todos los Derechos Reservados
     </div>
   </footer>
+
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="../JS/auth.js"></script>
-  <script src="../JS/participante-candidatura.js"></script>
+  <script src="../JS/noticias.js"></script>
+
 </body>
 
 </html>

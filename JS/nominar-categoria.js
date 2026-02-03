@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const r = await res.json();
 
     if (r.ok) {
-      window.location.href = "candidaturas.php";
+      window.location.href = "candidatura.html";
     } else {
       error.textContent = r.msg;
     }

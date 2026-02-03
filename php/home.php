@@ -38,10 +38,10 @@ $rol = $_SESSION["rol"] ?? null;
           <a href="../HTML/registro.html" class="btn home-btn">Crea tu cuenta gratis</a>
 
         <?php elseif ($rol === "participante"): ?>
-          <a href="../HTML/participante.php" class="btn home-btn">Ir a mi panel</a>
+          <a href="../HTML/participante.html" class="btn home-btn">Ir a mi panel</a>
 
         <?php elseif ($rol === "organizador"): ?>
-          <a href="../HTML/organizador.php" class="btn home-btn">Ir al panel organizador</a>
+          <a href="../HTML/organizador.html" class="btn home-btn">Ir al panel organizador</a>
 
         <?php endif; ?>
       </section>

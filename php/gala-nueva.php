@@ -1,5 +1,5 @@
 <?php
-// php/gala-nueva.php
+// php/gala-nueva.html
 require "config/conexion.php";
 
 header("Content-Type: application/json");
