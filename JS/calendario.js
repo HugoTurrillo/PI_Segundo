@@ -7,17 +7,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     const res = await fetch("../php/eventos-publicos.php");
     const data = await res.json();
 
-    console.log("Eventos recibidos:", data);
-
     if (!data.ok) {
-      console.error("Error en PHP:", data);
+      console.error("Error cargando eventos");
       return;
     }
 
-    const eventos = data.eventos.map(ev => ({
-      id: ev.id,
-      title: ev.titulo,
-      start: ev.fecha
+    const eventosPorDia = data.eventos;
+
+    // 🔹 Crear SOLO marcas por día
+    const eventosCalendario = Object.keys(eventosPorDia).map(fecha => ({
+      start: fecha,
+      display: "background",
+      backgroundColor: "#f44336" // rojo UEM
     }));
 
     const calendar = new FullCalendar.Calendar(calendarEl, {
@@ -31,17 +32,39 @@ document.addEventListener("DOMContentLoaded", async () => {
         right: ""
       },
 
-      events: eventos,
+      events: eventosCalendario,
 
-      eventClick(info) {
-        info.jsEvent.preventDefault();
-        window.location.href = `evento.html?id=${info.event.id}`;
+      dateClick(info) {
+        const fecha = info.dateStr;
+        const eventos = eventosPorDia[fecha];
+
+        if (!eventos || eventos.length === 0) return;
+
+        let html = `<div style="text-align:left;">`;
+
+        eventos.forEach(ev => {
+          html += `
+            <div style="margin-bottom:1rem;">
+              <strong>${ev.hora} – ${ev.titulo}</strong><br>
+              <span>${ev.descripcion}</span>
+            </div>
+          `;
+        });
+
+        html += `</div>`;
+
+        Swal.fire({
+          title: `Eventos del ${fecha}`,
+          html: html,
+          icon: "info",
+          confirmButtonText: "Cerrar"
+        });
       }
     });
 
     calendar.render();
 
-  } catch (error) {
-    console.error("Error cargando calendario:", error);
+  } catch (e) {
+    console.error("Error cargando calendario:", e);
   }
 });
