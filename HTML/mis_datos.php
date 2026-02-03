@@ -94,7 +94,7 @@ requireRole("participante");
     </div>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+  <script src="../JS/auth.js"></script>
   <script src="../JS/mis_datos.js"></script>
 </body>
 

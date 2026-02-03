@@ -8,11 +8,13 @@ requireRole("organizador");
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Añadir categoría</title>
+
   <link rel="stylesheet" href="../CSS/estilos.css">
-  <script defer src="../JS/premios.js"></script>
   <link rel="icon" href="../IMG/favicon.png" type="image/x-icon">
 </head>
-<body>
+
+<!-- Rol requerido -->
+<body data-rol="organizador">
 
 <header class="navbar">
   <div class="logo">
@@ -90,8 +92,15 @@ requireRole("organizador");
     Universidad Europea © 2025. Todos los Derechos Reservados
   </div>
 </footer>
+
+<!-- SCRIPTS -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<!-- Primero el auth global -->
+<script src="../JS/auth.js"></script>
+
+<!-- Luego el JS de esta página -->
+<script src="../JS/premios.js"></script>
 
 </body>
 </html>
