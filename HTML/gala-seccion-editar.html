@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Editar Gala</title>
+  <title>Editar Sección</title>
 
   <link rel="stylesheet" href="../CSS/estilos.css">
   <link rel="icon" href="../IMG/favicon.png" type="image/x-icon">
@@ -33,33 +33,25 @@
 </header>
 
 <main class="login-container">
-  <h2>Editar Gala</h2>
+  <h2>Editar Sección</h2>
 
-  <form id="form-gala" class="login-form" enctype="multipart/form-data">
+  <form id="form-seccion" class="login-form">
 
     <label>Título</label>
     <input type="text" id="titulo" name="titulo">
     <span class="error-campo" id="error-titulo"></span>
 
-    <label>Fecha</label>
-    <input type="date" id="fecha" name="fecha">
-    <span class="error-campo" id="error-fecha"></span>
-
     <label>Hora</label>
     <input type="time" id="hora" name="hora">
     <span class="error-campo" id="error-hora"></span>
 
-    <label>Lugar</label>
-    <input type="text" id="lugar" name="lugar">
-    <span class="error-campo" id="error-lugar"></span>
+    <label>Sala</label>
+    <input type="text" id="sala" name="sala">
+    <span class="error-campo" id="error-sala"></span>
 
     <label>Descripción</label>
     <textarea id="descripcion" name="descripcion" rows="4"></textarea>
     <span class="error-campo" id="error-descripcion"></span>
-
-    <label>Imagen (opcional)</label>
-    <input type="file" id="imagen" name="imagen" accept="image/*">
-    <span class="error-campo" id="error-imagen"></span>
 
     <div class="error-global" id="error-global"></div>
 
@@ -102,7 +94,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="../JS/auth.js"></script>
-<script src="../JS/gala-editar.js"></script>
+<script src="../JS/gala-seccion.js"></script>
 
 </body>
 </html>

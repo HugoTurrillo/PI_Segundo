@@ -1,324 +1,303 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+    const contBotones = document.getElementById("gala-botones");
+    const contContenido = document.getElementById("gala-contenido");
+
+    let galaActual = null;
+
     // ============================
-    // LISTAR EVENTOS DE GALA
+    // CARGAR GALA
     // ============================
     async function cargarGala() {
-        const contenedor = document.querySelector(".panel-grid");
-        if (!contenedor) return;
+        contBotones.innerHTML = "";
+        contContenido.innerHTML = "<p>Cargando gala...</p>";
 
         try {
-            const respuesta = await fetch("../php/gala-listar.php");
-            const eventos = await respuesta.json();
+            const res = await fetch("../php/gala-obtener.php");
+            const data = await res.json();
 
-            contenedor.innerHTML = "";
-
-            // ===== TARJETA PARA SELECCIONAR EVENTO EXISTENTE =====
-            contenedor.innerHTML += `
-                <div class="panel-card" style="border:2px dashed #ccc; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
-
-                    <h3>Seleccionar evento existente</h3>
-                    <p>Elige un evento ya creado para añadirlo a la gala.</p>
-
-                    <a href="eventos.html" 
-                       class="btn login-btn"
-                       style="margin-top:1rem;">
-                       Seleccionar evento
-                    </a>
-                </div>
-            `;
-
-            // ===== EVENTOS DE GALA =====
-            eventos.forEach(ev => {
-                contenedor.innerHTML += `
-                    <div class="panel-card">
-
-                        <img src="../uploads/${ev.imagen}" 
-                             alt="Imagen gala"
-                             style="width:100%; max-height:150px; object-fit:cover; border-radius:6px; margin-bottom:1rem;">
-
-                        <h3>${ev.titulo}</h3>
-
-                        <p><strong>Fecha:</strong> ${ev.fecha}</p>
-                        <p><strong>Hora:</strong> ${ev.hora}</p>
-                        <p><strong>Lugar:</strong> ${ev.lugar}</p>
-                        <p>${ev.descripcion ?? ""}</p>
-
-                        <div style="margin-top:1rem; display:flex; gap:1rem;">
-                            <a href="gala-editar.html?id=${ev.id}"
-                               class="btn login-btn"
-                               style="padding:0.5rem 1rem;">
-                                Editar
-                            </a>
-
-                            <button class="btn login-btn btn-eliminar-gala"
-                                    data-id="${ev.id}"
-                                    style="padding:0.5rem 1rem; background:#555;">
-                                Eliminar
-                            </button>
-                        </div>
+            if (!data.ok) {
+                // No hay gala → botón crear
+                contContenido.innerHTML = `
+                    <p>No existe ninguna gala creada.</p>
+                    <div style="text-align:center; margin-top:1rem;">
+                        <button class="btn login-btn" onclick="location.href='gala-nueva.html'">
+                            Crear gala
+                        </button>
                     </div>
                 `;
-            });
-
-            activarBotonesEliminar();
-
-        } catch (err) {
-            console.error(err);
-            contenedor.innerHTML = "<p>Error cargando las galas.</p>";
-        }
-    }
-
-    cargarGala();
-
-
-    // ============================
-    // ELIMINAR EVENTO DE GALA
-    // ============================
-    function activarBotonesEliminar() {
-        document.querySelectorAll(".btn-eliminar-gala").forEach(btn => {
-
-            btn.addEventListener("click", async () => {
-
-                const id = btn.dataset.id;
-
-                const confirmacion = await Swal.fire({
-                    title: "¿Eliminar gala?",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "Sí, eliminar",
-                    cancelButtonText: "Cancelar"
-                });
-
-                if (!confirmacion.isConfirmed) return;
-
-                try {
-
-                    const res = await fetch("../php/gala-eliminar.php", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ id: id })
-                    });
-
-                    const r = await res.json();
-
-                    await Swal.fire({
-                        icon: r.ok ? "success" : "error",
-                        title: r.ok ? "Eliminado" : "Error",
-                        text: r.msg
-                    });
-
-                    if (r.ok) cargarGala();
-
-                } catch (err) {
-                    console.error(err);
-                    Swal.fire("Error", "No se pudo eliminar la gala", "error");
-                }
-            });
-        });
-    }
-
-
-    // ============================
-    // FORMULARIO (CREAR / EDITAR)
-    // ============================
-    const form = document.getElementById("form-gala");
-    if (!form) return;
-
-    const titulo = document.getElementById("titulo");
-    const fecha = document.getElementById("fecha");
-    const hora = document.getElementById("hora");
-    const lugar = document.getElementById("lugar");
-    const descripcion = document.getElementById("descripcion");
-    const imagen = document.getElementById("imagen");
-
-    const errorTitulo = document.getElementById("error-titulo");
-    const errorFecha = document.getElementById("error-fecha");
-    const errorHora = document.getElementById("error-hora");
-    const errorLugar = document.getElementById("error-lugar");
-    const errorDescripcion = document.getElementById("error-descripcion");
-    const errorImagen = document.getElementById("error-imagen");
-    const errorGlobal = document.getElementById("error-global");
-
-
-    // ============================
-    // BLOQUEO FECHA Y HORA PASADAS
-    // ============================
-    const hoy = new Date();
-    const yyyy = hoy.getFullYear();
-    const mm = String(hoy.getMonth() + 1).padStart(2, "0");
-    const dd = String(hoy.getDate()).padStart(2, "0");
-
-    const fechaMinima = `${yyyy}-${mm}-${dd}`;
-    fecha.setAttribute("min", fechaMinima);
-
-    fecha.addEventListener("change", validarFechaHora);
-    hora.addEventListener("change", validarFechaHora);
-
-    function validarFechaHora() {
-
-        if (!fecha.value || !hora.value) return;
-
-        const ahora = new Date();
-        const fechaEvento = new Date(`${fecha.value}T${hora.value}`);
-
-        if (fechaEvento <= ahora) {
-            Swal.fire({
-                icon: "error",
-                title: "Fecha u hora no válida",
-                text: "No puedes crear un evento en una fecha pasada ni en una hora anterior a la actual."
-            });
-
-            hora.value = "";
-        }
-    }
-
-
-    // ============================
-    // CARGAR EVENTO PARA EDITAR
-    // ============================
-    async function cargarGalaEditar() {
-
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get("id");
-        if (!id) return;
-
-        try {
-
-            const res = await fetch("../php/gala-obtener.php", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ id: id })
-            });
-
-            const gala = await res.json();
-
-            if (!gala || !gala.id) {
-                errorGlobal.textContent = "No se encontró el evento.";
                 return;
             }
 
-            titulo.value = gala.titulo;
-            fecha.value = gala.fecha;
-            hora.value = gala.hora;
-            lugar.value = gala.lugar;
-            descripcion.value = gala.descripcion ?? "";
+            galaActual = data.data;
 
-            form.dataset.id = id;
+            // Hay gala → botones Pre/Post
+            contBotones.innerHTML = `
+                <button class="btn login-btn" id="btn-pre">Pre‑evento</button>
+                <button class="btn login-btn" id="btn-post">Post‑evento</button>
+            `;
+
+            document.getElementById("btn-pre").addEventListener("click", mostrarPreEvento);
+            document.getElementById("btn-post").addEventListener("click", mostrarPostEvento);
+
+            // Por defecto, mostramos Pre‑evento
+            mostrarPreEvento();
 
         } catch (err) {
             console.error(err);
-            errorGlobal.textContent = "Error al cargar el evento.";
+            contContenido.innerHTML = "<p>Error al cargar la gala.</p>";
         }
     }
 
-    cargarGalaEditar();
+    // ============================
+    // MODO PRE‑EVENTO
+    // ============================
+    async function mostrarPreEvento() {
+        if (!galaActual) return;
 
+        contContenido.innerHTML = `
+            <div class="panel-card">
+                <h3>${galaActual.titulo}</h3>
+                <p><strong>Fecha:</strong> ${galaActual.fecha}</p>
+                <p><strong>Hora:</strong> ${galaActual.hora}</p>
+                <p><strong>Lugar:</strong> ${galaActual.lugar}</p>
+                <p><strong>Descripción:</strong> ${galaActual.descripcion ?? ""}</p>
+                ${galaActual.imagen ? `
+                    <div style="margin-top:1rem;">
+                        <img src="../uploads/${galaActual.imagen}" alt="Imagen gala" style="max-width:100%; border-radius:8px;">
+                    </div>
+                ` : ""}
+                <div style="margin-top:1.5rem; display:flex; gap:1rem; flex-wrap:wrap;">
+                    <button class="btn login-btn" onclick="location.href='gala-editar.html'">
+                        Editar gala
+                    </button>
+                    <button class="btn login-btn" onclick="location.href='gala-seccion-nueva.html?id_gala=${galaActual.id}'">
+                        Añadir sección
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel-card" style="margin-top:2rem;">
+                <h3>Secciones de la gala</h3>
+                <div id="lista-secciones">
+                    <p>Cargando secciones...</p>
+                </div>
+            </div>
+        `;
+
+        cargarSecciones();
+    }
+
+    async function cargarSecciones() {
+        const cont = document.getElementById("lista-secciones");
+        if (!galaActual) return;
+
+        try {
+            const res = await fetch(`../php/gala-secciones-listar.php?id_gala=${galaActual.id}`);
+            const data = await res.json();
+
+            if (!data.ok) {
+                cont.innerHTML = `<p>No se han podido cargar las secciones.</p>`;
+                return;
+            }
+
+            if (!data.data.length) {
+                cont.innerHTML = `<p>No hay secciones creadas todavía.</p>`;
+                return;
+            }
+
+            cont.innerHTML = data.data.map(s => `
+                <div class="panel-item">
+                    <h4>${s.titulo}</h4>
+                    <p><strong>Hora:</strong> ${s.hora}</p>
+                    <p><strong>Sala:</strong> ${s.sala}</p>
+                    <p>${s.descripcion ?? ""}</p>
+                    <button class="btn login-btn" onclick="location.href='gala-seccion-editar.html?id=${s.id}&id_gala=${galaActual.id}'">
+                        Editar sección
+                    </button>
+                </div>
+            `).join("");
+        } catch (err) {
+            console.error(err);
+            cont.innerHTML = `<p>Error al cargar las secciones.</p>`;
+        }
+    }
 
     // ============================
-    // SUBMIT (CREAR O EDITAR)
+    // MODO POST‑EVENTO
     // ============================
-    form.addEventListener("submit", async (e) => {
+    async function mostrarPostEvento() {
+        if (!galaActual) return;
 
+        contContenido.innerHTML = `
+            <div class="panel-card">
+                <h3>Post‑evento</h3>
+                <p>Escribe aquí un pequeño resumen de cómo ha sido la gala.</p>
+                <textarea id="post-texto" rows="5" style="width:100%; margin-top:0.5rem;">${galaActual.post_evento_texto ?? ""}</textarea>
+                <div style="margin-top:1rem;">
+                    <button class="btn login-btn" id="btn-guardar-post">
+                        Guardar texto
+                    </button>
+                </div>
+                <div id="post-texto-error" class="error-campo" style="margin-top:0.5rem;"></div>
+            </div>
+
+            <div class="panel-card" style="margin-top:2rem;">
+                <h3>Ganadores</h3>
+                <div id="lista-ganadores">
+                    <p>Cargando ganadores...</p>
+                </div>
+            </div>
+
+            <div class="panel-card" style="margin-top:2rem;">
+                <h3>Galería de imágenes</h3>
+                <form id="form-galeria" enctype="multipart/form-data" style="margin-bottom:1rem;">
+                    <input type="file" id="imagen-galeria" name="imagen" accept="image/*">
+                    <button type="submit" class="btn login-btn" style="margin-left:0.5rem;">
+                        Subir imagen
+                    </button>
+                    <div id="galeria-error" class="error-campo" style="margin-top:0.5rem;"></div>
+                </form>
+                <div id="galeria-imagenes" style="display:flex; flex-wrap:wrap; gap:0.75rem;">
+                    <p>Cargando galería...</p>
+                </div>
+            </div>
+        `;
+
+        document.getElementById("btn-guardar-post").addEventListener("click", guardarTextoPostEvento);
+        document.getElementById("form-galeria").addEventListener("submit", subirImagenGaleria);
+
+        cargarGanadores();
+        cargarGaleria();
+    }
+
+    async function guardarTextoPostEvento() {
+        const textarea = document.getElementById("post-texto");
+        const error = document.getElementById("post-texto-error");
+        error.textContent = "";
+
+        const texto = textarea.value.trim();
+
+        try {
+            const res = await fetch("../php/gala-post-guardar-texto.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ texto })
+            });
+
+            const r = await res.json();
+
+            if (r.ok) {
+                galaActual.post_evento_texto = texto;
+                await Swal.fire({
+                    icon: "success",
+                    title: "Texto guardado",
+                    text: "El resumen del post‑evento se ha guardado correctamente."
+                });
+            } else {
+                error.textContent = r.msg || "No se ha podido guardar el texto.";
+            }
+        } catch (err) {
+            console.error(err);
+            error.textContent = "Error al guardar el texto.";
+        }
+    }
+
+    async function cargarGanadores() {
+        const cont = document.getElementById("lista-ganadores");
+
+        try {
+            const res = await fetch("../php/ganadores-listar.php");
+            const data = await res.json();
+
+            if (!data.ok || !data.data.length) {
+                cont.innerHTML = "<p>No hay ganadores registrados todavía.</p>";
+                return;
+            }
+
+            cont.innerHTML = data.data.map(g => `
+                <div class="panel-item">
+                    <p><strong>Categoría:</strong> ${g.categoria}</p>
+                    <p><strong>Puesto:</strong> ${g.numero_premio}</p>
+                    <p><strong>Título:</strong> ${g.titulo_obra}</p>
+                    <p><strong>Autor:</strong> ${g.nombre_contacto}</p>
+                </div>
+            `).join("");
+
+        } catch (err) {
+            console.error(err);
+            cont.innerHTML = "<p>Error al cargar los ganadores.</p>";
+        }
+    }
+
+    async function cargarGaleria() {
+        const cont = document.getElementById("galeria-imagenes");
+        if (!galaActual) return;
+
+        try {
+            const res = await fetch(`../php/gala-galeria-listar.php?id_gala=${galaActual.id}`);
+            const data = await res.json();
+
+            if (!data.ok || !data.data.length) {
+                cont.innerHTML = "<p>No hay imágenes en la galería todavía.</p>";
+                return;
+            }
+
+            cont.innerHTML = data.data.map(img => `
+                <div style="width:120px; height:120px; overflow:hidden; border-radius:8px; border:1px solid #ccc;">
+                    <img src="../uploads/${img.ruta_imagen}" alt="" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+            `).join("");
+
+        } catch (err) {
+            console.error(err);
+            cont.innerHTML = "<p>Error al cargar la galería.</p>";
+        }
+    }
+
+    async function subirImagenGaleria(e) {
         e.preventDefault();
 
-        let valido = true;
+        const input = document.getElementById("imagen-galeria");
+        const error = document.getElementById("galeria-error");
+        error.textContent = "";
 
-        [
-            errorTitulo,
-            errorFecha,
-            errorHora,
-            errorLugar,
-            errorDescripcion,
-            errorImagen,
-            errorGlobal
-        ].forEach(el => el.textContent = "");
-
-        const esNuevo = window.location.pathname.includes("gala-nueva");
-
-        if (titulo.value.trim() === "") {
-            errorTitulo.textContent = "El título es obligatorio.";
-            valido = false;
-        }
-
-        if (fecha.value.trim() === "") {
-            errorFecha.textContent = "La fecha es obligatoria.";
-            valido = false;
-        }
-
-        if (hora.value.trim() === "") {
-            errorHora.textContent = "La hora es obligatoria.";
-            valido = false;
-        }
-
-        if (lugar.value.trim() === "") {
-            errorLugar.textContent = "El lugar es obligatorio.";
-            valido = false;
-        }
-
-        if (descripcion.value.length > 600) {
-            errorDescripcion.textContent = "Máximo 600 caracteres.";
-            valido = false;
-        }
-
-        if (esNuevo && (!imagen.files || imagen.files.length === 0)) {
-            errorImagen.textContent = "Debes subir una imagen.";
-            valido = false;
-        }
-
-        if (!valido) {
-            errorGlobal.textContent = "Hay errores en el formulario.";
+        if (!input.files || !input.files.length) {
+            error.textContent = "Debes seleccionar una imagen.";
             return;
         }
 
         const datos = new FormData();
-        datos.append("titulo", titulo.value);
-        datos.append("fecha", fecha.value);
-        datos.append("hora", hora.value);
-        datos.append("lugar", lugar.value);
-        datos.append("descripcion", descripcion.value);
-
-        if (imagen.files.length > 0) {
-            datos.append("imagen", imagen.files[0]);
-        }
-
-        const id = form.dataset.id;
+        datos.append("id_gala", galaActual.id);
+        datos.append("imagen", input.files[0]);
 
         try {
+            const res = await fetch("../php/gala-galeria-subir.php", {
+                method: "POST",
+                body: datos
+            });
 
-            const respuesta = await fetch(
-                id ? "../php/gala-editar.php" : "../php/gala-nueva.php",
-                {
-                    method: "POST",
-                    body: (() => {
-                        if (id) datos.append("id", id);
-                        return datos;
-                    })()
-                }
-            );
+            const r = await res.json();
 
-            const resultado = await respuesta.json();
-
-            if (resultado.ok) {
-
+            if (r.ok) {
                 await Swal.fire({
                     icon: "success",
-                    title: id ? "Evento actualizado" : "Gala creada",
-                    text: id
-                        ? "La gala se ha actualizado correctamente"
-                        : "La gala se ha creado correctamente"
+                    title: "Imagen subida",
+                    text: "La imagen se ha añadido a la galería."
                 });
-
-                window.location.href = "gala.html";
-
+                input.value = "";
+                cargarGaleria();
             } else {
-                errorGlobal.textContent = resultado.msg;
+                error.textContent = r.msg || "No se ha podido subir la imagen.";
             }
 
         } catch (err) {
             console.error(err);
-            errorGlobal.textContent = "Error al guardar la gala.";
+            error.textContent = "Error al subir la imagen.";
         }
-    });
+    }
+
+    // Arrancamos
+    cargarGala();
 
 });
