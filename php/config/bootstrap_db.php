@@ -177,86 +177,151 @@ if ($check->num_rows === 0) {
 
     /* ===============================
        DATOS DE PRUEBA
-    ================================ */
+================================ */
 
     $passOrg = password_hash("organizador123", PASSWORD_DEFAULT);
     $passPar = password_hash("participante123", PASSWORD_DEFAULT);
 
-    $conexion->query("
-        INSERT INTO usuario (nombre_completo,email,password_hash,rol) VALUES
-        ('Organizador Principal','organizador@uem.es','$passOrg','organizador'),
-        ('Ana García','ana@correo.es','$passPar','participante'),
-        ('Carlos López','carlos@correo.es','$passPar','participante');
-    ");
+    /* ===============================
+   1. USUARIOS (IDs 1–12)
+================================ */
 
     $conexion->query("
-        INSERT INTO edicion_festival (anio,titulo,descripcion,fecha_inicio_inscripcion,fecha_fin_inscripcion,fecha_gala,activa)
-        VALUES (2025,'Festival Cortos UEM 2025','Edición oficial 2025','2025-01-01','2025-05-31','2025-06-15',1);
-    ");
+    INSERT INTO usuario (nombre_completo,email,password_hash,rol) VALUES
+    ('Organizador Principal','organizador@uem.es','$passOrg','organizador'),
+    ('Participante Principal','participante@uem.es','$passPar','participante'),
+    ('Usuario 3','u3@correo.es','$passPar','participante'),
+    ('Usuario 4','u4@correo.es','$passPar','participante'),
+    ('Usuario 5','u5@correo.es','$passPar','participante'),
+    ('Usuario 6','u6@correo.es','$passPar','participante'),
+    ('Usuario 7','u7@correo.es','$passPar','participante'),
+    ('Usuario 8','u8@correo.es','$passPar','participante'),
+    ('Usuario 9','u9@correo.es','$passPar','participante'),
+    ('Usuario 10','u10@correo.es','$passPar','participante'),
+    ('Usuario 11','u11@correo.es','$passPar','participante'),
+    ('Usuario 12','u12@correo.es','$passPar','participante');
+");
+
+    /* ===============================
+   2. EDICIÓN
+================================ */
 
     $conexion->query("
-        INSERT INTO categorias (nombre,premios,premio_fisico) VALUES
-        ('Alumnos',3,1),
-        ('Alumni',3,0),
-        ('Profesionales',3,0);
-    ");
+    INSERT INTO edicion_festival (anio,titulo,descripcion,fecha_inicio_inscripcion,fecha_fin_inscripcion,fecha_gala,activa)
+    VALUES (2025,'Festival Cortos UEM 2025','Edición oficial 2025','2025-01-01','2025-05-31','2025-06-15',1);
+");
+
+    /* ===============================
+   3. CATEGORÍAS (IDs 1–3)
+================================ */
 
     $conexion->query("
-        INSERT INTO candidatura
-        (id_usuario,id_edicion,id_categoria,titulo_obra,sinopsis,nombre_contacto,email_contacto,dni,video_ruta,portada_ruta,estado)
-        VALUES
-        (2,1,1,'Sombras','Corto dramático','Ana García','ana@correo.es','11111111A','videos/sombras.mp4','img/sombras.jpg','aceptada'),
-        (3,1,2,'Horizonte','Corto documental','Carlos López','carlos@correo.es','22222222B','videos/horizonte.mp4','img/horizonte.jpg','aceptada'),
-        (2,1,3,'Latidos','Corto experimental','Ana García','ana@correo.es','11111111A','videos/latidos.mp4','img/latidos.jpg','rechazada');
-    ");
+    INSERT INTO categorias (nombre,premios,premio_fisico) VALUES
+    ('Alumnos',3,1),
+    ('Alumni',3,0),
+    ('Profesionales',3,0);
+");
+
+    /* ===============================
+   4. CANDIDATURAS (11 entradas)
+================================ */
 
     $conexion->query("
-        INSERT INTO ganadores (id_categoria,numero_premio,id_candidatura) VALUES
-        (1,1,1),
-        (2,1,2);
-    ");
+    INSERT INTO candidatura
+    (id_usuario,id_edicion,id_categoria,titulo_obra,sinopsis,nombre_contacto,email_contacto,dni,video_ruta,portada_ruta,estado,motivo_rechazo,mensaje_subsanacion)
+    VALUES
+    (2,1,1,'Sombras del Alba','Drama psicológico','Ana García','ana@correo.es','11111111A','/videos/sombras_alba.mp4','/portadas/sombras_alba.jpg','aceptada',NULL,NULL),
+    (3,1,2,'Horizonte Perdido','Documental social','Carlos López','carlos@correo.es','22222222B','videos/horizonte_perdido.mp4','img/horizonte_perdido.jpg','aceptada',NULL,NULL),
+    (4,1,3,'Latidos Rotos','Experimental visual','Lucía Martín','lucia@correo.es','33333333C','videos/latidos_rotos.mp4','img/latidos_rotos.jpg','rechazada','No cumple requisitos técnicos',NULL),
+    (5,1,1,'Ecos','Drama urbano','Miguel Torres','miguel@correo.es','44444444D','videos/ecos.mp4','img/ecos.jpg','aceptada',NULL,NULL),
+    (6,1,2,'Raíces','Documental humano','Sara Ruiz','sara@correo.es','55555555E','videos/sombras_alba.mp4','img/sombras_alba.jpg','en_proceso',NULL,NULL),
+    (7,1,3,'Fragmentos','Experimental narrativo','Javier Morales','javier@correo.es','66666666F','videos/fragmentos.mp4','img/fragmentos.jpg','rechazada','Audio defectuoso','Sube una versión corregida'),
+    (8,1,1,'Reflejos','Drama juvenil','Elena Pérez','elena@correo.es','77777777G','videos/reflejos.mp4','img/reflejos.jpg','aceptada',NULL,NULL),
+    (9,1,2,'Voces','Documental íntimo','David Romero','david@correo.es','88888888H','videos/voces.mp4','img/voces.jpg','aceptada',NULL,NULL),
+    (10,1,3,'Ciclos','Experimental conceptual','María Sánchez','maria@correo.es','99999999J','videos/ciclos.mp4','img/ciclos.jpg','en_proceso',NULL,NULL),
+    (11,1,1,'Niebla','Drama introspectivo','Pablo Herrera','pablo@correo.es','10101010K','videos/niebla.mp4','img/niebla.jpg','rechazada','Iluminación insuficiente',NULL),
+    (12,1,2,'Senderos','Documental de viaje','Laura Díaz','laura@correo.es','12121212L','videos/senderos.mp4','img/senderos.jpg','aceptada',NULL,NULL);
+");
+
+    /* ===============================
+   5. GANADORES
+================================ */
 
     $conexion->query("
-        INSERT INTO evento (titulo,fecha,hora,descripcion) VALUES
-        ('Masterclass Dirección','2025-05-10','10:00:00','Clase magistral'),
-        ('Taller Montaje','2025-05-15','16:00:00','Edición profesional');
-    ");
+    INSERT INTO ganadores (id_categoria,numero_premio,id_candidatura) VALUES
+    (1,1,1),
+    (2,1,2);
+");
+
+    /* ===============================
+   6. EVENTOS
+================================ */
 
     $conexion->query("
-        INSERT INTO gala (titulo,fecha,hora,lugar,descripcion,imagen) VALUES
-        ('Gala Final','2025-06-15','19:00:00','Auditorio','Entrega de premios','gala.jpg');
-    ");
+    INSERT INTO evento (titulo,fecha,hora,descripcion) VALUES
+    ('Masterclass Dirección','2025-05-10','10:00:00','Clase magistral'),
+    ('Taller Montaje','2025-05-15','16:00:00','Edición profesional');
+");
+
+    /* ===============================
+   7. GALA
+================================ */
 
     $conexion->query("
-        INSERT INTO noticia (titulo,contenido,imagen_ruta) VALUES
-        ('Festival en marcha','Inscripciones abiertas','noticia1.jpg'),
-        ('Ganadores anunciados','Lista oficial','noticia2.jpg');
-    ");
+    INSERT INTO gala (titulo,fecha,hora,lugar,descripcion,imagen) VALUES
+    ('Gala Final','2025-06-15','19:00:00','Auditorio','Entrega de premios','gala.jpg');
+");
+
+    /* ===============================
+   8. NOTICIAS
+================================ */
 
     $conexion->query("
-        INSERT INTO patrocinador (nombre,logo_ruta,url_web,descripcion) VALUES
-        ('UEM','uem.png','https://uem.es','Universidad Europea'),
-        ('Canon','canon.png','https://canon.es','Equipamiento audiovisual');
-    ");
+    INSERT INTO noticia (titulo,contenido,imagen_ruta) VALUES
+    ('Festival en marcha','Inscripciones abiertas','noticia1.jpg'),
+    ('Ganadores anunciados','Lista oficial','noticia2.jpg');
+");
+
+    /* ===============================
+   9. PATROCINADORES
+================================ */
 
     $conexion->query("
-        INSERT INTO post_evento
-        (id_edicion,resumen,ganador_alumnos,corto_alumnos,ganador_alumni,corto_alumni,ganador_profesional,corto_profesional,anio_edicion,numero_participantes,ganadores_json)
-        VALUES
-        (1,'Gran éxito del festival','Ana García','Sombras','Carlos López','Horizonte','Ana García','Latidos',2025,120,'{\"alumnos\":\"Sombras\",\"alumni\":\"Horizonte\"}');
-    ");
+    INSERT INTO patrocinador (nombre,logo_ruta,url_web,descripcion) VALUES
+    ('UEM','uem.png','https://uem.es','Universidad Europea'),
+    ('Canon','canon.png','https://canon.es','Equipamiento audiovisual');
+");
+
+    /* ===============================
+   10. POST-EVENTO
+================================ */
 
     $conexion->query("
-        INSERT INTO post_evento_imagen (id_post_evento,ruta_imagen) VALUES
-        (1,'post/img1.jpg'),
-        (1,'post/img2.jpg');
-    ");
+    INSERT INTO post_evento
+    (id_edicion,resumen,ganador_alumnos,corto_alumnos,ganador_alumni,corto_alumni,ganador_profesional,corto_profesional,anio_edicion,numero_participantes,ganadores_json)
+    VALUES
+    (1,'Gran éxito del festival','Ana García','Sombras','Carlos López','Horizonte','Ana García','Latidos',2025,120,'{\"alumnos\":\"Sombras\",\"alumni\":\"Horizonte\"}');
+");
+
+    /* ===============================
+   11. POST-EVENTO IMÁGENES
+================================ */
 
     $conexion->query("
-        INSERT INTO post_evento_corto (id_post_evento,ruta_corto) VALUES
-        (1,'post/corto1.mp4'),
-        (1,'post/corto2.mp4');
-    ");
+    INSERT INTO post_evento_imagen (id_post_evento,ruta_imagen) VALUES
+    (1,'post/img1.jpg'),
+    (1,'post/img2.jpg');
+");
+
+    /* ===============================
+   12. POST-EVENTO CORTOS
+================================ */
+
+    $conexion->query("
+    INSERT INTO post_evento_corto (id_post_evento,ruta_corto) VALUES
+    (1,'post/corto1.mp4'),
+    (1,'post/corto2.mp4');
+");
 }
 
 $conexion->close();
