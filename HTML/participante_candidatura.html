@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <title>Mi candidatura</title>
@@ -8,70 +9,79 @@
 
 <body data-rol="participante">
 
-<header class="navbar">
-  <div class="logo">
-    <img src="../IMG/LOGOENTERO.png">
-  </div>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="participante.html">Panel</a></li>
-    </ul>
-  </nav>
-  <div class="nav-buttons">
-    <a href="../php/logout.php" class="btn nav-btn">Salir</a>
-  </div>
-</header>
-
-<main class="login-container">
-
-<h2>Mi candidatura</h2>
-
-<div id="sinCandidatura" style="display:none;">
-  <p>No has enviado ninguna candidatura.</p>
-  <a href="form_inscripcion.html" class="btn login-btn">Enviar candidatura</a>
-</div>
-
-<div id="conCandidatura" style="display:none;">
-  <div class="panel-card">
-
-    <h3 id="titulo"></h3>
-
-    <p><strong>Estado:</strong> <span id="estado"></span></p>
-
-    <video id="video" controls style="width:100%;border-radius:8px;"></video>
-
-    <h4>Sinopsis</h4>
-    <p id="sinopsis"></p>
-
-    <div id="rechazoBox" style="display:none;">
-      <p style="color:red;"><strong>Motivo rechazo</strong></p>
-      <p id="motivoRechazo"></p>
+  <header class="navbar">
+    <div class="logo">
+      <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
     </div>
 
-    <div id="subsanarBox" style="display:none;">
-      <h4>Editar candidatura y subsanar</h4>
-
-      <label>Nueva sinopsis (opcional)</label>
-      <textarea id="sinopsisEditada"></textarea>
-
-      <label>Nuevo vídeo (opcional)</label>
-      <input type="file" id="videoEditado" accept="video/*">
-
-      <label>Nueva portada (opcional)</label>
-      <input type="file" id="portadaEditada" accept="image/*">
-
-      <label>Mensaje de subsanación *</label>
-      <textarea id="mensajeSubsanacion" required></textarea>
-
-      <button id="btnSubsanar" class="btn login-btn">Enviar subsanación</button>
+    <div class="search-bar">
+      <input type="text" placeholder="Buscar...">
     </div>
 
-  </div>
-</div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="participante.html">Panel</a></li>
+        <li><a href="calendario.html">Calendario</a></li>
+        <li><a href="sobre_nosotros.html">Sobre nosotros</a></li>
+      </ul>
+    </nav>
 
-</main>
+    <div class="nav-buttons">
+      <a href="../php/logout.php" class="btn nav-btn">Salir</a>
+    </div>
+  </header>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="../JS/participante-candidatura.js"></script>
+  <main class="login-container">
+
+    <h2>Mi candidatura</h2>
+
+    <div id="sinCandidatura" style="display:none;">
+      <p>No has enviado ninguna candidatura.</p>
+      <a href="form_inscripcion.html" class="btn login-btn">Enviar candidatura</a>
+    </div>
+
+    <div id="conCandidatura" style="display:none;">
+      <div class="panel-card">
+
+        <h3 id="titulo"></h3>
+
+        <p><strong>Estado:</strong> <span id="estado"></span></p>
+
+        <video id="video" controls style="width:100%;border-radius:8px;"></video>
+
+        <h4>Sinopsis</h4>
+        <p id="sinopsis"></p>
+
+        <div id="rechazoBox" style="display:none;">
+          <p style="color:red;"><strong>Motivo rechazo</strong></p>
+          <p id="motivoRechazo"></p>
+        </div>
+
+        <div id="subsanarBox" style="display:none;">
+          <h4>Editar candidatura y subsanar</h4>
+
+          <label>Nueva sinopsis (opcional)</label>
+          <textarea id="sinopsisEditada"></textarea>
+
+          <label>Nuevo vídeo (opcional)</label>
+          <input type="file" id="videoEditado" accept="video/*">
+
+          <label>Nueva portada (opcional)</label>
+          <input type="file" id="portadaEditada" accept="image/*">
+
+          <label>Mensaje de subsanación *</label>
+          <textarea id="mensajeSubsanacion" required></textarea>
+
+          <button id="btnSubsanar" class="btn login-btn">Enviar subsanación</button>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="../JS/participante-candidatura.js"></script>
 </body>
+
 </html>

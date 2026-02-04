@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,55 +11,60 @@
 
 <body data-rol="organizador">
 
-<header class="navbar">
-  <div class="logo">
-    <img src="../IMG/LOGOENTERO.png" alt="Logo">
-  </div>
+  <header class="navbar">
+    <div class="logo">
+      <img src="../IMG/LOGOENTERO.png" alt="Logo">
+    </div>
 
-  <nav>
-   <ul class="nav-links">
-      <li><a href="eventos.html">Eventos</a></li>
-      <li><a href="calendario.html">Calendario</a></li>
-      <li><a href="#">Sobre nosotros</a></li>
-   </ul>
-  </nav>
+    <div class="search-bar">
+      <input type="text" placeholder="Buscar...">
+    </div>
 
-  <div class="nav-buttons">
+    <nav>
+      <ul class="nav-links">
+        <li><a href="eventos.html">Eventos</a></li>
+        <li><a href="calendario.html">Calendario</a></li>
+        <li><a href="sobre_nosotros.html">Sobre nosotros</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-buttons">
       <a href="login.html" class="btn nav-btn">Salir</a>
-  </div>
+    </div>
 
-</header>
+  </header>
 
-<main class="login-container">
-  <h2>Editar evento</h2>
+  <main class="login-container">
+    <h2>Editar evento</h2>
 
-  <form id="form-evento" class="login-form">
+    <form id="form-evento" class="login-form">
 
-    <label>Título</label>
-    <input type="text" id="titulo" required>
-    <span id="error-titulo"></span>
+      <label>Título</label>
+      <input type="text" id="titulo" required>
+      <span id="error-titulo"></span>
 
-    <label>Fecha</label>
-    <input type="date" id="fecha" required>
-    <span id="error-fecha"></span>
+      <label>Fecha</label>
+      <input type="date" id="fecha" required>
+      <span id="error-fecha"></span>
 
-    <label>Hora</label>
-    <input type="time" id="hora" required>
-    <span id="error-hora"></span>
+      <label>Hora</label>
+      <input type="time" id="hora" required>
+      <span id="error-hora"></span>
 
-    <label>Descripción</label>
-    <textarea id="descripcion" rows="5" required></textarea>
-    <span id="error-descripcion"></span>
+      <label>Descripción</label>
+      <textarea id="descripcion" rows="5" required></textarea>
+      <span id="error-descripcion"></span>
 
-    <div id="error-global"></div>
+      <div id="error-global"></div>
 
-    <button type="submit" class="btn login-btn">Guardar cambios</button>
-  </form>
-</main>
+      <button type="submit" class="btn login-btn">Guardar cambios</button>
+    </form>
+  </main>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="../JS/auth.js"></script>
-<script src="../JS/eventos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="../JS/auth.js"></script>
+  <script src="../JS/eventos.js"></script>
 
 </body>
+
 </html>
