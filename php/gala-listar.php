@@ -4,18 +4,19 @@ require "config/conexion.php";
 
 header("Content-Type: application/json; charset=utf-8");
 
-$stmt = $conexion->prepare(
-    "SELECT id, titulo, fecha, hora, lugar, descripcion, imagen
-     FROM gala
-     ORDER BY id DESC"
-);
+// Obtener la única gala existente
+$sql = "SELECT id, titulo, fecha, lugar, descripcion FROM gala LIMIT 1";
+$resultado = $conexion->query($sql);
 
-$stmt->execute();
-$resultado = $stmt->get_result();
-
-$gala = [];
-while ($fila = $resultado->fetch_assoc()) {
-    $gala[] = $fila;
+if ($resultado && $resultado->num_rows > 0) {
+    $gala = $resultado->fetch_assoc();
+    echo json_encode([
+        "ok" => true,
+        "data" => $gala
+    ]);
+} else {
+    echo json_encode([
+        "ok" => false,
+        "msg" => "No existe ninguna gala"
+    ]);
 }
-
-echo json_encode($gala);
