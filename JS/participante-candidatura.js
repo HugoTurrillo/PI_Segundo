@@ -15,6 +15,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("estado").textContent = c.estado.replace("_", " ");
   document.getElementById("sinopsis").textContent = c.sinopsis;
 
+  /* ==========================
+     VIDEO + PORTADA
+  ========================== */
   const video = document.getElementById("video");
   video.innerHTML = "";
 
@@ -35,17 +38,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     document.getElementById("subsanarBox").style.display = "block";
 
-    
+    /* PRE-CARGAR CAMPOS */
     const textareaSinopsis = document.getElementById("sinopsisEditada");
-
-    // Forzamos que aparezca la sinopsis anterior
     textareaSinopsis.value = c.sinopsis ?? "";
 
     const inputTitulo = document.getElementById("tituloEditado");
-    inputTitulo.value = c.titulo_obra ?? "";
+    if (inputTitulo) {
+      inputTitulo.value = c.titulo_obra ?? "";
+    }
 
-
-    document.getElementById("btnSubsanar").onclick = async () => {     
+    /* ==========================
+       ENVIAR SUBSANACIÓN
+    ========================== */
+    document.getElementById("btnSubsanar").onclick = async () => {
 
       const mensaje = document
         .getElementById("mensajeSubsanacion")
@@ -57,26 +62,29 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
 
       const fd = new FormData();
-fd.append("mensaje", mensaje);
+      fd.append("mensaje", mensaje);
 
-      /* TÍTULO */
-      const nuevoTitulo = inputTitulo.value.trim();
-      if (nuevoTitulo !== "" && nuevoTitulo !== c.titulo_obra) {
-        fd.append("titulo", nuevoTitulo);
+      /* TÍTULO (solo si cambia) */
+      if (inputTitulo) {
+        const nuevoTitulo = inputTitulo.value.trim();
+        if (nuevoTitulo !== "" && nuevoTitulo !== c.titulo_obra) {
+          fd.append("titulo", nuevoTitulo);
+        }
       }
 
-      /* SINOPSIS */
+      /* SINOPSIS (solo si cambia) */
       const nuevaSinopsis = textareaSinopsis.value.trim();
       if (nuevaSinopsis !== "" && nuevaSinopsis !== c.sinopsis) {
         fd.append("sinopsis", nuevaSinopsis);
       }
 
-
+      /* VIDEO */
       const videoNuevo = document.getElementById("videoEditado").files[0];
       if (videoNuevo) {
         fd.append("video", videoNuevo);
       }
 
+      /* PORTADA */
       const portadaNueva = document.getElementById("portadaEditada").files[0];
       if (portadaNueva) {
         fd.append("portada", portadaNueva);
