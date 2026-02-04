@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -42,15 +41,20 @@
   <section style="margin-top: 2rem;">
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
       <h3 style="color: #d32f2f; font-size: 1.4rem;">Categorías y premios</h3>
+
+      <!--  BOTÓN AÑADIR CATEGORÍA -->
+      <button id="btn-add-categoria" 
+              class="btn login-btn"
+              style="padding:0.6rem 1rem; background:#d32f2f; color:white; border-radius:6px;">
+        Añadir categoría
+      </button>
     </div>
   </section>
 
  
-<div class="panel-grid" id="categorias-container"></div>
+  <div class="panel-grid" id="categorias-container"></div>
 
   <hr class="home-separator">
-
- 
 
 </main>
 
@@ -87,10 +91,8 @@
   </div>
 </footer>
 
-
- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
- <script src="../JS/auth.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../JS/auth.js"></script>
 <script src="../JS/premios.js" defer></script>
 
 </body>

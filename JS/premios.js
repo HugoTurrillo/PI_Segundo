@@ -10,19 +10,13 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const respuesta = await fetch("../php/categorias-listar.php");
             const resultado = await respuesta.json();
-            console.log("RESPUESTA JS:", resultado);
-            console.log("TIPO DE DATA:", typeof resultado.data);
-            console.log("DATA:", resultado.data);
-
 
             if (!resultado.ok) {
-                console.error("Error backend:", resultado.error);
                 contenedor.innerHTML = "<p>Error al cargar categorías</p>";
                 return;
             }
 
             const categorias = resultado.data;
-
             contenedor.innerHTML = "";
 
             if (categorias.length === 0) {
@@ -67,6 +61,64 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ======================================================
+       AÑADIR CATEGORÍA (SweetAlert2)
+    ====================================================== */
+    const btnAdd = document.getElementById("btn-add-categoria");
+
+    if (btnAdd) {
+        btnAdd.addEventListener("click", () => {
+            Swal.fire({
+                title: "Nueva categoría",
+                html: `
+                    <input id="cat-nombre" class="swal2-input" placeholder="Nombre">
+                    <input id="cat-premios" type="number" class="swal2-input" placeholder="Número de premios">
+                    <input id="cat-fisico" type="number" class="swal2-input" placeholder="Premios físicos">
+                `,
+                confirmButtonText: "Crear",
+                showCancelButton: true,
+                preConfirm: () => {
+                    const nombre = document.getElementById("cat-nombre").value.trim();
+                    const premios = document.getElementById("cat-premios").value.trim();
+                    const fisico = document.getElementById("cat-fisico").value.trim();
+
+                    if (!nombre || !premios || !fisico) {
+                        Swal.showValidationMessage("Todos los campos son obligatorios");
+                        return false;
+                    }
+
+                    return { nombre, premios, premio_fisico: fisico };
+                }
+            }).then(async res => {
+                if (!res.isConfirmed) return;
+
+                try {
+                    const respuesta = await fetch("../php/categoria-nueva.php", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(res.value)
+                    });
+
+                    const resultado = await respuesta.json();
+
+                    if (!resultado.ok) {
+                        Swal.fire("Error", resultado.msg || "No se pudo crear", "error");
+                        return;
+                    }
+
+                    Swal.fire("Creada", "La categoría ha sido añadida", "success");
+                    cargarCategorias();
+
+                } catch (error) {
+                    console.error(error);
+                    Swal.fire("Error", "Error de conexión", "error");
+                }
+            });
+        });
+    }
+
+
+
+    /* ======================================================
        ELIMINAR CATEGORÍA
     ====================================================== */
     function activarBotonesEliminar() {
@@ -74,22 +126,32 @@ document.addEventListener("DOMContentLoaded", () => {
             btn.addEventListener("click", async () => {
                 const id = btn.dataset.id;
 
-                if (!confirm("¿Seguro que quieres eliminar esta categoría?")) return;
+                const confirm = await Swal.fire({
+                    title: "¿Eliminar categoría?",
+                    text: "Esta acción no se puede deshacer",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Eliminar",
+                    cancelButtonText: "Cancelar"
+                });
+
+                if (!confirm.isConfirmed) return;
 
                 try {
                     const res = await fetch(`../php/categoria-eliminar.php?id=${id}`);
                     const resultado = await res.json();
 
                     if (!resultado.ok) {
-                        alert(resultado.msg || "Error al eliminar");
+                        Swal.fire("Error", resultado.msg || "No se pudo eliminar", "error");
                         return;
                     }
 
+                    Swal.fire("Eliminada", "La categoría ha sido borrada", "success");
                     cargarCategorias();
 
                 } catch (error) {
                     console.error(error);
-                    alert("Error de conexión");
+                    Swal.fire("Error", "Error de conexión", "error");
                 }
             });
         });
@@ -101,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
        FORMULARIO (CREAR / EDITAR)
     ====================================================== */
     const form = document.getElementById("form-categoria");
-    if (!form) return; // No estamos en nueva / editar
+    if (!form) return;
 
     const nombre = document.getElementById("nombre");
     const premios = document.getElementById("premios");
@@ -155,7 +217,6 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        // Reset errores
         errorNombre.textContent = "";
         errorPremios.textContent = "";
         errorPremioFisico.textContent = "";
@@ -190,11 +251,11 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         const id = form.dataset.id;
-        let url = "../php/categoria-nueva.html";
+        let url = "../php/categoria-nueva.php";
 
         if (id) {
             datos.id = id;
-            url = "../php/categoria-editar.html";
+            url = "../php/categoria-editar.php";
         }
 
         try {
