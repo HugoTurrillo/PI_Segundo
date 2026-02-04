@@ -1,100 +1,195 @@
-document.addEventListener("DOMContentLoaded", () => {
-  cargarCategorias();
+document.addEventListener("DOMContentLoaded", async () => {
 
-  document.getElementById("select_categoria").addEventListener("change", () => {
-    const id_categoria = document.getElementById("select_categoria").value;
-    if (id_categoria) {
-      cargarCategoria(id_categoria);
-      cargarPremios(id_categoria);
-      cargarNominados(id_categoria);
-    }
+  const params = new URLSearchParams(window.location.search);
+  const idGanador = params.get("id_ganador");
+
+  const tituloForm = document.getElementById("titulo-form");
+  if (idGanador && tituloForm) {
+    tituloForm.textContent = "Editar ganador";
+  }
+
+  await cargarCategorias();
+
+  document.getElementById("select_categoria").addEventListener("change", async () => {
+    const id = document.getElementById("select_categoria").value;
+    if (!id) return;
+
+    await cargarCategoria(id);
+    await cargarPremios(id);
+    await cargarNominados(id);
   });
 
-  document.getElementById("form-ganador").addEventListener("submit", guardarGanador);
+  document
+    .getElementById("form-ganador")
+    .addEventListener("submit", e => guardarGanador(e, idGanador));
+
+  if (idGanador) {
+    await cargarGanadorEditar(idGanador);
+  }
 });
 
+/* ======================================================
+   CARGAR TODAS LAS CATEGORÍAS
+====================================================== */
 async function cargarCategorias() {
-  const res = await fetch("../php/categorias-listar.php");
-  const data = await res.json();
+  try {
+    const res = await fetch("../php/categorias-listar.php");
+    const json = await res.json();
 
-  const select = document.getElementById("select_categoria");
-  select.innerHTML = "<option value=''>Selecciona una categoría</option>";
+    const select = document.getElementById("select_categoria");
+    select.innerHTML = "<option value=''>Selecciona una categoría</option>";
 
-  data.data.forEach(cat => {
-    select.innerHTML += `<option value="${cat.id}">${cat.nombre}</option>`;
-  });
+    if (!json.ok) {
+      Swal.fire("Error", "No se pudieron cargar categorías", "error");
+      return;
+    }
+
+    json.data.forEach(cat => {
+      select.innerHTML += `
+        <option value="${cat.id}">
+          ${cat.nombre}
+        </option>
+      `;
+    });
+
+  } catch (e) {
+    console.error(e);
+    Swal.fire("Error", "Error cargando categorías", "error");
+  }
 }
 
+/* ======================================================
+   INFO DE CATEGORÍA
+====================================================== */
 async function cargarCategoria(id) {
-  const res = await fetch("../php/categoria-obtener.php?id=" + id);
-  const data = await res.json();
+  try {
+    const res = await fetch("../php/categoria-obtener.php?id=" + id);
+    const json = await res.json();
 
-  document.getElementById("info-categoria").innerHTML = `
-    <strong>Categoría:</strong> ${data.data.nombre}<br>
-    <strong>Premios disponibles:</strong> ${data.data.premios}
-  `;
-}
+    if (!json.ok) return;
 
-async function cargarPremios(id_categoria) {
-  const res = await fetch("../php/categoria-obtener.php?id=" + id_categoria);
-  const data = await res.json();
-
-  const select = document.getElementById("numero_premio");
-  select.innerHTML = "";
-
-  for (let i = 1; i <= data.data.premios; i++) {
-    select.innerHTML += `<option value="${i}">${i}º Premio</option>`;
-  }
-}
-
-async function cargarNominados(id_categoria) {
-  const res = await fetch("../php/nominados-por-categoria.php?id_categoria=" + id_categoria);
-  const data = await res.json();
-
-  const select = document.getElementById("id_candidatura");
-  select.innerHTML = "";
-
-  if (data.data.length === 0) {
-    select.innerHTML = "<option>No hay nominados</option>";
-    return;
-  }
-
-  data.data.forEach(n => {
-    select.innerHTML += `
-      <option value="${n.id_candidatura}">
-        ${n.titulo_obra} — ${n.nombre_contacto}
-      </option>
+    document.getElementById("info-categoria").innerHTML = `
+      <strong>Categoría:</strong> ${json.data.nombre}<br>
+      <strong>Premios:</strong> ${json.data.premios}
     `;
-  });
+
+  } catch (e) {
+    console.error(e);
+  }
 }
 
-async function guardarGanador(e) {
+/* ======================================================
+   PREMIOS SEGÚN CATEGORÍA
+====================================================== */
+async function cargarPremios(idCategoria) {
+  try {
+    const res = await fetch("../php/categoria-obtener.php?id=" + idCategoria);
+    const json = await res.json();
+
+    const select = document.getElementById("numero_premio");
+    select.innerHTML = "";
+
+    for (let i = 1; i <= json.data.premios; i++) {
+      select.innerHTML += `<option value="${i}">${i}º Premio</option>`;
+    }
+
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+/* ======================================================
+   NOMINADOS POR CATEGORÍA
+====================================================== */
+async function cargarNominados(idCategoria) {
+  try {
+    const res = await fetch("../php/nominados-por-categoria.php?id_categoria=" + idCategoria);
+    const json = await res.json();
+
+    const select = document.getElementById("id_candidatura");
+    select.innerHTML = "";
+
+    if (!json.ok || json.data.length === 0) {
+      select.innerHTML = "<option>No hay nominados</option>";
+      return;
+    }
+
+    json.data.forEach(n => {
+      select.innerHTML += `
+        <option value="${n.id_candidatura}">
+          ${n.titulo_obra} — ${n.nombre_contacto}
+        </option>
+      `;
+    });
+
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+/* ======================================================
+   CARGAR GANADOR PARA EDITAR
+====================================================== */
+async function cargarGanadorEditar(id) {
+  try {
+    const res = await fetch("../php/ganador-obtener.php?id=" + id);
+    const json = await res.json();
+
+    if (!json.ok) {
+      Swal.fire("Error", json.error, "error");
+      return;
+    }
+
+    const g = json.data;
+
+    document.getElementById("select_categoria").value = g.id_categoria;
+
+    await cargarCategoria(g.id_categoria);
+    await cargarPremios(g.id_categoria);
+    await cargarNominados(g.id_categoria);
+
+    document.getElementById("numero_premio").value = g.numero_premio;
+    document.getElementById("id_candidatura").value = g.id_candidatura;
+
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+/* ======================================================
+   GUARDAR (CREAR O EDITAR)
+====================================================== */
+async function guardarGanador(e, idGanador) {
   e.preventDefault();
 
-  const id_categoria = document.getElementById("select_categoria").value;
+  const fd = new FormData();
+  fd.append("id_categoria", document.getElementById("select_categoria").value);
+  fd.append("numero_premio", document.getElementById("numero_premio").value);
+  fd.append("id_candidatura", document.getElementById("id_candidatura").value);
 
-  if (!id_categoria) {
-    Swal.fire("Error", "Selecciona una categoría", "error");
-    return;
+  if (idGanador) {
+    fd.append("id_ganador", idGanador);
   }
 
-  const formData = new FormData();
-  formData.append("id_categoria", id_categoria);
-  formData.append("numero_premio", document.getElementById("numero_premio").value);
-  formData.append("id_candidatura", document.getElementById("id_candidatura").value);
+  try {
+    const res = await fetch("../php/ganador-guardar.php", {
+      method: "POST",
+      body: fd
+    });
 
-  const res = await fetch("../php/ganador-guardar.php", {
-    method: "POST",
-    body: formData
-  });
+    const json = await res.json();
 
-  const data = await res.json();
+    if (!json.ok) {
+      Swal.fire("Error", json.error, "error");
+      return;
+    }
 
-  if (!data.ok) {
-    Swal.fire("Error", data.error, "error");
-    return;
+    Swal.fire("Correcto", json.msg, "success").then(() => {
+      window.location.href = "ganadores.html";
+    });
+
+  } catch (e) {
+    console.error(e);
+    Swal.fire("Error", "Error de conexión", "error");
   }
-
-  await Swal.fire("Correcto", "Ganador asignado correctamente", "success");
-  window.location.href = "ganadores.html";
 }
