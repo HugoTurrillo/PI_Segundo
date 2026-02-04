@@ -16,6 +16,36 @@ if (!isset($_SESSION["id_usuario"]) || $_SESSION["rol"] !== "participante") {
 
 $id_usuario = $_SESSION["id_usuario"];
 
+/* ===========================
+   BLOQUEAR SEGUNDA CANDIDATURA
+=========================== */
+$check = $conexion->prepare("
+    SELECT id_candidatura, estado
+    FROM candidatura
+    WHERE id_usuario = ?
+    LIMIT 1
+");
+$check->bind_param("i", $id_usuario);
+$check->execute();
+$resCheck = $check->get_result();
+
+if ($resCheck->num_rows > 0) {
+    $existe = $resCheck->fetch_assoc();
+
+    // Si NO está rechazada → bloquear
+    if ($existe["estado"] !== "rechazada") {
+        echo json_encode([
+            "ok" => false,
+            "mensaje" => "Ya has enviado una candidatura. No puedes enviar otra."
+        ]);
+        exit;
+    }
+}
+$check->close();
+
+/* ===========================
+   DATOS FORMULARIO
+=========================== */
 $titulo   = trim($_POST["titulo_obra"] ?? "");
 $sinopsis = trim($_POST["sinopsis"] ?? "");
 $dni      = strtoupper(trim($_POST["dni"] ?? ""));
@@ -43,7 +73,9 @@ if (!$portada || $portada["error"] !== 0) {
     exit;
 }
 
-/* DATOS USUARIO */
+/* ===========================
+   DATOS USUARIO
+=========================== */
 $stmt = $conexion->prepare("
     SELECT nombre_completo, email
     FROM usuario
@@ -54,42 +86,33 @@ $stmt->execute();
 $user = $stmt->get_result()->fetch_assoc();
 $stmt->close();
 
-$nombre = $user["nombre_completo"];
-$email  = $user["email"];
-
-/* EDICIÓN ACTIVA */
+/* ===========================
+   EDICIÓN ACTIVA
+=========================== */
 $res = $conexion->query("SELECT id_edicion FROM edicion_festival WHERE activa=1 LIMIT 1");
 $edicion = $res->fetch_assoc();
 
-if (!$edicion) {
-    echo json_encode(["ok" => false, "mensaje" => "No hay edición activa"]);
-    exit;
-}
+/* ===========================
+   CARPETAS
+=========================== */
+@mkdir(__DIR__ . "/../uploads/videos", 0777, true);
+@mkdir(__DIR__ . "/../uploads/portadas", 0777, true);
 
-/* CARPETAS */
-if (!is_dir(__DIR__ . "/../uploads/videos")) {
-    mkdir(__DIR__ . "/../uploads/videos", 0777, true);
-}
-if (!is_dir(__DIR__ . "/../uploads/portadas")) {
-    mkdir(__DIR__ . "/../uploads/portadas", 0777, true);
-}
-
-/* NOMBRES */
+/* ===========================
+   ARCHIVOS
+=========================== */
 $videoNombre   = uniqid("video_") . "_" . basename($video["name"]);
 $portadaNombre = uniqid("portada_") . "_" . basename($portada["name"]);
 
-/* RUTAS WEB (BD) */
 $videoRutaBD   = "/uploads/videos/" . $videoNombre;
 $portadaRutaBD = "/uploads/portadas/" . $portadaNombre;
 
-/* RUTAS FÍSICAS */
-$videoRutaFS   = __DIR__ . "/../uploads/videos/" . $videoNombre;
-$portadaRutaFS = __DIR__ . "/../uploads/portadas/" . $portadaNombre;
+move_uploaded_file($video["tmp_name"], __DIR__ . "/../" . $videoRutaBD);
+move_uploaded_file($portada["tmp_name"], __DIR__ . "/../" . $portadaRutaBD);
 
-move_uploaded_file($video["tmp_name"], $videoRutaFS);
-move_uploaded_file($portada["tmp_name"], $portadaRutaFS);
-
-/* INSERT */
+/* ===========================
+   INSERT
+=========================== */
 $stmt = $conexion->prepare("
     INSERT INTO candidatura
     (id_usuario, id_edicion, titulo_obra, sinopsis, nombre_contacto, email_contacto, dni, video_ruta, portada_ruta)
@@ -102,8 +125,8 @@ $stmt->bind_param(
     $edicion["id_edicion"],
     $titulo,
     $sinopsis,
-    $nombre,
-    $email,
+    $user["nombre_completo"],
+    $user["email"],
     $dni,
     $videoRutaBD,
     $portadaRutaBD

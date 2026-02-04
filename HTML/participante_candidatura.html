@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Mi candidatura</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../CSS/estilos.css">
 </head>
 
@@ -11,15 +10,13 @@
 
 <header class="navbar">
   <div class="logo">
-    <img src="../IMG/LOGOENTERO.png" alt="Logo">
+    <img src="../IMG/LOGOENTERO.png">
   </div>
-
   <nav>
     <ul class="nav-links">
       <li><a href="participante.html">Panel</a></li>
     </ul>
   </nav>
-
   <div class="nav-buttons">
     <a href="../php/logout.php" class="btn nav-btn">Salir</a>
   </div>
@@ -27,78 +24,54 @@
 
 <main class="login-container">
 
-  <h2>Mi candidatura</h2>
+<h2>Mi candidatura</h2>
 
-  <!-- SIN CANDIDATURA -->
-  <div id="sinCandidatura" style="display:none;">
-    <p>No has enviado ninguna candidatura todavía.</p>
-    <a href="form_inscripcion.html" class="btn login-btn">Enviar candidatura</a>
-  </div>
+<div id="sinCandidatura" style="display:none;">
+  <p>No has enviado ninguna candidatura.</p>
+  <a href="form_inscripcion.html" class="btn login-btn">Enviar candidatura</a>
+</div>
 
-  <!-- CON CANDIDATURA -->
-  <div id="conCandidatura" style="display:none;">
+<div id="conCandidatura" style="display:none;">
+  <div class="panel-card">
 
-    <div class="panel-card">
+    <h3 id="titulo"></h3>
 
-      <h3 id="titulo"></h3>
+    <p><strong>Estado:</strong> <span id="estado"></span></p>
 
-      <p>
-        <strong>Estado:</strong>
-        <span id="estado"></span>
-      </p>
+    <video id="video" controls style="width:100%;border-radius:8px;"></video>
 
-      <!-- VIDEO + PORTADA -->
-      <div style="margin:1.5rem 0;">
-        <video
-          id="video"
-          controls
-          style="width:100%; border-radius:8px;"
-          poster="">
-          Tu navegador no soporta vídeo HTML5
-        </video>
-      </div>
+    <h4>Sinopsis</h4>
+    <p id="sinopsis"></p>
 
-      <h4>Sinopsis</h4>
-      <p id="sinopsis"></p>
-
-      <!-- RECHAZO -->
-      <div id="rechazoBox" style="display:none; margin-top:1rem;">
-        <p style="color:red;"><strong>Motivo del rechazo:</strong></p>
-        <p id="motivoRechazo"></p>
-      </div>
-
-      <!-- SUBSANAR -->
-      <div id="subsanarBox" style="display:none; margin-top:1.5rem;">
-        <h4>Subsanar candidatura</h4>
-
-        <textarea
-          id="mensajeSubsanacion"
-          rows="4"
-          placeholder="Explica qué has corregido..."
-          style="width:100%;"></textarea>
-
-        <button
-          id="btnSubsanar"
-          class="btn login-btn"
-          style="margin-top:0.5rem;">
-          Enviar subsanación
-        </button>
-      </div>
-
+    <div id="rechazoBox" style="display:none;">
+      <p style="color:red;"><strong>Motivo rechazo</strong></p>
+      <p id="motivoRechazo"></p>
     </div>
+
+    <div id="subsanarBox" style="display:none;">
+      <h4>Editar candidatura y subsanar</h4>
+
+      <label>Nueva sinopsis (opcional)</label>
+      <textarea id="sinopsisEditada"></textarea>
+
+      <label>Nuevo vídeo (opcional)</label>
+      <input type="file" id="videoEditado" accept="video/*">
+
+      <label>Nueva portada (opcional)</label>
+      <input type="file" id="portadaEditada" accept="image/*">
+
+      <label>Mensaje de subsanación *</label>
+      <textarea id="mensajeSubsanacion" required></textarea>
+
+      <button id="btnSubsanar" class="btn login-btn">Enviar subsanación</button>
+    </div>
+
   </div>
+</div>
 
 </main>
 
-<footer class="footer">
-  <div class="footer-bottom">
-    Universidad Europea © 2025
-  </div>
-</footer>
-
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="../JS/auth.js"></script>
 <script src="../JS/participante-candidatura.js"></script>
-
 </body>
 </html>
