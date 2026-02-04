@@ -17,6 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 $id_usuario = $_SESSION["id_usuario"];
 
 $mensaje  = trim($_POST["mensaje"] ?? "");
+$titulo = trim($_POST["titulo"] ?? "");
 $sinopsis = trim($_POST["sinopsis"] ?? "");
 
 $video   = $_FILES["video"] ?? null;
@@ -51,6 +52,15 @@ $id_candidatura = $candidatura["id_candidatura"];
 $updates = [];
 $params  = [];
 $types   = "";
+
+
+/* TÍTULO */
+if ($titulo !== "") {
+    $updates[] = "titulo_obra=?";
+    $params[]  = $titulo;
+    $types    .= "s";
+}
+
 
 /* Sinopsis */
 if ($sinopsis !== "") {

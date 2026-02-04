@@ -33,14 +33,14 @@
 
 <main class="login-container">
 
- <h2 id="titulo-form">Asignar ganador</h2>
+  <h2 id="titulo-form">Asignar ganador</h2>
 
   <label>Categoría:</label>
   <select id="select_categoria" required style="margin-bottom:1rem;"></select>
 
-  <div id="info-categoria" class="panel-card" style="padding:1.2rem; margin-bottom:1.5rem;">   Cargando categoría...
-    Selecciona una categoría...  
-    </div>
+  <div id="info-categoria" class="panel-card" style="padding:1.2rem; margin-bottom:1.5rem;">
+    Cargando categoría...
+  </div>
 
   <form id="form-ganador" class="panel-card" style="padding:1.5rem;">
     
@@ -50,9 +50,23 @@
     <label>Nominado ganador:</label>
     <select id="id_candidatura" required></select>
 
-    <button class="btn login-btn" type="submit" style="margin-top:1rem;">
-      Guardar ganador
-    </button>
+    <!-- BOTONES -->
+    <div style="display:flex; gap:1rem; margin-top:1.5rem; flex-wrap:wrap;">
+      <button class="btn login-btn" type="submit">
+        Guardar ganador
+      </button>
+
+      
+      <button
+      type="button"
+      class="btn login-btn"
+       style="background:#555;"
+      onclick="window.location.href='ganadores.html'">
+      Salir sin guardar
+      </button>
+
+    </div>
+
   </form>
 
 </main>
@@ -89,6 +103,7 @@
     Universidad Europea © 2025. Todos los Derechos Reservados
   </div>
 </footer>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="../JS/auth.js"></script>
 <script src="../JS/ganador-asignar.js"></script>
