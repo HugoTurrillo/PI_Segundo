@@ -231,16 +231,16 @@ if ($check->num_rows === 0) {
     (id_usuario,id_edicion,id_categoria,titulo_obra,sinopsis,nombre_contacto,email_contacto,dni,video_ruta,portada_ruta,estado,motivo_rechazo,mensaje_subsanacion)
     VALUES
     (2,1,1,'Sombras del Alba','Drama psicológico','Ana García','ana@correo.es','11111111A','/videos/sombras_alba.mp4','/portadas/sombras_alba.jpg','aceptada',NULL,NULL),
-    (3,1,2,'Horizonte Perdido','Documental social','Carlos López','carlos@correo.es','22222222B','videos/horizonte_perdido.mp4','img/horizonte_perdido.jpg','aceptada',NULL,NULL),
-    (4,1,3,'Latidos Rotos','Experimental visual','Lucía Martín','lucia@correo.es','33333333C','videos/latidos_rotos.mp4','img/latidos_rotos.jpg','rechazada','No cumple requisitos técnicos',NULL),
-    (5,1,1,'Ecos','Drama urbano','Miguel Torres','miguel@correo.es','44444444D','videos/ecos.mp4','img/ecos.jpg','aceptada',NULL,NULL),
-    (6,1,2,'Raíces','Documental humano','Sara Ruiz','sara@correo.es','55555555E','videos/sombras_alba.mp4','img/sombras_alba.jpg','en_proceso',NULL,NULL),
-    (7,1,3,'Fragmentos','Experimental narrativo','Javier Morales','javier@correo.es','66666666F','videos/fragmentos.mp4','img/fragmentos.jpg','rechazada','Audio defectuoso','Sube una versión corregida'),
-    (8,1,1,'Reflejos','Drama juvenil','Elena Pérez','elena@correo.es','77777777G','videos/reflejos.mp4','img/reflejos.jpg','aceptada',NULL,NULL),
-    (9,1,2,'Voces','Documental íntimo','David Romero','david@correo.es','88888888H','videos/voces.mp4','img/voces.jpg','aceptada',NULL,NULL),
-    (10,1,3,'Ciclos','Experimental conceptual','María Sánchez','maria@correo.es','99999999J','videos/ciclos.mp4','img/ciclos.jpg','en_proceso',NULL,NULL),
-    (11,1,1,'Niebla','Drama introspectivo','Pablo Herrera','pablo@correo.es','10101010K','videos/niebla.mp4','img/niebla.jpg','rechazada','Iluminación insuficiente',NULL),
-    (12,1,2,'Senderos','Documental de viaje','Laura Díaz','laura@correo.es','12121212L','videos/senderos.mp4','img/senderos.jpg','aceptada',NULL,NULL);
+    (3,1,2,'Horizonte Perdido','Documental social','Carlos López','carlos@correo.es','22222222B','/videos/horizonte.mp4','/portadas/horizonte.jpg','aceptada',NULL,NULL),
+    (4,1,3,'Latidos Rotos','Experimental visual','Lucía Martín','lucia@correo.es','33333333C','/videos/latidos_rotos.mp4','/portadas/latidos_rotos.jpg','rechazada','No cumple requisitos técnicos',NULL),
+    (5,1,1,'Ecos','Drama urbano','Miguel Torres','miguel@correo.es','44444444D','/videos/ecos.mp4','/portadas/ecos.jpg','aceptada',NULL,NULL),
+    (6,1,2,'Raíces','Documental humano','Sara Ruiz','sara@correo.es','55555555E','/videos/humano.mp4','/portadas/humano.jpg','en_proceso',NULL,NULL),
+    (7,1,3,'Fragmentos','Experimental narrativo','Javier Morales','javier@correo.es','66666666F','/videos/fragmentos.mp4','/portadas/fragmentos.jpg','rechazada','Audio defectuoso','Sube una versión corregida'),
+    (8,1,1,'Reflejos','Drama juvenil','Elena Pérez','elena@correo.es','77777777G','/videos/reflejos.mp4','/portadas/reflejos.jpg','aceptada',NULL,NULL),
+    (9,1,2,'Voces','Documental íntimo','David Romero','david@correo.es','88888888H','/videos/voces.mp4','/portadas/voces.jpg','aceptada',NULL,NULL),
+    (10,1,3,'Ciclos','Experimental conceptual','María Sánchez','maria@correo.es','99999999J','/videos/ciclos.mp4','/portadas/ciclos.jpg','en_proceso',NULL,NULL),
+    (11,1,1,'Niebla','Drama introspectivo','Pablo Herrera','pablo@correo.es','10101010K','/videos/niebla.mp4','/portadas/niebla.jpg','rechazada','Iluminación insuficiente',NULL),
+    (12,1,2,'Senderos','Documental de viaje','Laura Díaz','laura@correo.es','12121212L','/videos/senderos.mp4','/portadas/senderos.jpg','aceptada',NULL,NULL);
 ");
 
     /* ===============================
@@ -289,7 +289,7 @@ if ($check->num_rows === 0) {
     $conexion->query("
     INSERT INTO patrocinador (nombre,logo_ruta,url_web,descripcion) VALUES
     ('UEM','uem.png','https://uem.es','Universidad Europea'),
-    ('Canon','canon.png','https://canon.es','Equipamiento audiovisual');
+    ('Canon','/portadas/canon.png','https://canon.es','Equipamiento audiovisual');
 ");
 
     /* ===============================
