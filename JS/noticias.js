@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
 
         const id = form.dataset.id;
-        const url = id ? "noticia-editar.html" : "noticia-nueva.html";
+        const url = id ? "noticia-editar.php" : "noticia-nueva.php";
 
         const formData = new FormData();
         formData.append("titulo", titulo.value);

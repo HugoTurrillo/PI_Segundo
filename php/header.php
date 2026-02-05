@@ -1,6 +1,6 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+  session_start();
 }
 ?>
 
@@ -17,13 +17,14 @@ if (session_status() === PHP_SESSION_NONE) {
     <ul class="nav-links">
 
       <!-- ENLACES COMUNES PARA TODOS -->
-      <li><a href="../HTML/calendario.html">Calendario</a></li>
-      <li><a href="../HTML/sobre_nosotros.html">Sobre Nosotros</a></li>
+        <li><a href="../HTML/sobre_nosotros.html">Sobre nosotros</a></li>
 
       <?php if (isset($_SESSION["id_usuario"]) && $_SESSION["rol"] === "participante"): ?>
 
         <!-- PARTICIPANTE -->
         <li><a href="../HTML/participante.html">Panel</a></li>
+        
+        <li><a href="../HTML/calendario.html">Calendario</a></li>
 
       <?php elseif (isset($_SESSION["id_usuario"]) && $_SESSION["rol"] === "organizador"): ?>
 
