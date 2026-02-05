@@ -2,7 +2,9 @@
 require "config/conexion.php";
 header("Content-Type: application/json");
 
-$stmt = $conexion->prepare("
+$categoria = $_GET["categoria"] ?? "todas";
+
+$sql = "
   SELECT 
     c.id_candidatura,
     c.titulo_obra,
@@ -17,8 +19,30 @@ $stmt = $conexion->prepare("
   FROM candidatura c
   INNER JOIN usuario u ON u.id_usuario = c.id_usuario
   LEFT JOIN categorias cat ON cat.id = c.id_categoria
-  ORDER BY c.fecha_creacion DESC
-");
+";
+
+if ($categoria !== "todas") {
+
+    // Mapeo del desplegable → valores reales de la BD
+    $map = [
+        "alumnos" => "alumno",
+        "alumni" => "alumni",
+        "profesionales" => "profesional"
+    ];
+
+    if (isset($map[$categoria])) {
+        $sql .= " WHERE u.rol_participante = ? ";
+        $categoria = $map[$categoria];
+    }
+}
+
+$sql .= " ORDER BY c.fecha_creacion DESC ";
+
+$stmt = $conexion->prepare($sql);
+
+if ($categoria !== "todas") {
+    $stmt->bind_param("s", $categoria);
+}
 
 $stmt->execute();
 $res = $stmt->get_result();

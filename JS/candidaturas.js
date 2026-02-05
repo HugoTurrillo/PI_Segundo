@@ -4,7 +4,9 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!contenedor) return;
 
   async function cargarCandidaturas() {
-    const res = await fetch("../php/candidaturas-listar.php");
+    const categoria = document.getElementById("filtroCategoria")?.value || "todas";
+
+    const res = await fetch(`../php/candidaturas-listar.php?categoria=${categoria}`);
     const lista = await res.json();
 
     contenedor.innerHTML = "";
@@ -22,16 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
       }
 
-      // if (c.estado === "aceptada" && c.id_categoria) {
-      //   bloqueNominacion = `
-      //     <p><strong>Categoría nominada:</strong> ${c.categoria_nombre}</p>
-      //     <a href="nominar-categoria.html?id_candidatura=${c.id_candidatura}"
-      //        class="btn login-btn" style="background:#FF3228;">
-      //       Editar nominación
-      //     </a>
-      //   `;
-      // }
-
       contenedor.innerHTML += `
         <div class="panel-card candidatura-card"
              data-id="${c.id_candidatura}"
@@ -40,13 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <h3>${c.titulo_obra}</h3>
           <p><strong>Autor:</strong> ${c.nombre_contacto}</p>
           <p><strong>Email:</strong> ${c.email_contacto}</p>
-
-          <!-- PERFIL SOLO INFORMATIVO -->
-          <p>
-            <strong>Perfil:</strong> 
-            ${c.rol_participante}
-          </p>
-
+          <p><strong>Perfil:</strong> ${c.rol_participante}</p>
           <p><strong>Estado:</strong> ${c.estado}</p>
 
           ${c.estado === "rechazada" ? `
@@ -85,6 +71,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     activarClicks();
     activarBotones();
+  }
+
+  const filtro = document.getElementById("filtroCategoria");
+  if (filtro) {
+    filtro.addEventListener("change", cargarCandidaturas);
   }
 
   function activarClicks() {
