@@ -3,8 +3,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   const form = document.getElementById("form-candidatura");
   const error = document.getElementById("error-global");
 
-  const inputNombre = document.getElementById("nombre_contacto");
-  const inputEmail  = document.getElementById("email_contacto");
+  const inputNombre  = document.getElementById("nombre_contacto");
+  const inputEmail   = document.getElementById("email_contacto");
+  const inputPerfil  = document.getElementById("perfil_participante");
 
   /* ======================================================
      BLOQUEAR SI YA EXISTE CANDIDATURA
@@ -16,7 +17,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (estadoData.ok && estadoData.candidatura) {
       Swal.fire({
         icon: "info",
-         iconColor: "#FF3228",
+        iconColor: "#FF3228",
         title: "Candidatura ya enviada",
         text: "No puedes enviar otra candidatura. Si ha sido rechazada, edítala desde 'Mi candidatura'."
       }).then(() => {
@@ -29,7 +30,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   /* ======================================================
-     AUTORELLENAR USUARIO
+     AUTORELLENAR USUARIO + PERFIL
   ====================================================== */
   try {
     const resUser = await fetch("../php/usuario-mis-datos.php");
@@ -38,6 +39,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (userData.ok) {
       inputNombre.value = userData.usuario.nombre_completo;
       inputEmail.value  = userData.usuario.email;
+
+      if (inputPerfil) {
+        inputPerfil.value = userData.usuario.rol_participante ?? "";
+      }
+
       inputNombre.readOnly = true;
       inputEmail.readOnly  = true;
     }

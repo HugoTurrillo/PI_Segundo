@@ -1,113 +1,84 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulario de inscripción - Festival Cortos UEM</title>
+  <title>Nueva candidatura</title>
   <link rel="stylesheet" href="../CSS/estilos.css">
 </head>
 
 <body data-rol="participante">
 
+<header class="navbar">
+  <div class="logo">
+    <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
+  </div>
 
-  <header class="navbar">
-    <div class="logo">
-      <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
-    </div>
+  <div class="search-bar">
+    <input type="text" placeholder="Buscar...">
+  </div>
 
-    <div class="search-bar">
-      <input type="text" placeholder="Buscar...">
-    </div>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="participante.html">Panel</a></li>
+      <li><a href="calendario.html">Calendario</a></li>
+      <li><a href="sobre_nosotros.html">Sobre nosotros</a></li>
+    </ul>
+  </nav>
 
-    <nav>
-      <ul class="nav-links">
-        <li><a href="participante.html">Panel</a></li>
-        <li><a href="calendario.html">Calendario</a></li>
-        <li><a href="sobre_nosotros.html">Sobre nosotros</a></li>
-      </ul>
-    </nav>
+  <div class="nav-buttons">
+    <a href="../php/logout.php" class="btn nav-btn">Salir</a>
+  </div>
+</header>
 
-    <div class="nav-buttons">
-      <a href="../php/logout.php" class="btn nav-btn">Salir</a>
-    </div>
-  </header>
+<main class="login-container">
 
-  <main class="login-container">
+  <h2>Nueva candidatura</h2>
 
-    <h2>Enviar candidatura</h2>
+  <form id="form-candidatura" class="login-form" enctype="multipart/form-data">
 
-    <form id="form-candidatura" enctype="multipart/form-data">
+    <label>Nombre de contacto</label>
+    <input type="text" id="nombre_contacto" name="nombre_contacto" readonly>
 
-      <label>Título del cortometraje</label>
-      <input type="text" id="titulo_obra" name="titulo_obra" required>
+    <label>Email de contacto</label>
+    <input type="email" id="email_contacto" name="email_contacto" readonly>
 
-      <label>Sinopsis</label>
-      <textarea id="sinopsis" name="sinopsis" required></textarea>
+    
+    <label>Perfil de participación</label>
+    <input type="text" id="perfil_participante" readonly>
 
-      <label>Nombre de contacto</label>
-      <input type="text" id="nombre_contacto" name="nombre_contacto" readonly>
+    <label>Título de la obra</label>
+    <input type="text" name="titulo_obra" required>
 
-      <label>Email de contacto</label>
-      <input type="email" id="email_contacto" name="email_contacto" readonly>
+    <label>Sinopsis</label>
+    <textarea name="sinopsis" required></textarea>
 
+    <label>DNI</label>
+    <input type="text" name="dni" required>
 
-      <label>DNI</label>
-      <input type="text" id="dni" name="dni" required>
+    <label>Vídeo</label>
+    <input type="file" name="video" accept="video/*" required>
 
-      <label>Vídeo de la obra</label>
-      <input type="file" id="video" name="video" accept="video/*" required>
+    <label>Portada</label>
+    <input type="file" name="portada" accept="image/*" required>
 
-      <label>Imagen de portada</label>
-      <input type="file" id="portada" name="portada" accept="image/*" required>
+    <div id="error-global" class="error-global"></div>
 
-      <p id="error-global" style="color:red;"></p>
+    <button type="submit" class="btn login-btn">
+      Enviar candidatura
+    </button>
 
-      <button type="submit" class="btn login-btn">
-        Enviar candidatura
-      </button>
+  </form>
 
-    </form>
+</main>
 
-  </main>
+<footer class="footer">
+  <div class="footer-bottom">
+    Universidad Europea © 2025. Todos los Derechos Reservados
+  </div>
+</footer>
 
-  <footer class="footer">
-    <div class="footer-main">
-      <div class="footer-left">
-        <div class="footer-social-row">
-          <img src="../IMG/instagram.png" alt="Instagram">
-          <span>@cortosuem</span>
-        </div>
-        <div class="footer-social-row">
-          <img src="../IMG/facebook.png" alt="Facebook">
-          <span>@cortosuem</span>
-        </div>
-        <div class="footer-social-row">
-          <img src="../IMG/twitter.png" alt="Twitter">
-          <span>@cortosuem</span>
-        </div>
-      </div>
-
-      <div class="footer-center">
-        <a href="../HTML/contacto.html" class="footer-contact-link">Contacta con nosotros</a>
-      </div>
-
-      <div class="footer-right">
-        <div class="footer-logo-circle">
-          <img src="../IMG/logosimple.jpg" alt="Logo">
-        </div>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      Universidad Europea © 2025. Todos los Derechos Reservados
-    </div>
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="../JS/auth.js"></script>
-  <script src="../JS/candidatura-nueva.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../JS/candidatura-nueva.js"></script>
 
 </body>
-
 </html>

@@ -11,93 +11,98 @@
 
 <body data-rol="participante">
 
-  <header class="navbar">
-    <div class="logo">
-      <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
-    </div>
+<header class="navbar">
+  <div class="logo">
+    <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
+  </div>
 
-    <div class="search-bar">
-      <input type="text" placeholder="Buscar...">
-    </div>
+  <div class="search-bar">
+    <input type="text" placeholder="Buscar...">
+  </div>
 
-    <nav>
-      <ul class="nav-links">
-        <li><a href="participante.html">Panel</a></li>
-        <li><a href="calendario.html">Calendario</a></li>
-        <li><a href="sobre_nosotros.html">Sobre nosotros</a></li>
-      </ul>
-    </nav>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="participante.html">Panel</a></li>
+      <li><a href="calendario.html">Calendario</a></li>
+      <li><a href="sobre_nosotros.html">Sobre nosotros</a></li>
+    </ul>
+  </nav>
 
-    <div class="nav-buttons">
-      <a href="../php/logout.php" class="btn nav-btn">Salir</a>
-    </div>
-  </header>
+  <div class="nav-buttons">
+    <a href="../php/logout.php" class="btn nav-btn">Salir</a>
+  </div>
+</header>
 
-  <main class="login-container">
+<main class="login-container">
 
-    <h2>Mis datos personales</h2>
-    <p>Revisa y actualiza tu información personal.</p>
+  <h2>Mis datos personales</h2>
+  <p>Revisa y actualiza tu información personal.</p>
 
-    <form id="form-mis-datos" class="login-form">
+  <form id="form-mis-datos" class="login-form">
 
-      <label>Nombre completo</label>
-      <input type="text" id="nombre">
-      <span class="error-campo" id="error-nombre"></span>
+    <label>Nombre completo</label>
+    <input type="text" id="nombre">
+    <span class="error-campo" id="error-nombre"></span>
 
-      <label>Email</label>
-      <input type="email" id="email" disabled>
-      <small style="color:#666;">El email no se puede modificar</small>
+    <label>Email</label>
+    <input type="email" id="email" disabled>
+    <small style="color:#666;">El email no se puede modificar</small>
 
-      <label>Nueva contraseña</label>
-      <input type="password" id="password">
-      <span class="error-campo" id="error-password"></span>
+    
+    <label>Perfil</label>
+    <input type="text" id="rol_participante" disabled>
+    <small style="color:#666;">El perfil no se puede modificar</small>
 
-      <button type="submit" class="btn login-btn" style="margin-top:1rem;">
-        Guardar cambios
-      </button>
+    <label>Nueva contraseña</label>
+    <input type="password" id="password">
+    <span class="error-campo" id="error-password"></span>
 
-      <p class="error-global" id="error-global"></p>
+    <button type="submit" class="btn login-btn" style="margin-top:1rem;">
+      Guardar cambios
+    </button>
 
-    </form>
+    <p class="error-global" id="error-global"></p>
 
-  </main>
+  </form>
 
-  <!-- ================= FOOTER ================= -->
-  <footer class="footer">
-    <div class="footer-main">
-      <div class="footer-left">
-        <div class="footer-social-row">
-          <img src="../IMG/instagram.png" alt="Instagram">
-          <span>@cortosuem</span>
-        </div>
-        <div class="footer-social-row">
-          <img src="../IMG/facebook.png" alt="Facebook">
-          <span>@cortosuem</span>
-        </div>
-        <div class="footer-social-row">
-          <img src="../IMG/twitter.png" alt="Twitter">
-          <span>@cortosuem</span>
-        </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-main">
+    <div class="footer-left">
+      <div class="footer-social-row">
+        <img src="../IMG/instagram.png" alt="Instagram">
+        <span>@cortosuem</span>
       </div>
-
-      <div class="footer-center">
-        <a href="../HTML/contacto.html" class="footer-contact-link">Contacta con nosotros</a>
+      <div class="footer-social-row">
+        <img src="../IMG/facebook.png" alt="Facebook">
+        <span>@cortosuem</span>
       </div>
-
-      <div class="footer-right">
-        <div class="footer-logo-circle">
-          <img src="../IMG/logosimple.jpg" alt="Logo">
-        </div>
+      <div class="footer-social-row">
+        <img src="../IMG/twitter.png" alt="Twitter">
+        <span>@cortosuem</span>
       </div>
     </div>
 
-    <div class="footer-bottom">
-      Universidad Europea © 2025. Todos los Derechos Reservados
+    <div class="footer-center">
+      <a href="../HTML/contacto.html" class="footer-contact-link">Contacta con nosotros</a>
     </div>
-  </footer>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="../JS/auth.js"></script>
-  <script src="../JS/mis_datos.js"></script>
+
+    <div class="footer-right">
+      <div class="footer-logo-circle">
+        <img src="../IMG/logosimple.jpg" alt="Logo">
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    Universidad Europea © 2025. Todos los Derechos Reservados
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../JS/auth.js"></script>
+<script src="../JS/mis_datos.js"></script>
 </body>
 
 </html>

@@ -8,12 +8,14 @@ $stmt = $conexion->prepare("
     c.titulo_obra,
     c.nombre_contacto,
     c.email_contacto,
+    u.rol_participante,
     c.estado,
     c.motivo_rechazo,
     c.mensaje_subsanacion,
     c.id_categoria,
     cat.nombre AS categoria_nombre
   FROM candidatura c
+  INNER JOIN usuario u ON u.id_usuario = c.id_usuario
   LEFT JOIN categorias cat ON cat.id = c.id_categoria
   ORDER BY c.fecha_creacion DESC
 ");

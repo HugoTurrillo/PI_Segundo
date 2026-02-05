@@ -8,14 +8,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   const error = document.getElementById("error-global");
   const btn = document.getElementById("btn-nominar");
 
+  let perfilUsuario = null;
+
   if (!idCandidatura) {
     info.textContent = "ID de candidatura no válido.";
     return;
   }
 
-  // =========================
-  // CARGAR CANDIDATURA
-  // =========================
+  /* =========================
+     CARGAR CANDIDATURA
+  ========================= */
   try {
     const res = await fetch(`../php/candidatura-obtener.php?id=${idCandidatura}`);
     const data = await res.json();
@@ -26,11 +28,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     const c = data.data;
+    perfilUsuario = c.rol_participante;
 
     info.innerHTML = `
       <h3>${c.titulo_obra}</h3>
       <p><strong>Autor:</strong> ${c.nombre_contacto}</p>
       <p><strong>Email:</strong> ${c.email_contacto}</p>
+      <p><strong>Perfil:</strong> ${perfilUsuario}</p>
     `;
 
   } catch {
@@ -38,28 +42,45 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  // =========================
-  // CARGAR CATEGORÍAS
-  // =========================
+  /* =========================
+     CARGAR CATEGORÍAS (FILTRADAS)
+  ========================= */
   const resCat = await fetch("../php/categorias-listar.php");
   const dataCat = await resCat.json();
 
   dataCat.data.forEach(cat => {
+
+    // 🔒 MAPEADO PERFIL → CATEGORÍA
+    const mapa = {
+      alumno: "Alumnos",
+      alumni: "Alumni",
+      profesional: "Profesionales"
+    };
+
+    if (cat.nombre !== mapa[perfilUsuario]) return;
+
     const opt = document.createElement("option");
     opt.value = cat.id;
     opt.textContent = cat.nombre;
     select.appendChild(opt);
   });
 
-  // =========================
-  // NOMINAR
-  // =========================
+  if (select.options.length === 0) {
+    select.disabled = true;
+    btn.disabled = true;
+    error.textContent = "Este perfil no puede ser nominado a ninguna categoría.";
+    return;
+  }
+
+  /* =========================
+     NOMINAR
+  ========================= */
   btn.addEventListener("click", async () => {
 
     const idCategoria = select.value;
 
     if (!idCategoria) {
-      error.textContent = "Selecciona una categoría.";
+      error.textContent = "Selecciona una categoría válida.";
       return;
     }
 

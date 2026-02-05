@@ -30,14 +30,15 @@ if ($check->num_rows === 0) {
 
     $conexion->query("
         CREATE TABLE usuario (
-            id_usuario INT AUTO_INCREMENT PRIMARY KEY,
-            nombre_completo VARCHAR(150) NOT NULL,
-            email VARCHAR(150) NOT NULL UNIQUE,
-            password_hash VARCHAR(255) NOT NULL,
-            rol ENUM('participante','organizador') NOT NULL,
-            fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
-            activo TINYINT(1) DEFAULT 1
-        );
+                id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+                nombre_completo VARCHAR(150) NOT NULL,
+                email VARCHAR(150) NOT NULL UNIQUE,
+                password_hash VARCHAR(255) NOT NULL,
+                rol ENUM('participante','organizador') NOT NULL,
+                rol_participante ENUM('alumno','alumni','profesional') DEFAULT NULL,
+                fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
+                activo TINYINT(1) DEFAULT 1
+);
     ");
 
     $conexion->query("

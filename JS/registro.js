@@ -1,19 +1,21 @@
-// JS/registro.js
-
 document.addEventListener("DOMContentLoaded", function () {
+
   const form = document.getElementById("formRegistro");
+
   const inputNombre = document.getElementById("nombre");
   const inputEmail = document.getElementById("email");
   const inputPassword = document.getElementById("password");
+  const inputRol = document.getElementById("rol_participante");
+
   const errorNombre = document.getElementById("error-nombre");
   const errorEmail = document.getElementById("error-email");
   const errorPassword = document.getElementById("error-password");
+  const errorRol = document.getElementById("error-rol");
   const errorGlobal = document.getElementById("registroErrorGlobal");
 
   function validarNombre() {
-    const valor = inputNombre.value.trim();
     errorNombre.textContent = "";
-    if (valor === "") {
+    if (inputNombre.value.trim() === "") {
       errorNombre.textContent = "El nombre es obligatorio.";
       return false;
     }
@@ -21,9 +23,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function validarEmail() {
-    const valor = inputEmail.value.trim();
     errorEmail.textContent = "";
-    if (valor === "") {
+    if (inputEmail.value.trim() === "") {
       errorEmail.textContent = "El correo es obligatorio.";
       return false;
     }
@@ -31,63 +32,66 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function validarPassword() {
-    const valor = inputPassword.value.trim();
     errorPassword.textContent = "";
-    if (valor === "") {
+    if (inputPassword.value.trim() === "") {
       errorPassword.textContent = "La contraseña es obligatoria.";
       return false;
     }
     return true;
   }
 
-  inputNombre.addEventListener("input", validarNombre);
-  inputEmail.addEventListener("input", validarEmail);
-  inputPassword.addEventListener("input", validarPassword);
+  function validarRol() {
+    errorRol.textContent = "";
+    if (!inputRol.value) {
+      errorRol.textContent = "Debes seleccionar un perfil.";
+      return false;
+    }
+    return true;
+  }
 
   form.addEventListener("submit", function (event) {
     event.preventDefault();
+
     errorGlobal.textContent = "";
 
     const okNombre = validarNombre();
     const okEmail = validarEmail();
     const okPassword = validarPassword();
+    const okRol = validarRol();
 
-    if (!okNombre || !okEmail || !okPassword) {
-      errorGlobal.textContent = "Hay errores en el formulario. Revísalos antes de continuar.";
+    if (!okNombre || !okEmail || !okPassword || !okRol) {
+      errorGlobal.textContent = "Hay errores en el formulario.";
       return;
     }
 
     const datos = {
       nombre: inputNombre.value.trim(),
       email: inputEmail.value.trim(),
-      password: inputPassword.value.trim()
+      password: inputPassword.value.trim(),
+      rol_participante: inputRol.value
     };
 
     fetch("../php/registro.php", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(datos)
     })
-      .then(function (respuesta) {
-        return respuesta.json();
-      })
-      .then(function (data) {
+      .then(r => r.json())
+      .then(data => {
         if (data.ok) {
           errorGlobal.style.color = "green";
-          errorGlobal.textContent = "Registro completado. Redirigiendo al login...";
-          setTimeout(function () {
+          errorGlobal.textContent = "Registro completado. Redirigiendo...";
+          setTimeout(() => {
             window.location.href = "login.html";
           }, 1500);
         } else {
           errorGlobal.style.color = "";
-          errorGlobal.textContent = data.mensaje || "Error al registrar usuario.";
+          errorGlobal.textContent = data.mensaje;
         }
       })
-      .catch(function () {
-        errorGlobal.style.color = "";
+      .catch(() => {
         errorGlobal.textContent = "Error de comunicación con el servidor.";
       });
   });
+
 });

@@ -22,15 +22,15 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
       }
 
-      if (c.estado === "aceptada" && c.id_categoria) {
-        bloqueNominacion = `
-          <p><strong>Categoría nominada:</strong> ${c.categoria_nombre}</p>
-          <a href="nominar-categoria.html?id_candidatura=${c.id_candidatura}"
-             class="btn login-btn" style="background:#FF3228;">
-            Editar nominación
-          </a>
-        `;
-      }
+      // if (c.estado === "aceptada" && c.id_categoria) {
+      //   bloqueNominacion = `
+      //     <p><strong>Categoría nominada:</strong> ${c.categoria_nombre}</p>
+      //     <a href="nominar-categoria.html?id_candidatura=${c.id_candidatura}"
+      //        class="btn login-btn" style="background:#FF3228;">
+      //       Editar nominación
+      //     </a>
+      //   `;
+      // }
 
       contenedor.innerHTML += `
         <div class="panel-card candidatura-card"
@@ -40,6 +40,13 @@ document.addEventListener("DOMContentLoaded", () => {
           <h3>${c.titulo_obra}</h3>
           <p><strong>Autor:</strong> ${c.nombre_contacto}</p>
           <p><strong>Email:</strong> ${c.email_contacto}</p>
+
+          <!-- PERFIL SOLO INFORMATIVO -->
+          <p>
+            <strong>Perfil:</strong> 
+            ${c.rol_participante}
+          </p>
+
           <p><strong>Estado:</strong> ${c.estado}</p>
 
           ${c.estado === "rechazada" ? `
@@ -80,13 +87,9 @@ document.addEventListener("DOMContentLoaded", () => {
     activarBotones();
   }
 
-  /* ===============================
-     CLICK → POPUP CON VIDEO + PORTADA
-  =============================== */
   function activarClicks() {
     document.querySelectorAll(".candidatura-card").forEach(card => {
       card.addEventListener("click", async (e) => {
-
         if (e.target.tagName === "BUTTON" || e.target.tagName === "A") return;
 
         const id = card.dataset.id;
@@ -101,57 +104,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const c = data.candidatura;
 
-        // 🔑 RUTA CORREGIDA (CLAVE)
-        const videoRuta   = ".." + c.video_ruta;
-        const portadaRuta = ".." + c.portada_ruta;
-
         Swal.fire({
           title: c.titulo_obra,
           width: "900px",
           html: `
             <p><strong>Autor:</strong> ${c.nombre_contacto}</p>
             <p><strong>Email:</strong> ${c.email_contacto}</p>
+            <p><strong>Perfil:</strong> ${c.rol_participante}</p>
 
-            <video
-              controls
-              poster="${portadaRuta}"
-              style="
-                width:100%;
-                border-radius:8px;
-                margin:1rem 0;
-                background:#000;
-              ">
-              <source src="${videoRuta}" type="video/mp4">
-              Tu navegador no soporta vídeo
+            <video controls poster="..${c.portada_ruta}"
+                   style="width:100%;margin:1rem 0;">
+              <source src="..${c.video_ruta}" type="video/mp4">
             </video>
 
-            <p style="margin-top:1rem;"><strong>Sinopsis:</strong></p>
+            <p><strong>Sinopsis:</strong></p>
             <p>${c.sinopsis}</p>
           `,
-          showCloseButton: true,
           confirmButtonText: "Cerrar"
         });
-
       });
     });
   }
 
-  /* ===============================
-     BOTONES ACEPTAR / RECHAZAR
-  =============================== */
   function activarBotones() {
-
     document.querySelectorAll(".btn-aceptar").forEach(btn => {
       btn.onclick = async (e) => {
         e.stopPropagation();
-
         await fetch("../php/candidatura-aceptar.php", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id_candidatura: btn.dataset.id })
         });
-
-        Swal.fire("Aceptada", "Candidatura aceptada correctamente", "success");
+        Swal.fire("Aceptada", "Candidatura aceptada", "success");
         cargarCandidaturas();
       };
     });
@@ -163,11 +147,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const { value: motivo } = await Swal.fire({
           title: "Rechazar candidatura",
           input: "textarea",
-          inputLabel: "Motivo del rechazo",
           showCancelButton: true,
-          confirmButtonText: "Rechazar",
           confirmButtonColor: "#FF3228",
-          cancelButtonText: "Cancelar",
           inputValidator: v => !v && "Debes indicar un motivo"
         });
 
@@ -179,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
           body: JSON.stringify({ id: btn.dataset.id, motivo })
         });
 
-        Swal.fire("Rechazada", "La candidatura ha sido rechazada", "success");
+        Swal.fire("Rechazada", "Candidatura rechazada", "success");
         cargarCandidaturas();
       };
     });

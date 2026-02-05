@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const nombre = document.getElementById("nombre");
   const email = document.getElementById("email");
   const password = document.getElementById("password");
+  const rol = document.getElementById("rol_participante");
 
   const errorNombre = document.getElementById("error-nombre");
   const errorPassword = document.getElementById("error-password");
@@ -19,6 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     nombre.value = data.usuario.nombre_completo;
     email.value = data.usuario.email;
+    rol.value = data.usuario.rol_participante;
 
   } catch {
     errorGlobal.textContent = "Error cargando los datos";
