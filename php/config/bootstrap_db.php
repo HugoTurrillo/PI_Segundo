@@ -273,8 +273,8 @@ if ($check->num_rows === 0) {
 
     $conexion->query("
     INSERT INTO noticia (titulo,contenido,imagen_ruta) VALUES
-    ('Festival en marcha','Inscripciones abiertas','noticia1.jpg'),
-    ('Ganadores anunciados','Lista oficial','noticia2.jpg');
+    ('Festival en marcha','Inscripciones abiertas','grabacion.jpg'),
+    ('Ganadores anunciados','Lista oficial','festival.jpeg');
 ");
 
     /* ===============================
@@ -283,8 +283,8 @@ if ($check->num_rows === 0) {
 
     $conexion->query("
     INSERT INTO patrocinador (nombre,logo_ruta,url_web,descripcion) VALUES
-    ('UEM','uem.png','https://uem.es','Universidad Europea'),
-    ('Canon','/portadas/canon.png','https://canon.es','Equipamiento audiovisual');
+    ('Nike','nike.jpg','https://nike.com','Marca Deportiva'),
+    ('Canon','canon.png','https://canon.es','Equipamiento audiovisual');
 ");
 
     /* ===============================
