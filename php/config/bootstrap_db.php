@@ -176,21 +176,6 @@ if ($check->num_rows === 0) {
         );
     ");
 
- 
-
-    $conexion->query("
-CREATE TABLE mensajes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    mensaje TEXT NOT NULL,
-    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-");
- 
-
- 
-
-
     /* ===============================
        DATOS DE PRUEBA
 ================================ */
@@ -332,23 +317,6 @@ CREATE TABLE mensajes (
     (1,'post/corto1.mp4'),
     (1,'post/corto2.mp4');
 ");
-
-
-
-
-
-/* ===============================
-   13. MENSAJES AL ORGANIZADOR
-================================ */
-
-$conexion->query("
-INSERT INTO mensajes (nombre, mensaje) VALUES
-('Marcos', 'Hola organizador, necesito ayuda.'),
-('Laura', 'Tengo una duda sobre mi candidatura.'),
-('Pedro', '¿Cuándo salen los finalistas?');
-");
-
+}
 
 $conexion->close();
-
-}
