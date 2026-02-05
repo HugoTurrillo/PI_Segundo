@@ -7,31 +7,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const inputEmail   = document.getElementById("email_contacto");
   const inputPerfil  = document.getElementById("perfil_participante");
 
-  /* ======================================================
-     BLOQUEAR SI YA EXISTE CANDIDATURA
-  ====================================================== */
-  try {
-    const resEstado = await fetch("../php/candidatura-mi-estado.php");
-    const estadoData = await resEstado.json();
-
-    if (estadoData.ok && estadoData.candidatura) {
-      Swal.fire({
-        icon: "info",
-        iconColor: "#FF3228",
-        title: "Candidatura ya enviada",
-        text: "No puedes enviar otra candidatura. Si ha sido rechazada, edítala desde 'Mi candidatura'."
-      }).then(() => {
-        window.location.href = "participante_candidatura.html";
-      });
-      return;
-    }
-  } catch (e) {
-    console.error(e);
-  }
-
-  /* ======================================================
-     AUTORELLENAR USUARIO + PERFIL
-  ====================================================== */
+  /* AUTORELLENAR */
   try {
     const resUser = await fetch("../php/usuario-mis-datos.php");
     const userData = await resUser.json();
@@ -39,21 +15,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (userData.ok) {
       inputNombre.value = userData.usuario.nombre_completo;
       inputEmail.value  = userData.usuario.email;
-
-      if (inputPerfil) {
-        inputPerfil.value = userData.usuario.rol_participante ?? "";
-      }
-
-      inputNombre.readOnly = true;
-      inputEmail.readOnly  = true;
+      inputPerfil.value = userData.usuario.rol_participante ?? "";
     }
   } catch (e) {
     console.error(e);
   }
 
-  /* ======================================================
-     ENVÍO FORMULARIO
-  ====================================================== */
+  /* ENVÍO */
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     error.textContent = "";

@@ -1,29 +1,22 @@
 <?php
-session_start();
 require "config/conexion.php";
-
 header("Content-Type: application/json");
 
-if (!isset($_SESSION["id_usuario"])) {
-    echo json_encode(["ok" => false]);
+session_start();
+$id_usuario = $_SESSION["id_usuario"] ?? null;
+
+if (!$id_usuario) {
+    echo json_encode(["ok" => false, "mensaje" => "No autenticado"]);
     exit;
 }
 
-$id_usuario = $_SESSION["id_usuario"];
+$sql = "SELECT id_candidatura, titulo_obra, sinopsis, estado, motivo_rechazo, video_ruta
+        FROM candidatura
+        WHERE id_usuario = ?
+        ORDER BY id_candidatura DESC
+        LIMIT 1";
 
-$stmt = $conexion->prepare("
-    SELECT 
-        titulo_obra,
-        sinopsis,
-        estado,
-        motivo_rechazo,
-        video_ruta,
-        portada_ruta
-    FROM candidatura
-    WHERE id_usuario = ?
-    LIMIT 1
-");
-
+$stmt = $conexion->prepare($sql);
 $stmt->bind_param("i", $id_usuario);
 $stmt->execute();
 $res = $stmt->get_result();
@@ -37,4 +30,3 @@ echo json_encode([
     "ok" => true,
     "candidatura" => $res->fetch_assoc()
 ]);
-exit;

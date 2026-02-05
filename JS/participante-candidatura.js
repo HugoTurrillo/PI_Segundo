@@ -1,107 +1,79 @@
 document.addEventListener("DOMContentLoaded", async () => {
 
-  const res = await fetch("../php/candidatura-mi-estado.php");
-  const data = await res.json();
+  const sinCandidatura = document.getElementById("sinCandidatura");
+  const conCandidatura = document.getElementById("conCandidatura");
 
-  if (!data.ok || !data.candidatura) {
-    document.getElementById("sinCandidatura").style.display = "block";
-    return;
-  }
+  const titulo = document.getElementById("titulo");
+  const estado = document.getElementById("estado");
+  const sinopsis = document.getElementById("sinopsis");
+  const motivoRechazo = document.getElementById("motivoRechazo");
 
-  const c = data.candidatura;
-  document.getElementById("conCandidatura").style.display = "block";
-
-  document.getElementById("titulo").textContent = c.titulo_obra;
-  document.getElementById("estado").textContent = c.estado.replace("_", " ");
-  document.getElementById("sinopsis").textContent = c.sinopsis;
-
-  /* ==========================
-     VIDEO + PORTADA
-  ========================== */
   const video = document.getElementById("video");
-  video.innerHTML = "";
 
-  const source = document.createElement("source");
-  source.src = ".." + c.video_ruta;
-  source.type = "video/mp4";
-  video.poster = ".." + c.portada_ruta;
-  video.appendChild(source);
-  video.load();
+  const rechazoBox = document.getElementById("rechazoBox");
+  const subsanarBox = document.getElementById("subsanarBox");
 
-  /* ======================================================
-     SI ESTÁ RECHAZADA → SUBSANAR
-  ====================================================== */
-  if (c.estado === "rechazada") {
+  const tituloEditado = document.getElementById("tituloEditado");
+  const sinopsisEditada = document.getElementById("sinopsisEditada");
+  const portadaEditada = document.getElementById("portadaEditada");
+  const mensajeSubsanacion = document.getElementById("mensajeSubsanacion");
+  const btnSubsanar = document.getElementById("btnSubsanar");
 
-    document.getElementById("rechazoBox").style.display = "block";
-    document.getElementById("motivoRechazo").textContent = c.motivo_rechazo;
+  try {
+    const res = await fetch("../php/candidatura-mi-estado.php");
+    const data = await res.json();
 
-    document.getElementById("subsanarBox").style.display = "block";
-
-    /* PRE-CARGAR CAMPOS */
-    const textareaSinopsis = document.getElementById("sinopsisEditada");
-    textareaSinopsis.value = c.sinopsis ?? "";
-
-    const inputTitulo = document.getElementById("tituloEditado");
-    if (inputTitulo) {
-      inputTitulo.value = c.titulo_obra ?? "";
+    if (!data.ok || !data.candidatura) {
+      sinCandidatura.style.display = "block";
+      return;
     }
 
-    /* ==========================
-       ENVIAR SUBSANACIÓN
-    ========================== */
-    document.getElementById("btnSubsanar").onclick = async () => {
+    const c = data.candidatura;
 
-      const mensaje = document
-        .getElementById("mensajeSubsanacion")
-        .value
-        .trim();
+    conCandidatura.style.display = "block";
+    titulo.textContent = c.titulo_obra;
+    estado.textContent = c.estado;
+    sinopsis.textContent = c.sinopsis;
 
-      if (!mensaje) {
-        return Swal.fire("Error", "Mensaje obligatorio", "error");
-      }
+    if (c.video_ruta) {
+      video.src = c.video_ruta;
+      video.style.display = "block";
+    }
 
-      const fd = new FormData();
-      fd.append("mensaje", mensaje);
+    if (c.estado === "rechazada") {
+      rechazoBox.style.display = "block";
+      motivoRechazo.textContent = c.motivo_rechazo ?? "";
+      subsanarBox.style.display = "block";
+    }
 
-      /* TÍTULO (solo si cambia) */
-      if (inputTitulo) {
-        const nuevoTitulo = inputTitulo.value.trim();
-        if (nuevoTitulo !== "" && nuevoTitulo !== c.titulo_obra) {
-          fd.append("titulo", nuevoTitulo);
-        }
-      }
-
-      /* SINOPSIS (solo si cambia) */
-      const nuevaSinopsis = textareaSinopsis.value.trim();
-      if (nuevaSinopsis !== "" && nuevaSinopsis !== c.sinopsis) {
-        fd.append("sinopsis", nuevaSinopsis);
-      }
-
-      /* VIDEO */
-      const videoNuevo = document.getElementById("videoEditado").files[0];
-      if (videoNuevo) {
-        fd.append("video", videoNuevo);
-      }
-
-      /* PORTADA */
-      const portadaNueva = document.getElementById("portadaEditada").files[0];
-      if (portadaNueva) {
-        fd.append("portada", portadaNueva);
-      }
-
-      const r = await fetch("../php/candidatura-subsanar.php", {
-        method: "POST",
-        body: fd
-      }).then(r => r.json());
-
-      if (r.ok) {
-        Swal.fire("Correcto", r.msg, "success");
-        location.reload();
-      } else {
-        Swal.fire("Error", r.msg, "error");
-      }
-    };
+  } catch (e) {
+    console.error(e);
   }
+
+  btnSubsanar.addEventListener("click", async () => {
+
+    const formData = new FormData();
+    formData.append("tituloEditado", tituloEditado.value);
+    formData.append("sinopsisEditada", sinopsisEditada.value);
+    formData.append("mensajeSubsanacion", mensajeSubsanacion.value);
+
+    if (portadaEditada.files.length > 0) {
+      formData.append("portadaEditada", portadaEditada.files[0]);
+    }
+
+    const res = await fetch("../php/candidatura-subsanar.php", {
+      method: "POST",
+      body: formData
+    });
+
+    const r = await res.json();
+
+    if (r.ok) {
+      Swal.fire("Enviado", "La subsanación ha sido enviada", "success")
+        .then(() => location.reload());
+    } else {
+      Swal.fire("Error", r.mensaje, "error");
+    }
+  });
 
 });

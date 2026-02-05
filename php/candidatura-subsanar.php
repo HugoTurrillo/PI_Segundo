@@ -1,116 +1,67 @@
 <?php
-session_start();
 require "config/conexion.php";
-
 header("Content-Type: application/json");
 
-if (!isset($_SESSION["id_usuario"])) {
-    echo json_encode(["ok" => false, "msg" => "No autenticado"]);
+session_start();
+$id_usuario = $_SESSION["id_usuario"] ?? null;
+
+if (!$id_usuario) {
+    echo json_encode(["ok" => false, "mensaje" => "No autenticado"]);
     exit;
 }
 
-if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    echo json_encode(["ok" => false, "msg" => "Método no permitido"]);
-    exit;
-}
-
-$id_usuario = $_SESSION["id_usuario"];
-
-$mensaje  = trim($_POST["mensaje"] ?? "");
-$titulo = trim($_POST["titulo"] ?? "");
-$sinopsis = trim($_POST["sinopsis"] ?? "");
-
-$video   = $_FILES["video"] ?? null;
-$portada = $_FILES["portada"] ?? null;
+$titulo = trim($_POST["tituloEditado"] ?? "");
+$sinopsis = trim($_POST["sinopsisEditada"] ?? "");
+$mensaje = trim($_POST["mensajeSubsanacion"] ?? "");
 
 if ($mensaje === "") {
-    echo json_encode(["ok" => false, "msg" => "Mensaje obligatorio"]);
+    echo json_encode(["ok" => false, "mensaje" => "Debes escribir un mensaje de subsanación"]);
     exit;
 }
 
-/* Obtener candidatura rechazada */
-$stmt = $conexion->prepare("
-    SELECT id_candidatura
-    FROM candidatura
-    WHERE id_usuario = ?
-      AND estado = 'rechazada'
-    LIMIT 1
-");
+$sql = "SELECT id_candidatura FROM candidatura WHERE id_usuario = ? ORDER BY id_candidatura DESC LIMIT 1";
+$stmt = $conexion->prepare($sql);
 $stmt->bind_param("i", $id_usuario);
 $stmt->execute();
 $res = $stmt->get_result();
 
 if ($res->num_rows === 0) {
-    echo json_encode(["ok" => false, "msg" => "No hay candidatura rechazada"]);
+    echo json_encode(["ok" => false, "mensaje" => "No tienes candidatura"]);
     exit;
 }
 
-$candidatura = $res->fetch_assoc();
-$id_candidatura = $candidatura["id_candidatura"];
+$id_candidatura = $res->fetch_assoc()["id_candidatura"];
 
-/* Archivos nuevos (opcional) */
-$updates = [];
-$params  = [];
-$types   = "";
+$portada_ruta = null;
 
+if (isset($_FILES["portadaEditada"]) && $_FILES["portadaEditada"]["size"] > 0) {
+    $carpeta = "../uploads/candidaturas/";
+    if (!is_dir($carpeta)) mkdir($carpeta, 0777, true);
 
-/* TÍTULO */
-if ($titulo !== "") {
-    $updates[] = "titulo_obra=?";
-    $params[]  = $titulo;
-    $types    .= "s";
+    $nombre = time() . "_portada_" . basename($_FILES["portadaEditada"]["name"]);
+    $portada_ruta = $carpeta . $nombre;
+
+    move_uploaded_file($_FILES["portadaEditada"]["tmp_name"], $portada_ruta);
 }
 
-
-/* Sinopsis */
-if ($sinopsis !== "") {
-    $updates[] = "sinopsis=?";
-    $params[]  = $sinopsis;
-    $types    .= "s";
-}
-
-/* Vídeo */
-if ($video && $video["error"] === 0) {
-    $videoNombre = uniqid("video_") . "_" . basename($video["name"]);
-    $videoRutaBD = "/uploads/videos/" . $videoNombre;
-    move_uploaded_file($video["tmp_name"], __DIR__ . "/../" . $videoRutaBD);
-
-    $updates[] = "video_ruta=?";
-    $params[]  = $videoRutaBD;
-    $types    .= "s";
-}
-
-/* Portada */
-if ($portada && $portada["error"] === 0) {
-    $portadaNombre = uniqid("portada_") . "_" . basename($portada["name"]);
-    $portadaRutaBD = "/uploads/portadas/" . $portadaNombre;
-    move_uploaded_file($portada["tmp_name"], __DIR__ . "/../" . $portadaRutaBD);
-
-    $updates[] = "portada_ruta=?";
-    $params[]  = $portadaRutaBD;
-    $types    .= "s";
-}
-
-/* Estado */
-$updates[] = "mensaje_subsanacion=?";
-$updates[] = "estado='en_proceso'";
-$updates[] = "motivo_rechazo=NULL";
-
-$params[] = $mensaje;
-$types   .= "s";
-
-/* Ejecutar UPDATE */
-$sql = "
-    UPDATE candidatura
-    SET " . implode(", ", $updates) . "
-    WHERE id_candidatura=?
-";
-$params[] = $id_candidatura;
-$types   .= "i";
+$sql = "UPDATE candidatura 
+        SET titulo_obra = IF(?='', titulo_obra, ?),
+            sinopsis = IF(?='', sinopsis, ?),
+            mensaje_subsanacion = ?,
+            portada_ruta = IF(? IS NULL, portada_ruta, ?),
+            estado = 'en_proceso'
+        WHERE id_candidatura = ?";
 
 $stmt = $conexion->prepare($sql);
-$stmt->bind_param($types, ...$params);
+$stmt->bind_param(
+    "sssssssi",
+    $titulo, $titulo,
+    $sinopsis, $sinopsis,
+    $mensaje,
+    $portada_ruta, $portada_ruta,
+    $id_candidatura
+);
+
 $stmt->execute();
 
-echo json_encode(["ok" => true, "msg" => "Subsanación enviada correctamente"]);
-exit;
+echo json_encode(["ok" => true, "mensaje" => "Subsanación enviada"]);
