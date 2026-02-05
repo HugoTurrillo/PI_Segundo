@@ -23,15 +23,15 @@ $sql = "
 
 if ($categoria !== "todas") {
 
-    // Mapeo del desplegable → valores reales de la BD
+    // Mapeo del desplegable → nombre real en la tabla categorias
     $map = [
-        "alumnos" => "alumno",
-        "alumni" => "alumni",
-        "profesionales" => "profesional"
+        "alumnos" => "alumnos",
+        "alumni" => "Alumni",
+        "profesionales" => "profesionales"
     ];
 
     if (isset($map[$categoria])) {
-        $sql .= " WHERE u.rol_participante = ? ";
+        $sql .= " WHERE cat.nombre = ? ";
         $categoria = $map[$categoria];
     }
 }

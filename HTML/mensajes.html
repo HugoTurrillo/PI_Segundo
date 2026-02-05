@@ -3,14 +3,14 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Candidaturas - Panel organizador</title>
+  <title>Mensajes al organizador</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="../CSS/estilos.css">
   <link rel="icon" href="../IMG/favicon.png">
 </head>
 
-<body data-rol="organizador">
+<body data-rol="participante">
 
   <header class="navbar">
     <div class="logo">
@@ -23,9 +23,9 @@
 
     <nav>
       <ul class="nav-links">
-        <li><a href="organizador.html">Panel</a></li>
+        <li><a href="participante.html">Panel</a></li>
         <li><a href="calendario.html">Calendario</a></li>
-        <li><a href="sobre_nosotros.html">Sobre Nosotros</a></li>
+        <li><a href="sobre_nosotros.html">Sobre nosotros</a></li>
       </ul>
     </nav>
 
@@ -36,22 +36,21 @@
 
   <main class="login-container">
 
-    <h2>Gestión de candidaturas</h2>
-    <p>Revisa, acepta o rechaza las candidaturas enviadas.</p>
+    <h2>Enviar mensaje al organizador</h2>
 
-    <!-- DESPLEGABLE DE CATEGORÍAS -->
-    <div class="filtro-categorias" style="margin-bottom: 20px;">
-      <label for="filtroCategoria">Filtrar por categoría:</label>
-      <select id="filtroCategoria">
-        <option value="todas">Todas</option>
-        <option value="alumnos">Alumnos</option>
-        <option value="alumni">Alumni</option>
-        <option value="profesionales">Profesionales</option>
-       
-      </select>
-    </div>
+    <form id="formMensaje" class="panel-card">
 
-    <div id="candidaturas-container" class="panel-grid"></div>
+      <label for="nombre">Tu nombre</label>
+      <input type="text" id="nombre" name="nombre" required>
+
+      <label for="mensaje">Mensaje</label>
+      <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+
+      <button type="submit" class="btn login-btn">Enviar mensaje</button>
+
+    </form>
+
+    <div id="respuesta"></div>
 
   </main>
 
@@ -89,8 +88,30 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="../JS/auth.js"></script>
-  <script src="../JS/candidaturas.js"></script>
+
+  <script>
+    document.getElementById("formMensaje").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const nombre = document.getElementById("nombre").value.trim();
+      const mensaje = document.getElementById("mensaje").value.trim();
+
+      const res = await fetch("../php/enviar_mensaje.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nombre, mensaje })
+      });
+
+      const data = await res.json();
+
+      if (data.ok) {
+        Swal.fire("Enviado", "Tu mensaje ha sido enviado al organizador", "success");
+        document.getElementById("formMensaje").reset();
+      } else {
+        Swal.fire("Error", data.msg, "error");
+      }
+    });
+  </script>
 
 </body>
 
