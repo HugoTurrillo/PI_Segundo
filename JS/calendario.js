@@ -14,11 +14,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const eventosPorDia = data.eventos;
 
-    // 🔹 Crear SOLO marcas por día
+    // Crear marcas por día usando clase CSS
     const eventosCalendario = Object.keys(eventosPorDia).map(fecha => ({
       start: fecha,
       display: "background",
-      backgroundColor: "#f44336" // rojo UEM
+      classNames: ["fc-event-background-ue"]
     }));
 
     const calendar = new FullCalendar.Calendar(calendarEl, {
@@ -40,11 +40,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         if (!eventos || eventos.length === 0) return;
 
-        let html = `<div style="text-align:left;">`;
+        let html = `<div class="eventos-fecha">`;
 
         eventos.forEach(ev => {
           html += `
-            <div style="margin-bottom:1rem;">
+            <div class="evento-item">
               <strong>${ev.hora} – ${ev.titulo}</strong><br>
               <span>${ev.descripcion}</span>
             </div>

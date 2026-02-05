@@ -34,17 +34,17 @@
   </header>
 
   <main class="login-container">
-    <h2>Añadir noticia</h2>
 
-    <form id="form-noticia" class="login-form" enctype="multipart/form-data">
+    <h2 class="page-title">Añadir noticia</h2>
+
+    <form id="form-noticia" class="login-form form-noticia" enctype="multipart/form-data">
 
       <label for="titulo">Título</label>
       <input type="text" id="titulo" name="titulo" required>
       <span class="error-campo" id="error-titulo"></span>
 
       <label for="contenido">Contenido</label>
-      <textarea id="contenido" name="contenido" rows="5" required
-        style="width:100%; padding:0.6rem; border:1px solid #ccc; border-radius:4px;"></textarea>
+      <textarea id="contenido" name="contenido" rows="5" required class="textarea-noticia"></textarea>
       <span class="error-campo" id="error-contenido"></span>
 
       <label for="imagen">Imagen de la noticia</label>
@@ -52,8 +52,9 @@
 
       <div class="error-global" id="error-global"></div>
 
-      <button type="submit" class="btn login-btn">Guardar noticia</button>
+      <button type="submit" class="btn login-btn btn-guardar-noticia">Guardar noticia</button>
     </form>
+
   </main>
 
   <footer class="footer">

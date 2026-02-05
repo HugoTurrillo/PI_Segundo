@@ -13,42 +13,43 @@
 
 <header class="navbar">
   <div class="logo">
-      <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
+    <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
   </div>
 
   <div class="search-bar">
-      <input type="text" placeholder="Buscar...">
+    <input type="text" placeholder="Buscar...">
   </div>
 
   <nav>
-   <ul class="nav-links">
+    <ul class="nav-links">
       <li><a href="organizador.html">Panel</a></li>
-      <li><a href="gala.html" class="active">Gala</a></li>
-   </ul>
+      <li><a href="calendario.html" class="active">Calendario</a></li>
+      <li><a href="sobre_nosotros.html" class="active">Sobre nosotros</a></li>
+    </ul>
   </nav>
 
   <div class="nav-buttons">
-      <a href="login.html" class="btn nav-btn">Salir</a>
+    <a href="login.html" class="btn nav-btn">Salir</a>
   </div>
 </header>
 
 <main class="login-container">
 
-  <h2>Gala</h2>
+  <h2 class="page-title">Gala</h2>
 
   <!-- Botones dinámicos -->
-  <div id="gala-botones" style="margin-bottom: 2rem; text-align:center;">
+  <div id="gala-botones" class="gala-botones">
 
-      <!-- Botones Pre/Post -->
-      <div style="display:flex; justify-content:center; gap:12px; margin-bottom:25px;">
-          <button id="btn-pre" class="btn login-btn" style="padding:6px 16px; font-size:14px;">
-              Pre‑evento
-          </button>
+    <!-- Botones Pre/Post -->
+    <div class="gala-switch">
+      <button id="btn-pre" class="btn login-btn gala-btn">
+        Pre-evento
+      </button>
 
-          <button id="btn-post" class="btn login-btn" style="padding:6px 16px; font-size:14px;">
-              Post‑evento
-          </button>
-      </div>
+      <button id="btn-post" class="btn login-btn gala-btn">
+        Post-evento
+      </button>
+    </div>
 
   </div>
 

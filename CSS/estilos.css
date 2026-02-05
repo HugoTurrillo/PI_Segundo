@@ -882,3 +882,210 @@ nav {
   font-size: 0.95rem;
   color: #666;
 }
+
+/* GALA */
+/* TÍTULO */
+.page-title {
+  margin-bottom: 1.5rem;
+}
+
+/* CONTENEDOR BOTONES GALA */
+.gala-botones {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* SWITCH PRE / POST */
+.gala-switch {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+/* BOTONES PRE / POST */
+.gala-btn {
+  padding: 6px 16px;
+  font-size: 14px;
+}
+
+/* GANADORES */
+/* HEADER GANADORES */
+.ganadores-header {
+  margin-top: 2rem;
+}
+
+.ganadores-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* TÍTULO GANADORES */
+.ganadores-title {
+  color: #d32f2f;
+  font-size: 1.4rem;
+}
+
+/* BOTÓN GESTIONAR GANADORES */
+.ganadores-btn {
+  padding: 0.6rem 15rem;
+}
+
+/*Asignar GANADOR*/
+/* SELECT CATEGORÍA */
+.select-categoria {
+  margin-bottom: 1rem;
+}
+
+/* INFO CATEGORÍA */
+.info-categoria {
+  padding: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+/* FORMULARIO GANADOR */
+.form-ganador {
+  padding: 1.5rem;
+}
+
+/* BOTÓN GUARDAR GANADOR */
+.btn.login-btn.btn-guardar-ganador {
+  margin-top: 1rem;
+}
+
+/*SECCION NOTICIAS ORGANZIADOR*/
+/* TEXTAREA NOTICIA */
+.textarea-noticia {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* IMAGEN ACTUAL */
+.imagen-actual {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  display: none;
+}
+
+/* TEXTAREA NOTICIA */
+.textarea-noticia {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* BOTÓN GUARDAR NOTICIA */
+.btn.login-btn.btn-guardar-noticia {
+  margin-top: 1rem;
+}
+
+/* BLOQUE ACCIONES NOTICIAS */
+.acciones-noticias {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* BOTÓN AÑADIR NOTICIA */
+.btn.login-btn.btn-anadir-noticia {
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
+}
+
+/*PATROCINADORES SECCION ORGANIZADOR*/
+/* HEADER PATROCINADORES */
+.patrocinadores-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+/* SUBTÍTULO PATROCINADORES */
+.subtitulo-patrocinadores {
+  color: #d32f2f;
+  font-size: 1.4rem;
+}
+
+/* BOTÓN AÑADIR PATROCINADOR */
+.btn.login-btn.btn-anadir-patrocinador {
+  padding: 0.6rem 1.2rem;
+}
+
+/* TEXTAREA DESCRIPCIÓN */
+.textarea-descripcion {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+/* BOTÓN GUARDAR PATROCINADOR */
+.btn.login-btn.btn-guardar-patrocinador {
+  margin-top: 1rem;
+}
+
+/* TEXTAREA DESCRIPCIÓN */
+.textarea-descripcion {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+/* BOTÓN GUARDAR PATROCINADOR */
+.btn.login-btn.btn-guardar-patrocinador {
+  margin-top: 1rem;
+}
+
+/* HEADER DE CATEGORÍAS */
+.categorias-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+/* TÍTULO */
+.categorias-titulo {
+  color: #d32f2f;
+  font-size: 1.4rem;
+}
+
+/* BOTÓN AÑADIR CATEGORÍA */
+.btn-add-categoria {
+  padding: 0.6rem 1rem;
+  background-color: #d32f2f;
+  color: white;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+/* JS CALENDARIO */
+/* Día del calendario con evento */
+.fc-event-background-ue {
+  background-color: #f44336 !important; /* rojo UEM */
+}
+
+/* Contenedor del modal de eventos */
+.eventos-fecha {
+  text-align: left;
+}
+
+/* Cada evento dentro del modal */
+.evento-item {
+  margin-bottom: 1rem;
+}

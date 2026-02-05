@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,55 +8,46 @@
   <link rel="stylesheet" href="../CSS/estilos.css">
   <link rel="icon" href="../IMG/favicon.png" type="image/x-icon">
 </head>
+
 <body data-rol="organizador">
 
 <header class="navbar">
   <div class="logo">
-      <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
+    <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
   </div>
 
   <div class="search-bar">
-      <input type="text" placeholder="Buscar...">
+    <input type="text" placeholder="Buscar...">
   </div>
 
   <nav>
-   <ul class="nav-links">
+    <ul class="nav-links">
       <li><a href="organizador.html">Panel</a></li>
       <li><a href="calendario.html">Calendario</a></li>
-      <li><a href="#">Sobre nosotros</a></li>
-   </ul>
+      <li><a href="sobre_nosotros.html">Sobre nosotros</a></li>
+    </ul>
   </nav>
 
   <div class="nav-buttons">
-      <a href="login.html" class="btn nav-btn">Salir</a>
+    <a href="login.html" class="btn nav-btn">Salir</a>
   </div>
 </header>
 
 <main class="login-container">
-  
-  <h2>Gestión de las Categorías de los Premios</h2>
+  <h2 class="page-title">Gestión de las Categorías de los Premios</h2>
 
-  <!-- ============================
-       CATEGORÍAS
-  ============================= -->
-  <section style="margin-top: 2rem;">
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-      <h3 style="color: #d32f2f; font-size: 1.4rem;">Categorías y premios</h3>
+  <section class="categorias-header">
+    <h3 class="categorias-titulo">Categorías y premios</h3>
 
-      <!--  BOTÓN AÑADIR CATEGORÍA -->
-      <button id="btn-add-categoria" 
-              class="btn login-btn"
-              style="padding:0.6rem 1rem; background:#d32f2f; color:white; border-radius:6px;">
-        Añadir categoría
-      </button>
-    </div>
+    <!-- BOTÓN AÑADIR CATEGORÍA -->
+    <button id="btn-add-categoria" class="btn login-btn btn-add-categoria">
+      Añadir categoría
+    </button>
   </section>
 
- 
   <div class="panel-grid" id="categorias-container"></div>
 
   <hr class="home-separator">
-
 </main>
 
 <footer class="footer">

@@ -7,15 +7,16 @@
   <link rel="stylesheet" href="../CSS/estilos.css">
   <link rel="icon" href="../IMG/favicon.png" type="image/x-icon">
 </head>
+
 <body data-rol="organizador">
 
 <header class="navbar">
   <div class="logo">
-      <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
+    <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
   </div>
 
   <div class="search-bar">
-      <input type="text" placeholder="Buscar...">
+    <input type="text" placeholder="Buscar...">
   </div>
 
   <nav>
@@ -27,18 +28,18 @@
   </nav>
 
   <div class="nav-buttons">
-      <a href="login.html" class="btn nav-btn">Salir</a>
+    <a href="login.html" class="btn nav-btn">Salir</a>
   </div>
 </header>
 
 <main class="login-container">
 
-  <h2>Gestión de Ganadores</h2>
+  <h2 class="page-title">Gestión de Ganadores</h2>
 
-  <section style="margin-top: 2rem;">
-    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
-      <h3 style="color:#d32f2f; font-size:1.4rem;">Ganadores por categoría</h3>
-      <a href="ganador_asignar.html" class="btn login-btn" style="padding:0.6rem 1.2rem;">
+  <section class="ganadores-header">
+    <div class="ganadores-header-row">
+      <h3 class="ganadores-title">Ganadores por categoría</h3>
+      <a href="ganador_asignar.html" class="btn login-btn ganadores-btn">
         Gestionar ganadores
       </a>
     </div>
@@ -86,8 +87,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="../JS/auth.js"></script>
-
-<script src="../js/ganadores.js"></script>
+<script src="../JS/ganadores.js"></script>
 
 </body>
 </html>
