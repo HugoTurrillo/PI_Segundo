@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   dataCat.data.forEach(cat => {
 
-    // 🔒 MAPEADO PERFIL → CATEGORÍA
+    // MAPEADO PERFIL → CATEGORÍA
     const mapa = {
       alumno: "Alumnos",
       alumni: "Alumni",
