@@ -14,9 +14,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         patrocinadores.forEach(p => {
             contenedor.innerHTML += `
-                <div class="panel-card">
-                    <img src="../php/uploads/${p.logo_ruta}"
-                         style="width:100%; max-height:120px; object-fit:contain; margin-bottom:1rem;">
+                <div class="panel-card patrocinador-card">
+
+                    <img class="patrocinador-logo"
+                         src="../php/uploads/${p.logo_ruta}"
+                         alt="${p.nombre}">
 
                     <h3>${p.nombre}</h3>
 
@@ -26,13 +28,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     <p>${p.descripcion || ""}</p>
 
-                    <div style="margin-top:1rem; display:flex; gap:1rem;">
+                    <div class="patrocinador-acciones">
                         <a href="patrocinador-editar.html?id=${p.id_patrocinador}"
                            class="btn login-btn">Editar</a>
 
                         <button class="btn login-btn btn-eliminar-patrocinador"
-                                data-id="${p.id_patrocinador}"
-                                style="background:#555;">
+                                data-id="${p.id_patrocinador}">
                             Eliminar
                         </button>
                     </div>
@@ -44,7 +45,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     cargarPatrocinadores();
-
 
     /* ======================================================
        ELIMINAR
@@ -78,7 +78,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-
     /* ======================================================
        FORMULARIO CREAR / EDITAR
     ====================================================== */
@@ -95,7 +94,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const errorEnlace = document.getElementById("error-enlace");
     const errorDescripcion = document.getElementById("error-descripcion");
     const errorGlobal = document.getElementById("error-global");
-
 
     /* ============================
        CARGAR PARA EDITAR
@@ -120,13 +118,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     cargarEditar();
 
-
     /* ============================
        SUBMIT
     ============================ */
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
+        // Limpiar errores
         errorNombre.textContent = "";
         errorLogo.textContent = "";
         errorEnlace.textContent = "";
@@ -165,9 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
             datos.append("logo", logo.files[0]);
         }
 
-        /* ============================
-           EDITAR
-        ============================ */
+        // EDITAR
         if (form.dataset.id) {
             datos.append("id", form.dataset.id);
 
@@ -187,9 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        /* ============================
-           CREAR (CON CONFIRMACIÓN)
-        ============================ */
+        // CREAR
         let res = await fetch("../php/patrocinador-nuevo.html", {
             method: "POST",
             body: datos

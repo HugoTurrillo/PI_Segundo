@@ -1074,7 +1074,9 @@ nav {
   cursor: pointer;
 }
 
-/* JS CALENDARIO */
+/* =========================
+   CALENDARIO JS
+========================= */
 /* Día del calendario con evento */
 .fc-event-background-ue {
   background-color: #f44336 !important; /* rojo UEM */
@@ -1089,3 +1091,161 @@ nav {
 .evento-item {
   margin-bottom: 1rem;
 }
+
+/* =========================
+   EVENTOS JS
+========================= */
+/* Contenedor de acciones dentro del evento */
+.evento-acciones {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+/* Botón eliminar */
+.btn-eliminar {
+  background-color: #555;
+  color: white;
+}
+
+/* =========================
+   GALA JS
+========================= */
+
+/* Separación entre panel-cards */
+.panel-card-separado {
+    margin-top: 2rem;
+}
+
+/* Contenedor para botones (Pre/Post, acciones) */
+.gala-acciones {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+/* Contenedor centrado (botón crear gala) */
+.gala-centrado {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+/* Imagen principal de gala */
+.gala-imagen-container {
+    margin-top: 1rem;
+}
+
+.gala-imagen {
+    max-width: 100%;
+    border-radius: 8px;
+}
+
+/* Textarea de Post-evento */
+.gala-textarea {
+    width: 100%;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    resize: vertical;
+}
+
+/* Formulario subida galería */
+.gala-form-galeria {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Miniaturas galería */
+.gala-galeria {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.gala-imagen-mini {
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.gala-imagen-mini img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* =========================
+   NOTICIAS JS
+========================= */
+
+/* Card noticia */
+.noticia-card {
+    margin-bottom: 1.5rem;
+}
+
+/* Imagen en panel administrador */
+.noticia-img-admin {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+}
+
+/* Contenedor botones acciones */
+.noticia-acciones {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+/* Imagen actual en editar noticia */
+.noticia-img-actual-visible {
+    display: block;
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: 0.75rem;
+}
+
+/* =========================
+   PATROCINADORES JS
+========================= */
+
+.patrocinador-card img.patrocinador-logo {
+    width: 100%;
+    max-height: 120px;
+    object-fit: contain;
+    margin-bottom: 1rem;
+}
+
+.patrocinador-acciones {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+/* =========================
+   PREMIOS JS
+========================= */
+
+.categoria-card .categoria-acciones {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.categoria-card .categoria-acciones .btn {
+    padding: 0.5rem 1rem;
+}
+

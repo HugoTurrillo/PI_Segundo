@@ -17,10 +17,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const data = await res.json();
 
             if (!data.ok) {
-                // No hay gala → botón crear
                 contContenido.innerHTML = `
                     <p>No existe ninguna gala creada.</p>
-                    <div style="text-align:center; margin-top:1rem;">
+                    <div class="gala-centrado">
                         <button class="btn login-btn" onclick="location.href='gala-nueva.html'">
                             Crear gala
                         </button>
@@ -31,7 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             galaActual = data.data;
 
-            // Hay gala → botones Pre/Post
             contBotones.innerHTML = `
                 <button class="btn login-btn" id="btn-pre">Pre‑evento</button>
                 <button class="btn login-btn" id="btn-post">Post‑evento</button>
@@ -40,7 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("btn-pre").addEventListener("click", mostrarPreEvento);
             document.getElementById("btn-post").addEventListener("click", mostrarPostEvento);
 
-            // Por defecto, mostramos Pre‑evento
             mostrarPreEvento();
 
         } catch (err) {
@@ -62,22 +59,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 <p><strong>Hora:</strong> ${galaActual.hora}</p>
                 <p><strong>Lugar:</strong> ${galaActual.lugar}</p>
                 <p><strong>Descripción:</strong> ${galaActual.descripcion ?? ""}</p>
-                ${galaActual.imagen ? `
-                    <div style="margin-top:1rem;">
-                        <img src="../uploads/${galaActual.imagen}" alt="Imagen gala" style="max-width:100%; border-radius:8px;">
-                    </div>
-                ` : ""}
-                <div style="margin-top:1.5rem; display:flex; gap:1rem; flex-wrap:wrap;">
-                    <button class="btn login-btn" onclick="location.href='gala-editar.html'">
-                        Editar gala
-                    </button>
-                    <button class="btn login-btn" onclick="location.href='gala-seccion-nueva.html?id_gala=${galaActual.id}'">
-                        Añadir sección
-                    </button>
+                ${galaActual.imagen ? `<div class="gala-imagen-container">
+                    <img src="../uploads/${galaActual.imagen}" alt="Imagen gala" class="gala-imagen">
+                </div>` : ""}
+                <div class="gala-acciones">
+                    <button class="btn login-btn" onclick="location.href='gala-editar.html'">Editar gala</button>
+                    <button class="btn login-btn" onclick="location.href='gala-seccion-nueva.html?id_gala=${galaActual.id}'">Añadir sección</button>
                 </div>
             </div>
 
-            <div class="panel-card" style="margin-top:2rem;">
+            <div class="panel-card panel-card-separado">
                 <h3>Secciones de la gala</h3>
                 <div id="lista-secciones">
                     <p>Cargando secciones...</p>
@@ -133,32 +124,28 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="panel-card">
                 <h3>Post‑evento</h3>
                 <p>Escribe aquí un pequeño resumen de cómo ha sido la gala.</p>
-                <textarea id="post-texto" rows="5" style="width:100%; margin-top:0.5rem;">${galaActual.post_evento_texto ?? ""}</textarea>
-                <div style="margin-top:1rem;">
-                    <button class="btn login-btn" id="btn-guardar-post">
-                        Guardar texto
-                    </button>
+                <textarea id="post-texto" rows="5" class="gala-textarea">${galaActual.post_evento_texto ?? ""}</textarea>
+                <div class="gala-acciones">
+                    <button class="btn login-btn" id="btn-guardar-post">Guardar texto</button>
                 </div>
-                <div id="post-texto-error" class="error-campo" style="margin-top:0.5rem;"></div>
+                <div id="post-texto-error" class="error-campo"></div>
             </div>
 
-            <div class="panel-card" style="margin-top:2rem;">
+            <div class="panel-card panel-card-separado">
                 <h3>Ganadores</h3>
                 <div id="lista-ganadores">
                     <p>Cargando ganadores...</p>
                 </div>
             </div>
 
-            <div class="panel-card" style="margin-top:2rem;">
+            <div class="panel-card panel-card-separado">
                 <h3>Galería de imágenes</h3>
-                <form id="form-galeria" enctype="multipart/form-data" style="margin-bottom:1rem;">
+                <form id="form-galeria" enctype="multipart/form-data" class="gala-form-galeria">
                     <input type="file" id="imagen-galeria" name="imagen" accept="image/*">
-                    <button type="submit" class="btn login-btn" style="margin-left:0.5rem;">
-                        Subir imagen
-                    </button>
-                    <div id="galeria-error" class="error-campo" style="margin-top:0.5rem;"></div>
+                    <button type="submit" class="btn login-btn">Subir imagen</button>
+                    <div id="galeria-error" class="error-campo"></div>
                 </form>
-                <div id="galeria-imagenes" style="display:flex; flex-wrap:wrap; gap:0.75rem;">
+                <div id="galeria-imagenes" class="gala-galeria">
                     <p>Cargando galería...</p>
                 </div>
             </div>
@@ -244,8 +231,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             cont.innerHTML = data.data.map(img => `
-                <div style="width:120px; height:120px; overflow:hidden; border-radius:8px; border:1px solid #ccc;">
-                    <img src="../uploads/${img.ruta_imagen}" alt="" style="width:100%; height:100%; object-fit:cover;">
+                <div class="gala-imagen-mini">
+                    <img src="../uploads/${img.ruta_imagen}" alt="">
                 </div>
             `).join("");
 
@@ -297,7 +284,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Arrancamos
     cargarGala();
 
 });

@@ -22,15 +22,9 @@ document.addEventListener("DOMContentLoaded", () => {
           <p><strong>Hora:</strong> ${ev.hora}</p>
           <p>${ev.descripcion}</p>
 
-          <div style="margin-top:1rem; display:flex; gap:1rem;">
-            <a href="evento-editar.html?id=${ev.id}"
-               class="btn login-btn">Editar</a>
-
-            <button class="btn login-btn btn-eliminar"
-                    data-id="${ev.id}"
-                    style="background:#555;">
-              Eliminar
-            </button>
+          <div class="evento-acciones">
+            <a href="evento-editar.html?id=${ev.id}" class="btn login-btn">Editar</a>
+            <button class="btn login-btn btn-eliminar" data-id="${ev.id}">Eliminar</button>
           </div>
         </div>
       `;
