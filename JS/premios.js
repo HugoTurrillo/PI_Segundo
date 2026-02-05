@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ====================================================== */
     async function cargarCategorias() {
         const contenedor = document.getElementById("categorias-container");
-        if (!contenedor) return; 
+        if (!contenedor) return;
 
         try {
             const respuesta = await fetch("../php/categorias-listar.php");
@@ -26,23 +26,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
             categorias.forEach(cat => {
                 contenedor.innerHTML += `
-                    <div class="panel-card">
+                    <div class="panel-card categoria-card">
                         <h3>${cat.nombre}</h3>
                         <p>Premios: ${cat.premios}</p>
                         <p>Premio físico: ${cat.premio_fisico}</p>
 
-                        <div style="margin-top:1rem; display:flex; gap:1rem;">
-                            <a href="categoria-editar.html?id=${cat.id}"
-                               class="btn login-btn"
-                               style="padding:0.5rem 1rem;">
-                                Editar
-                            </a>
-
-                            <button class="btn login-btn btn-eliminar-categoria"
-                                    data-id="${cat.id}"
-                                    style="padding:0.5rem 1rem; background:#555;">
-                                Eliminar
-                            </button>
+                        <div class="categoria-acciones">
+                            <a href="categoria-editar.html?id=${cat.id}" class="btn login-btn">Editar</a>
+                            <button class="btn login-btn btn-eliminar-categoria" data-id="${cat.id}">Eliminar</button>
                         </div>
                     </div>
                 `;
@@ -57,8 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     cargarCategorias();
-
-
 
     /* ======================================================
        AÑADIR CATEGORÍA (SweetAlert2)
@@ -116,8 +105,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-
-
     /* ======================================================
        ELIMINAR CATEGORÍA
     ====================================================== */
@@ -157,8 +144,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-
-
     /* ======================================================
        FORMULARIO (CREAR / EDITAR)
     ====================================================== */
@@ -173,8 +158,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const errorPremios = document.getElementById("error-premios");
     const errorPremioFisico = document.getElementById("error-premio-fisico");
     const errorGlobal = document.getElementById("error-global");
-
-
 
     /* ======================================================
        CARGAR CATEGORÍA PARA EDITAR
@@ -208,8 +191,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     cargarCategoriaEditar();
-
-
 
     /* ======================================================
        SUBMIT (CREAR O EDITAR)

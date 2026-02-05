@@ -23,15 +23,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     <h3>${n.titulo}</h3>
                     <p>${n.contenido}</p>
 
-                    <div style="margin-top:1rem; display:flex; gap:1rem;">
+                    <div class="noticia-acciones">
                         <a href="noticia-editar.html?id_noticia=${n.id_noticia}"
-                           class="btn login-btn">
-                           Editar
-                        </a>
+                           class="btn login-btn">Editar</a>
 
                         <button class="btn login-btn btn-eliminar-noticia"
-                                data-id="${n.id_noticia}"
-                                style="background:#555;">
+                                data-id="${n.id_noticia}">
                             Eliminar
                         </button>
                     </div>
@@ -118,16 +115,14 @@ document.addEventListener("DOMContentLoaded", () => {
         contenido.value = r.noticia.contenido;
         form.dataset.id = id;
 
-        // -----------------------------
-        // MOSTRAR IMAGEN ACTUAL
-        // -----------------------------
+        // Mostrar imagen actual
         const imgActual = document.getElementById("imagen-actual");
 
         if (r.noticia.imagen_ruta) {
             imgActual.src = "../php/uploads_noticias/" + r.noticia.imagen_ruta;
-            imgActual.style.display = "block";
+            imgActual.classList.add("noticia-img-actual-visible");
         } else {
-            imgActual.style.display = "none";
+            imgActual.classList.remove("noticia-img-actual-visible");
         }
     }
 
