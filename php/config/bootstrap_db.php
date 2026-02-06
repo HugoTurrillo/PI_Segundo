@@ -300,6 +300,7 @@ if ($check->num_rows === 0) {
     $conexion->query("
     INSERT INTO patrocinador (nombre,logo_ruta,url_web,descripcion) VALUES
     ('Nike','nike.jpg','https://nike.com','Marca Deportiva'),
+    ('Sony', 'sony.jpg','https://sony.es', 'Empresa Tecnológica'),
     ('Canon','canon.png','https://canon.es','Equipamiento audiovisual');
 ");
 
