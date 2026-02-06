@@ -117,7 +117,8 @@ $rol = $_SESSION["rol"] ?? null;
       Universidad Europea © 2025. Todos los Derechos Reservados
     </div>
   </footer>
-
+  
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="../JS/carrusel.js"></script>
   <script src="../JS/home_noticias.js"></script>
   <script src="../JS/home-patrocinadores.js"></script>
