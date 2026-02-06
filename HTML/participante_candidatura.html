@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Mi candidatura</title>
+  <title>Mis candidaturas</title>
   <link rel="stylesheet" href="../CSS/estilos.css">
 </head>
 
@@ -33,52 +33,17 @@
 
   <main class="login-container">
 
-    <h2>Mi candidatura</h2>
+    <h2>Mis candidaturas</h2>
 
+    <!-- SI NO HAY CANDIDATURAS -->
     <div id="sinCandidatura" style="display:none;">
       <p>No has enviado ninguna candidatura.</p>
       <a href="form_inscripcion.html" class="btn login-btn">Enviar candidatura</a>
     </div>
 
+    <!-- CONTENEDOR DINÁMICO PARA TODAS LAS CANDIDATURAS -->
     <div id="conCandidatura" style="display:none;">
-      <div class="panel-card">
-
-        <h3 id="titulo"></h3>
-
-        <p><strong>Estado:</strong> <span id="estado"></span></p>
-
-        <!-- VIDEO RESTAURADO -->
-        <video id="video" controls style="width:100%;border-radius:8px; display:none;"></video>
-
-        <h4>Sinopsis</h4>
-        <p id="sinopsis"></p>
-
-        <div id="rechazoBox" style="display:none;">
-          <p style="color:red;"><strong>Motivo rechazo</strong></p>
-          <p id="motivoRechazo"></p>
-        </div>
-
-        <div id="subsanarBox" style="display:none;">
-          <h4>Editar candidatura y subsanar</h4>
-
-          <label>Nuevo título (opcional)</label>
-          <input type="text" id="tituloEditado" style="margin-bottom:1rem;">
-
-          <label>Nueva sinopsis (opcional)</label>
-          <textarea id="sinopsisEditada"></textarea>
-
-          <!--  VÍDEO ELIMINADO DE SUBSANACIÓN -->
-
-          <label>Nueva portada (opcional)</label>
-          <input type="file" id="portadaEditada" accept="image/*">
-
-          <label>Mensaje de subsanación *</label>
-          <textarea id="mensajeSubsanacion" required></textarea>
-
-          <button id="btnSubsanar" class="btn login-btn">Enviar subsanación</button>
-        </div>
-
-      </div>
+      <!-- Aquí el JS insertará todas las tarjetas -->
     </div>
 
   </main>

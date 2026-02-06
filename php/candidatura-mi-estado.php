@@ -13,20 +13,14 @@ if (!$id_usuario) {
 $sql = "SELECT id_candidatura, titulo_obra, sinopsis, estado, motivo_rechazo, video_ruta
         FROM candidatura
         WHERE id_usuario = ?
-        ORDER BY id_candidatura DESC
-        LIMIT 1";
+        ORDER BY id_candidatura DESC";
 
 $stmt = $conexion->prepare($sql);
 $stmt->bind_param("i", $id_usuario);
 $stmt->execute();
 $res = $stmt->get_result();
 
-if ($res->num_rows === 0) {
-    echo json_encode(["ok" => true, "candidatura" => null]);
-    exit;
-}
-
 echo json_encode([
     "ok" => true,
-    "candidatura" => $res->fetch_assoc()
+    "candidaturas" => $res->fetch_all(MYSQLI_ASSOC)
 ]);
