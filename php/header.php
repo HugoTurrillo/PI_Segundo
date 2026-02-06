@@ -16,19 +16,24 @@ if (session_status() === PHP_SESSION_NONE) {
   <nav>
     <ul class="nav-links">
 
-      <!-- ENLACES COMUNES PARA TODOS -->
+      <?php if (!isset($_SESSION["id_usuario"])): ?>
 
-      <?php if (isset($_SESSION["id_usuario"]) && $_SESSION["rol"] === "participante"): ?>
+        <!-- 🔹 NO LOGUEADO -->
+        <li><a href="../HTML/calendario.html">Calendario</a></li>
+        <li><a href="../HTML/sobre_nosotros.html">Sobre nosotros</a></li>
 
-        <!-- PARTICIPANTE -->
+      <?php elseif ($_SESSION["rol"] === "participante"): ?>
+
+        <!-- 🔹 PARTICIPANTE -->
         <li><a href="../HTML/participante.html">Panel</a></li>
         <li><a href="../HTML/calendario.html">Calendario</a></li>
         <li><a href="../HTML/sobre_nosotros.html">Sobre nosotros</a></li>
 
-      <?php elseif (isset($_SESSION["id_usuario"]) && $_SESSION["rol"] === "organizador"): ?>
+      <?php elseif ($_SESSION["rol"] === "organizador"): ?>
 
-        <!-- ORGANIZADOR -->
+        <!-- 🔹 ORGANIZADOR -->
         <li><a href="../HTML/organizador.html">Panel</a></li>
+        <li><a href="../HTML/sobre_nosotros.html">Sobre nosotros</a></li>
 
       <?php endif; ?>
 
