@@ -276,15 +276,22 @@ if ($check->num_rows === 0) {
     ('Gala Final','2025-06-15','19:00:00','Auditorio','Entrega de premios','gala.jpg');
 ");
 
-    /* ===============================
-   8. NOTICIAS
+  /* ===============================
+   8. NOTICIAS (9 PREDETERMINADAS)
 ================================ */
 
     $conexion->query("
-    INSERT INTO noticia (titulo,contenido,imagen_ruta) VALUES
-    ('Festival en marcha','Inscripciones abiertas','grabacion.jpg'),
-    ('Ganadores anunciados','Lista oficial','festival.jpeg');
-");
+    INSERT INTO noticia (titulo, contenido, imagen_ruta) VALUES
+    ('Festival en marcha','Inscripciones abiertas para esta edición','festival.jpeg'),
+    ('Rodajes universitarios','Los alumnos ruedan sus cortos','rodaje.jpg'),
+    ('Nuevo jurado','Confirmado el jurado oficial','jurado.jpg'),
+    ('Taller de guion','Masterclass gratuita','taller.jpg'),
+    ('Plazo ampliado','Últimos días para inscribirse','inscripcion.jpeg'),
+    ('Equipamiento Canon','Canon colabora con el festival','canon.jpg'),
+    ('Gala final','Fecha oficial de la gala','gala.jpg'),
+    ('Récord de inscritos','Más de 300 cortos recibidos','record.jpg'),
+    ('Premios confirmados','Listado de premios oficiales','premio.jpg');
+    ");
 
     /* ===============================
    9. PATROCINADORES
