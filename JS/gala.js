@@ -30,13 +30,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
             galaActual = data.data;
 
+            // ============================
+            // SWITCH PRE/POST EVENTO (VERSIÓN FINAL)
+            // ============================
             contBotones.innerHTML = `
-                <button class="btn login-btn" id="btn-pre">Pre‑evento</button>
-                <button class="btn login-btn" id="btn-post">Post‑evento</button>
+                <div class="gala-switch">
+                    <button id="btn-pre" class="switch-btn active">Pre‑evento</button>
+                    <button id="btn-post" class="switch-btn">Post‑evento</button>
+                </div>
             `;
 
-            document.getElementById("btn-pre").addEventListener("click", mostrarPreEvento);
-            document.getElementById("btn-post").addEventListener("click", mostrarPostEvento);
+            const btnPre = document.getElementById("btn-pre");
+            const btnPost = document.getElementById("btn-post");
+
+            btnPre.addEventListener("click", () => {
+                btnPre.classList.add("active");
+                btnPost.classList.remove("active");
+                mostrarPreEvento();
+            });
+
+            btnPost.addEventListener("click", () => {
+                btnPost.classList.add("active");
+                btnPre.classList.remove("active");
+                mostrarPostEvento();
+            });
 
             mostrarPreEvento();
 

@@ -1180,6 +1180,7 @@ nav {
     object-fit: cover;
 }
 
+
 /* =========================
    NOTICIAS JS
 ========================= */
@@ -1348,4 +1349,50 @@ nav {
   .news-card {
     width: 90%;
   }
+}
+/* =========================
+   SWITCH PRE / POST EVENTO (FINAL)
+========================= */
+
+.gala-switch {
+    display: inline-flex;
+    background: #e6e6e6;
+    border-radius: 25px;
+    padding: 4px;
+    gap: 4px;
+}
+
+.switch-btn {
+    padding: 6px 16px;
+    font-size: 0.9rem;
+    border: none;
+    background: #d0d0d0; /* gris */
+    color: #444;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.25s ease;
+    font-weight: 600;
+}
+
+/* Por defecto, el activo es rojo */
+.switch-btn.active {
+    background: #900 !important;
+    color: #fff !important;
+}
+
+/* PERO si el activo es PRE-EVENTO → gris */
+#btn-pre.active {
+    background: #b5b5b5 !important;
+    color: #000 !important;
+}
+/* FORZAR PRE-EVENTO GRIS */
+#gala-botones #btn-pre.switch-btn.active {
+    background:  #900 !important;
+    color: #000 !important;
+}
+
+/* FORZAR POST-EVENTO ROJO */
+#gala-botones #btn-post.switch-btn.active {
+    background: #900 !important;
+    color: #fff !important;
 }
