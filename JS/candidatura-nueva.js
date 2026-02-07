@@ -20,7 +20,8 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const res = await fetch("../php/candidatura-insertar.php", {
         method: "POST",
-        body: formData
+        body: formData,
+        credentials: "include"
       });
 
       const r = await res.json();

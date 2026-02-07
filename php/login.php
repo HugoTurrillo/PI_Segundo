@@ -65,6 +65,7 @@ if (!password_verify($password, $usuario["password_hash"])) {
 $_SESSION["id_usuario"] = $usuario["id_usuario"];
 $_SESSION["nombre"] = $usuario["nombre_completo"];
 $_SESSION["rol"] = $usuario["rol"];
+$_SESSION["email"] = $email;
 
 $redir = ($usuario["rol"] === "organizador")
     ? "../HTML/organizador.html"
