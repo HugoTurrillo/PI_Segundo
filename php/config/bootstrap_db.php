@@ -185,7 +185,21 @@ if ($check->num_rows === 0) {
             mensaje TEXT NOT NULL,
             fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
-    ");
+    "); 
+
+     $conexion->query("
+    CREATE TABLE gala_secciones (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_gala INT NOT NULL,
+    titulo VARCHAR(255) NOT NULL,
+    hora TIME NOT NULL,
+    sala VARCHAR(100) NOT NULL,
+    descripcion TEXT,
+    FOREIGN KEY (id_gala) REFERENCES gala(id)
+);
+  "); 
+
+
 
     /* ===============================
        DATOS DE PRUEBA
@@ -347,6 +361,18 @@ if ($check->num_rows === 0) {
     ('Pedro', '¿Cuándo salen los finalistas?');
     ");
 
+   /* ===============================
+    14.  GALAS SECCIONES
+    ================================ */
 
-    $conexion->close();
+  $conexion->query("
+INSERT INTO gala_secciones (id_gala, titulo, hora, sala, descripcion)
+VALUES
+(1, 'Apertura del Festival', '18:00:00', 'Sala Principal', 'Bienvenida y presentación de la gala'),
+(1, 'Proyección de Cortometrajes', '18:30:00', 'Sala 2', 'Selección de cortos finalistas'),
+(1, 'Clausura', '21:00:00', 'Sala Principal', 'Cierre oficial del evento');
+ ");
+
+     $conexion->close();
 }
+

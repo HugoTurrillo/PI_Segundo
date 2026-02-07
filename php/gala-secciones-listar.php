@@ -1,5 +1,6 @@
 <?php
-require_once "conexion.php"; // o el archivo donde creas $conexion
+require_once __DIR__ . "/config/conexion.php";
+
 
 header('Content-Type: application/json; charset=utf-8');
 

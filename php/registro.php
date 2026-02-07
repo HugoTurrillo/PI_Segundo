@@ -52,14 +52,14 @@ $stmt = $conexion->prepare("
 ");
 
 $stmt->bind_param(
-    "ssssss",
+    "sssss",
     $nombre,
     $email,
     $password_hash,
-    $rol_participante,
     $dni,
     $numero_expediente
 );
+
 
 $stmt->execute();
 $id_usuario = $stmt->insert_id;
