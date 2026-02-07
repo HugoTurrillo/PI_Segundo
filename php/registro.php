@@ -3,7 +3,7 @@ require __DIR__ . "/config/conexion.php";
 header("Content-Type: application/json");
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    echo json_encode(["ok"=>false,"mensaje"=>"Método no permitido"]);
+    echo json_encode(["ok" => false, "mensaje" => "Método no permitido"]);
     exit;
 }
 
@@ -14,11 +14,19 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 $nombre = trim($_POST["nombre"] ?? "");
 $email = trim($_POST["email"] ?? "");
 $password = $_POST["password"] ?? "";
-$rol_participante = $_POST["rol_participante"] ?? "";
+$rol_participante = "participante";
+$dni = trim($_POST["dni"] ?? "");
 $numero_expediente = trim($_POST["numero_expediente"] ?? "");
 
-if ($nombre === "" || $email === "" || $password === "" || $rol_participante === "" || $numero_expediente === "") {
-    echo json_encode(["ok"=>false,"mensaje"=>"Todos los campos del usuario son obligatorios"]);
+if (
+    $nombre === "" ||
+    $email === "" ||
+    $password === "" ||
+    $rol_participante === "" ||
+    $dni === "" ||
+    $numero_expediente === ""
+) {
+    echo json_encode(["ok" => false, "mensaje" => "Todos los campos del usuario son obligatorios"]);
     exit;
 }
 
@@ -29,7 +37,7 @@ $stmt->execute();
 $res = $stmt->get_result();
 
 if ($res->num_rows > 0) {
-    echo json_encode(["ok"=>false,"mensaje"=>"El email ya está registrado"]);
+    echo json_encode(["ok" => false, "mensaje" => "El email ya está registrado"]);
     exit;
 }
 $stmt->close();
@@ -38,10 +46,21 @@ $stmt->close();
 $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
 $stmt = $conexion->prepare("
-    INSERT INTO usuario (nombre_completo,email,password_hash,rol,rol_participante,numero_expediente)
-    VALUES (?,?,?,'participante',?,?)
+    INSERT INTO usuario 
+    (nombre_completo, email, password_hash, rol, rol_participante, dni, numero_expediente)
+    VALUES (?, ?, ?, 'participante', 'participante', ?, ?)
 ");
-$stmt->bind_param("sssss", $nombre, $email, $password_hash, $rol_participante, $numero_expediente);
+
+$stmt->bind_param(
+    "ssssss",
+    $nombre,
+    $email,
+    $password_hash,
+    $rol_participante,
+    $dni,
+    $numero_expediente
+);
+
 $stmt->execute();
 $id_usuario = $stmt->insert_id;
 $stmt->close();
@@ -53,7 +72,7 @@ $stmt->close();
 $ed = $conexion->query("SELECT id_edicion FROM edicion_festival WHERE activa = 1 LIMIT 1");
 
 if ($ed->num_rows === 0) {
-    echo json_encode(["ok"=>false,"mensaje"=>"No hay edición activa"]);
+    echo json_encode(["ok" => false, "mensaje" => "No hay edición activa"]);
     exit;
 }
 
@@ -65,11 +84,11 @@ $id_edicion = $ed->fetch_assoc()["id_edicion"];
 
 $titulo_obra = trim($_POST["titulo_obra"] ?? "");
 $sinopsis = trim($_POST["sinopsis"] ?? "");
-$dni = trim($_POST["dni"] ?? "");
+$dni_candidatura = trim($_POST["dni"] ?? ""); // puede ser el mismo DNI del usuario
 $id_categoria = intval($_POST["id_categoria"] ?? 0);
 
-if ($titulo_obra === "" || $sinopsis === "" || $dni === "" || $id_categoria === 0) {
-    echo json_encode(["ok"=>false,"mensaje"=>"Todos los campos de la candidatura son obligatorios"]);
+if ($titulo_obra === "" || $sinopsis === "" || $dni_candidatura === "" || $id_categoria === 0) {
+    echo json_encode(["ok" => false, "mensaje" => "Todos los campos de la candidatura son obligatorios"]);
     exit;
 }
 
@@ -78,7 +97,7 @@ if ($titulo_obra === "" || $sinopsis === "" || $dni === "" || $id_categoria === 
 ============================ */
 
 if (!isset($_FILES["video"]) || !isset($_FILES["portada"])) {
-    echo json_encode(["ok"=>false,"mensaje"=>"Debes adjuntar vídeo y portada"]);
+    echo json_encode(["ok" => false, "mensaje" => "Debes adjuntar vídeo y portada"]);
     exit;
 }
 
@@ -92,7 +111,7 @@ $video_nombre = time() . "_video_" . basename($_FILES["video"]["name"]);
 $video_ruta = $carpeta . $video_nombre;
 
 if (!move_uploaded_file($_FILES["video"]["tmp_name"], $video_ruta)) {
-    echo json_encode(["ok"=>false,"mensaje"=>"Error al subir el vídeo"]);
+    echo json_encode(["ok" => false, "mensaje" => "Error al subir el vídeo"]);
     exit;
 }
 
@@ -101,7 +120,7 @@ $portada_nombre = time() . "_portada_" . basename($_FILES["portada"]["name"]);
 $portada_ruta = $carpeta . $portada_nombre;
 
 if (!move_uploaded_file($_FILES["portada"]["tmp_name"], $portada_ruta)) {
-    echo json_encode(["ok"=>false,"mensaje"=>"Error al subir la portada"]);
+    echo json_encode(["ok" => false, "mensaje" => "Error al subir la portada"]);
     exit;
 }
 
@@ -111,8 +130,8 @@ if (!move_uploaded_file($_FILES["portada"]["tmp_name"], $portada_ruta)) {
 
 $stmt = $conexion->prepare("
     INSERT INTO candidatura 
-    (id_usuario,id_edicion,id_categoria,titulo_obra,sinopsis,nombre_contacto,email_contacto,dni,video_ruta,portada_ruta)
-    VALUES (?,?,?,?,?,?,?,?,?,?)
+    (id_usuario, id_edicion, id_categoria, titulo_obra, sinopsis, nombre_contacto, email_contacto, dni, video_ruta, portada_ruta)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 ");
 
 $stmt->bind_param(
@@ -124,7 +143,7 @@ $stmt->bind_param(
     $sinopsis,
     $nombre,
     $email,
-    $dni,
+    $dni_candidatura,
     $video_ruta,
     $portada_ruta
 );
@@ -132,5 +151,5 @@ $stmt->bind_param(
 $stmt->execute();
 $stmt->close();
 
-echo json_encode(["ok"=>true,"mensaje"=>"Registro y candidatura completados"]);
+echo json_encode(["ok" => true, "mensaje" => "Registro y candidatura completados"]);
 exit;

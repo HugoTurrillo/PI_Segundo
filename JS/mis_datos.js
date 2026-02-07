@@ -5,12 +5,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   const password = document.getElementById("password");
   const rol = document.getElementById("rol_participante");
 
+  // NUEVO
+  const dni = document.getElementById("dni");
+  const numExp = document.getElementById("numero_expediente");
+
   const errorNombre = document.getElementById("error-nombre");
   const errorPassword = document.getElementById("error-password");
   const errorGlobal = document.getElementById("error-global");
 
   try {
-    const res = await fetch("../php/usuario-mis-datos.php");
+    const res = await fetch("../php/usuario-mis-datos.php", {
+      credentials: "include"
+    });
     const data = await res.json();
 
     if (!data.ok) {
@@ -21,6 +27,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     nombre.value = data.usuario.nombre_completo;
     email.value = data.usuario.email;
     rol.value = data.usuario.rol_participante;
+
+    // NUEVO: rellenar DNI y expediente
+    dni.value = data.usuario.dni;
+    numExp.value = data.usuario.numero_expediente;
 
   } catch {
     errorGlobal.textContent = "Error cargando los datos";
@@ -53,6 +63,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const res = await fetch("../php/usuario-actualizar-datos.php", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify({
         nombre: nombre.value.trim(),
         password: password.value.trim()

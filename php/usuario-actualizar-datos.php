@@ -27,7 +27,18 @@ if ($nombre === "") {
 
 $id = $_SESSION["id_usuario"];
 
+// Si el usuario quiere cambiar la contraseña
 if ($password !== "") {
+
+    // Validación extra opcional
+    if (strlen($password) < 6) {
+        echo json_encode([
+            "ok" => false,
+            "mensaje" => "La contraseña debe tener al menos 6 caracteres"
+        ]);
+        exit;
+    }
+
     $hash = password_hash($password, PASSWORD_DEFAULT);
 
     $stmt = $conexion->prepare("
@@ -36,7 +47,10 @@ if ($password !== "") {
         WHERE id_usuario = ?
     ");
     $stmt->bind_param("ssi", $nombre, $hash, $id);
+
 } else {
+
+    // Solo actualiza el nombre
     $stmt = $conexion->prepare("
         UPDATE usuario
         SET nombre_completo = ?
