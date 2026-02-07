@@ -10,7 +10,14 @@ if (!$id_usuario) {
     exit;
 }
 
-$sql = "SELECT id_candidatura, titulo_obra, sinopsis, estado, motivo_rechazo, video_ruta
+$sql = "SELECT 
+            id_candidatura, 
+            titulo_obra, 
+            sinopsis, 
+            estado, 
+            motivo_rechazo, 
+            video_ruta,
+            portada_ruta
         FROM candidatura
         WHERE id_usuario = ?
         ORDER BY id_candidatura DESC";

@@ -35,29 +35,32 @@ document.addEventListener("DOMContentLoaded", async () => {
         <p>${c.sinopsis}</p>
 
         ${c.estado === "rechazada" ? `
-          <div style="margin-top:1rem;">
-            <p style="color:red;"><strong>Motivo rechazo</strong></p>
-            <p>${c.motivo_rechazo ?? ""}</p>
+  <div style="margin-top:1rem;">
+    <p style="color:red;"><strong>Motivo rechazo</strong></p>
+    <p>${c.motivo_rechazo ?? ""}</p>
 
-            <h4>Editar candidatura y subsanar</h4>
+    <h4>Editar candidatura y subsanar</h4>
 
-            <label>Nuevo título (opcional)</label>
-            <input type="text" class="tituloEditado">
+    <label>Nuevo título (opcional)</label>
+    <input type="text" class="tituloEditado" value="${c.titulo_obra}">
 
-            <label>Nueva sinopsis (opcional)</label>
-            <textarea class="sinopsisEditada"></textarea>
+    <label>Nueva sinopsis (opcional)</label>
+    <textarea class="sinopsisEditada">${c.sinopsis}</textarea>
 
-            <label>Nueva portada (opcional)</label>
-            <input type="file" class="portadaEditada" accept="image/*">
+    <label>Portada actual</label>
+    <img src="${c.portada_ruta}" style="width:100%;border-radius:8px;margin-bottom:1rem;">
 
-            <label>Mensaje de subsanación *</label>
-            <textarea class="mensajeSubsanacion" required></textarea>
+    <label>Nueva portada (opcional)</label>
+    <input type="file" class="portadaEditada" accept="image/*">
 
-            <button class="btn login-btn btnSubsanar" data-id="${c.id_candidatura}">
-              Enviar subsanación
-            </button>
-          </div>
-        ` : ""}
+    <label>Mensaje de subsanación *</label>
+    <textarea class="mensajeSubsanacion" required></textarea>
+
+    <button class="btn login-btn btnSubsanar" data-id="${c.id_candidatura}">
+      Enviar subsanación
+    </button>
+  </div>
+` : ""}
       `;
 
       conCandidatura.appendChild(card);

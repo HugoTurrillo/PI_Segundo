@@ -11,100 +11,97 @@
 
 <body>
 
-<header class="navbar">
-  <div class="logo">
-    <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
-  </div>
+  <header class="navbar">
+    <div class="logo">
+      <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
+    </div>
 
-  <div class="search-bar">
-    <input type="text" placeholder="Buscar...">
-  </div>
+    <div class="search-bar">
+      <input type="text" placeholder="Buscar...">
+    </div>
 
-  <nav>
-    <ul class="nav-links">
-      <li><a href="../php/home.php">Inicio</a></li>
-      <li><a href="calendario.html">Calendario</a></li>
-      <li><a href="sobre_nosotros.html">Sobre nosotros</a></li>
-    </ul>
-  </nav>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="../php/home.php">Inicio</a></li>
+        <li><a href="calendario.html">Calendario</a></li>
+        <li><a href="sobre_nosotros.html">Sobre nosotros</a></li>
+      </ul>
+    </nav>
 
-  <div class="nav-buttons">
-    <a href="login.html" class="btn nav-btn">Acceso</a>
-  </div>
-</header>
+    <div class="nav-buttons">
+      <a href="login.html" class="btn nav-btn">Acceso</a>
+    </div>
+  </header>
 
-<main class="login-container">
-  <h2>Crear cuenta y enviar candidatura</h2>
+  <main class="login-container">
+    <h2>Crear cuenta y enviar candidatura</h2>
 
-  <form class="login-form" id="formRegistro" enctype="multipart/form-data">
+    <form class="login-form" id="formRegistro" enctype="multipart/form-data">
 
-    <!-- DATOS DE USUARIO -->
-    <h3>Datos personales</h3>
+      <!-- DATOS DE USUARIO -->
+      <h3>Datos personales</h3>
 
-    <label>Nombre completo</label>
-    <input type="text" id="nombre" name="nombre" required>
-    <span class="error-campo" id="error-nombre"></span>
+      <label>Nombre completo</label>
+      <input type="text" id="nombre" name="nombre" required>
+      <span class="error-campo" id="error-nombre"></span>
 
-    <label>Correo</label>
-    <input type="email" id="email" name="email" required>
-    <span class="error-campo" id="error-email"></span>
+      <label>Correo</label>
+      <input type="email" id="email" name="email" required>
+      <span class="error-campo" id="error-email"></span>
 
-    <label>Contraseña</label>
-    <input type="password" id="password" name="password" required>
-    <span class="error-campo" id="error-password"></span>
+      <label>Contraseña</label>
+      <input type="password" id="password" name="password" required>
+      <span class="error-campo" id="error-password"></span>
 
-    <label>Perfil</label>
-    <select id="rol_participante" name="rol_participante" required>
-      <option value="">Selecciona tu perfil</option>
-      <option value="alumno">Alumno</option>
-      <option value="alumni">Alumni</option>
-      <option value="profesional">Profesional</option>
-    </select>
-    <span class="error-campo" id="error-rol"></span>
+      <label>DNI</label>
+      <input type="text" id="dni" name="dni" required>
 
-    <hr>
+      <label>Número de expediente</label>
+      <input type="text" id="numero_expediente" name="numero_expediente" required>
+      <span class="error-campo" id="error-numero-expediente"></span>
 
-    <!-- DATOS DE CANDIDATURA -->
-    <h3>Datos de la candidatura</h3>
+      <span class="error-campo" id="error-rol"></span>
 
-    <label>Título de la obra</label>
-    <input type="text" id="titulo_obra" name="titulo_obra" required>
+      <hr>
 
-    <label>Sinopsis</label>
-    <textarea id="sinopsis" name="sinopsis" required></textarea>
+      <!-- DATOS DE CANDIDATURA -->
+      <h3>Datos de la candidatura</h3>
 
-    <label>DNI</label>
-    <input type="text" id="dni" name="dni" required>
+      <label>Título de la obra</label>
+      <input type="text" id="titulo_obra" name="titulo_obra" required>
 
-    <label>Categoría</label>
-    <select id="id_categoria" name="id_categoria" required>
-      <option value="">Selecciona categoría</option>
-      <option value="1">Alumni</option>
-      <option value="2">Alumnos</option>
-      <option value="3">Profesionales</option>
-    </select>
+      <label>Sinopsis</label>
+      <textarea id="sinopsis" name="sinopsis" required></textarea>
 
-    <label>Vídeo</label>
-    <input type="file" id="video" name="video" accept="video/*" required>
+      <label>Categoría</label>
+      <select id="id_categoria" name="id_categoria" required>
+        <option value="">Selecciona categoría</option>
+        <option value="1">Alumni</option>
+        <option value="2">Alumnos</option>
+      </select>
 
-    <label>Portada</label>
-    <input type="file" id="portada" name="portada" accept="image/*" required>
+      <label>Vídeo</label>
+      <input type="file" id="video" name="video" accept="video/*" required>
 
-    <div id="registroErrorGlobal" class="error-global"></div>
+      <label>Portada</label>
+      <input type="file" id="portada" name="portada" accept="image/*" required>
 
-    <button type="submit" class="btn login-btn">Registrarse y enviar candidatura</button>
+      <div id="registroErrorGlobal" class="error-global"></div>
 
-  </form>
-</main>
+      <button type="submit" class="btn login-btn">Registrarse y enviar candidatura</button>
 
-<footer class="footer">
-  <div class="footer-bottom">
-    Universidad Europea © 2025. Todos los Derechos Reservados
-  </div>
-</footer>
+    </form>
+  </main>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="../JS/registro.js"></script>
+  <footer class="footer">
+    <div class="footer-bottom">
+      Universidad Europea © 2025. Todos los Derechos Reservados
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="../JS/registro.js"></script>
 
 </body>
+
 </html>

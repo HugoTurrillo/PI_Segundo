@@ -10,31 +10,51 @@ if (!$id_usuario) {
     exit;
 }
 
+/* ============================
+   1. RECIBIR DATOS
+============================ */
+
+$id_candidatura = intval($_POST["id_candidatura"] ?? 0);
 $titulo = trim($_POST["tituloEditado"] ?? "");
 $sinopsis = trim($_POST["sinopsisEditada"] ?? "");
 $mensaje = trim($_POST["mensajeSubsanacion"] ?? "");
+
+if ($id_candidatura === 0) {
+    echo json_encode(["ok" => false, "mensaje" => "ID de candidatura inválido"]);
+    exit;
+}
 
 if ($mensaje === "") {
     echo json_encode(["ok" => false, "mensaje" => "Debes escribir un mensaje de subsanación"]);
     exit;
 }
 
-$sql = "SELECT id_candidatura FROM candidatura WHERE id_usuario = ? ORDER BY id_candidatura DESC LIMIT 1";
+/* ============================
+   2. VERIFICAR QUE LA CANDIDATURA ES DEL USUARIO
+============================ */
+
+$sql = "SELECT * FROM candidatura WHERE id_candidatura = ? AND id_usuario = ?";
 $stmt = $conexion->prepare($sql);
-$stmt->bind_param("i", $id_usuario);
+$stmt->bind_param("ii", $id_candidatura, $id_usuario);
 $stmt->execute();
 $res = $stmt->get_result();
 
 if ($res->num_rows === 0) {
-    echo json_encode(["ok" => false, "mensaje" => "No tienes candidatura"]);
+    echo json_encode(["ok" => false, "mensaje" => "No tienes permiso para editar esta candidatura"]);
     exit;
 }
 
-$id_candidatura = $res->fetch_assoc()["id_candidatura"];
+$candidatura = $res->fetch_assoc();
+$stmt->close();
+
+/* ============================
+   3. SUBIR NUEVA PORTADA (OPCIONAL)
+============================ */
 
 $portada_ruta = null;
 
 if (isset($_FILES["portadaEditada"]) && $_FILES["portadaEditada"]["size"] > 0) {
+
     $carpeta = "../uploads/candidaturas/";
     if (!is_dir($carpeta)) mkdir($carpeta, 0777, true);
 
@@ -43,6 +63,10 @@ if (isset($_FILES["portadaEditada"]) && $_FILES["portadaEditada"]["size"] > 0) {
 
     move_uploaded_file($_FILES["portadaEditada"]["tmp_name"], $portada_ruta);
 }
+
+/* ============================
+   4. ACTUALIZAR SOLO LO QUE EL USUARIO CAMBIA
+============================ */
 
 $sql = "UPDATE candidatura 
         SET titulo_obra = IF(?='', titulo_obra, ?),
@@ -63,5 +87,6 @@ $stmt->bind_param(
 );
 
 $stmt->execute();
+$stmt->close();
 
 echo json_encode(["ok" => true, "mensaje" => "Subsanación enviada"]);

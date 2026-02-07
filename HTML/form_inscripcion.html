@@ -36,25 +36,17 @@
 
   <form id="form-candidatura" class="login-form" enctype="multipart/form-data">
 
-    <label>Nombre de contacto</label>
-    <input type="text" id="nombre_contacto" name="nombre_contacto" readonly>
-
-    <label>Email de contacto</label>
-    <input type="email" id="email_contacto" name="email_contacto" readonly>
-
-    <label>Perfil de participación</label>
-    <input type="text" id="perfil_participante" readonly>
+    <label>Categoría</label>
+    <select id="categoria" name="categoria" required>
+        <option value="">Selecciona una categoría</option>
+    </select>
 
     <label>Título de la obra</label>
-    <input type="text" name="titulo_obra" required>
+    <input type="text" id="titulo_obra" name="titulo_obra" required>
 
     <label>Sinopsis</label>
-    <textarea name="sinopsis" required></textarea>
+    <textarea id="sinopsis" name="sinopsis" required></textarea>
 
-    <label>DNI</label>
-    <input type="text" name="dni" required>
-
-    <!-- VIDEO RESTAURADO -->
     <label>Vídeo</label>
     <input type="file" name="video" accept="video/*" required>
 

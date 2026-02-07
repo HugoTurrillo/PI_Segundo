@@ -15,8 +15,9 @@ $nombre = trim($_POST["nombre"] ?? "");
 $email = trim($_POST["email"] ?? "");
 $password = $_POST["password"] ?? "";
 $rol_participante = $_POST["rol_participante"] ?? "";
+$numero_expediente = trim($_POST["numero_expediente"] ?? "");
 
-if ($nombre === "" || $email === "" || $password === "" || $rol_participante === "") {
+if ($nombre === "" || $email === "" || $password === "" || $rol_participante === "" || $numero_expediente === "") {
     echo json_encode(["ok"=>false,"mensaje"=>"Todos los campos del usuario son obligatorios"]);
     exit;
 }
@@ -37,10 +38,10 @@ $stmt->close();
 $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
 $stmt = $conexion->prepare("
-    INSERT INTO usuario (nombre_completo,email,password_hash,rol,rol_participante)
-    VALUES (?,?,?,'participante',?)
+    INSERT INTO usuario (nombre_completo,email,password_hash,rol,rol_participante,numero_expediente)
+    VALUES (?,?,?,'participante',?,?)
 ");
-$stmt->bind_param("ssss", $nombre, $email, $password_hash, $rol_participante);
+$stmt->bind_param("sssss", $nombre, $email, $password_hash, $rol_participante, $numero_expediente);
 $stmt->execute();
 $id_usuario = $stmt->insert_id;
 $stmt->close();

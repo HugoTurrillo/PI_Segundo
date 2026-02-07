@@ -6,17 +6,18 @@ document.addEventListener("DOMContentLoaded", function () {
   const inputNombre = document.getElementById("nombre");
   const inputEmail = document.getElementById("email");
   const inputPassword = document.getElementById("password");
-  const inputRol = document.getElementById("rol_participante");
+  const inputDni = document.getElementById("dni");
+  const inputExpediente = document.getElementById("numero_expediente");
 
   const errorNombre = document.getElementById("error-nombre");
   const errorEmail = document.getElementById("error-email");
   const errorPassword = document.getElementById("error-password");
   const errorRol = document.getElementById("error-rol");
+  const errorExpediente = document.getElementById("error-numero-expediente");
 
   // CAMPOS DE CANDIDATURA
   const inputTitulo = document.getElementById("titulo_obra");
   const inputSinopsis = document.getElementById("sinopsis");
-  const inputDni = document.getElementById("dni");
   const inputCategoria = document.getElementById("id_categoria");
   const inputVideo = document.getElementById("video");
   const inputPortada = document.getElementById("portada");
@@ -56,8 +57,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function validarRol() {
     errorRol.textContent = "";
-    if (!inputRol.value) {
-      errorRol.textContent = "Debes seleccionar un perfil.";
+    // ESTE CAMPO YA NO EXISTE, PERO LO MANTENGO POR SI LO USAS EN EL FUTURO
+    return true;
+  }
+
+  function validarExpediente() {
+    errorExpediente.textContent = "";
+    if (inputExpediente.value.trim() === "") {
+      errorExpediente.textContent = "El número de expediente es obligatorio.";
       return false;
     }
     return true;
@@ -122,6 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const okEmail = validarEmail();
     const okPassword = validarPassword();
     const okRol = validarRol();
+    const okExpediente = validarExpediente();
 
     // Validaciones candidatura
     const erroresCandidatura = [
@@ -133,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
       validarPortada()
     ].filter(e => e !== "");
 
-    if (!okNombre || !okEmail || !okPassword || !okRol || erroresCandidatura.length > 0) {
+    if (!okNombre || !okEmail || !okPassword || !okRol || !okExpediente || erroresCandidatura.length > 0) {
       errorGlobal.textContent = "Hay errores en el formulario.";
       return;
     }
