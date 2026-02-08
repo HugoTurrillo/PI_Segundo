@@ -212,21 +212,22 @@ if ($check->num_rows === 0) {
    1. USUARIOS (IDs 1–12)
 ================================ */
 
-    $conexion->query("
-    INSERT INTO usuario (nombre_completo,email,password_hash,rol, dni, numero_expediente, 'rol_participante') VALUES
-    ('Organizador Principal','organizador@uem.es','$passOrg','organizador', '87654321X', 99,''),
-    ('Participante Principal','participante@uem.es','$passPar','participante', '11223344B',100, 'alumni'),
-    ('Usuario 3','u3@correo.es','$passPar','participante', '55667788S',101, 'alumni'),
-    ('Usuario 4','u4@correo.es','$passPar','participante','33445566J',102, 'alumni'),
-    ('Usuario 5','u5@correo.es','$passPar','participante','99887766H',103, 'alumni'),
-    ('Usuario 6','u6@correo.es','$passPar','participante','44556677M',104, 'alumni'),
-    ('Usuario 7','u7@correo.es','$passPar','participante','10293847P',105, 'alumnos'),
-    ('Usuario 8','u8@correo.es','$passPar','participante','56473829R',106, 'alumnos'),
-    ('Usuario 9','u9@correo.es','$passPar','participante','91827364A',107, 'alumni'),
-    ('Usuario 10','u10@correo.es','$passPar','participante','28461593Q',108, 'alumni'),
-    ('Usuario 11','u11@correo.es','$passPar','participante','76019482T',109, 'alumni'),
-    ('Usuario 12','u12@correo.es','$passPar','participante','51983746C',110, 'alumni');
+$conexion->query("
+    INSERT INTO usuario (nombre_completo, email, password_hash, rol) VALUES
+    ('Organizador Principal','organizador@uem.es','$passOrg','organizador'),
+    ('Participante Principal','participante@uem.es','$passPar','participante'),
+    ('Usuario 3','u3@correo.es','$passPar','participante'),
+    ('Usuario 4','u4@correo.es','$passPar','participante'),
+    ('Usuario 5','u5@correo.es','$passPar','participante'),
+    ('Usuario 6','u6@correo.es','$passPar','participante'),
+    ('Usuario 7','u7@correo.es','$passPar','participante'),
+    ('Usuario 8','u8@correo.es','$passPar','participante'),
+    ('Usuario 9','u9@correo.es','$passPar','participante'),
+    ('Usuario 10','u10@correo.es','$passPar','participante'),
+    ('Usuario 11','u11@correo.es','$passPar','participante'),
+    ('Usuario 12','u12@correo.es','$passPar','participante')
 ");
+
 
     /* ===============================
    2. EDICIÓN
