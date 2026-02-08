@@ -196,7 +196,7 @@ nav {
 
 .checkbox-group input[type="checkbox"] {
   margin: 0;
-  transform: scale(1.2); /* opcional: hace el checkbox más visible */
+  transform: scale(1.2); /* hace el checkbox más visible */
 }
 
 .checkbox-group label {
@@ -782,7 +782,7 @@ nav {
 }
 
 .swal2-cancel:hover {
-  background-color: #333333 !important;
+  background-color:  #FF3228 !important;
 }
 
 /* ==========================

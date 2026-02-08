@@ -15,7 +15,7 @@ if (!isset($_SESSION["id_usuario"])) {
 $id = $_SESSION["id_usuario"];
 
 $stmt = $conexion->prepare("
-    SELECT nombre_completo, email, rol_participante, dni, numero_expediente
+    SELECT nombre_completo, email, rol, dni, numero_expediente
     FROM usuario
     WHERE id_usuario = ?
 ");

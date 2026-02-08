@@ -352,17 +352,6 @@ $conexion->query("
     (1,'post/corto2.mp4');
 ");
     /* ===============================
-    13. MENSAJES AL ORGANIZADOR
-    ================================ */
-
-    $conexion->query("
-    INSERT INTO mensajes (nombre, mensaje) VALUES
-    ('Marcos', 'Hola organizador, necesito ayuda.'),
-    ('Laura', 'Tengo una duda sobre mi candidatura.'),
-    ('Pedro', '¿Cuándo salen los finalistas?');
-    ");
-
-   /* ===============================
     14.  GALAS SECCIONES
     ================================ */
 
@@ -376,4 +365,3 @@ VALUES
 
      $conexion->close();
 }
-

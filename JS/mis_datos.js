@@ -3,9 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const nombre = document.getElementById("nombre");
   const email = document.getElementById("email");
   const password = document.getElementById("password");
-  const rol = document.getElementById("rol_participante");
-
-  // NUEVO
+  const rol = document.getElementById("rol");
   const dni = document.getElementById("dni");
   const numExp = document.getElementById("numero_expediente");
 
@@ -26,9 +24,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     nombre.value = data.usuario.nombre_completo;
     email.value = data.usuario.email;
-    rol.value = data.usuario.rol_participante;
+    rol.value = data.usuario.rol;
 
-    // NUEVO: rellenar DNI y expediente
+    //rellenar DNI y expediente
     dni.value = data.usuario.dni;
     numExp.value = data.usuario.numero_expediente;
 
