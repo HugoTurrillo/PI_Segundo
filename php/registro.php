@@ -40,6 +40,17 @@ if ($res->num_rows > 0) {
     echo json_encode(["ok" => false, "mensaje" => "El email ya está registrado"]);
     exit;
 }
+
+/* DNI DUPLICADO */
+$stmt = $conexion->prepare("SELECT id_usuario FROM usuario WHERE dni = ?");
+$stmt->bind_param("s", $dni);
+$stmt->execute();
+$res = $stmt->get_result();
+
+if ($res->num_rows > 0) {
+    echo json_encode(["ok" => false, "mensaje" => "No puede usar ese DNI"]);
+    exit;
+}
 $stmt->close();
 
 /* CREAR USUARIO */
