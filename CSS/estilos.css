@@ -1408,5 +1408,51 @@ nav {
     align-items: center;
 }
 
+.premios-carousel {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.premios-track {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.premios-slide {
+    min-width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.premio-card {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 10px;
+    width: 30%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    text-align: center;
+}
+
+.premios-dots {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.premios-dots .dot {
+    height: 12px;
+    width: 12px;
+    margin: 0 4px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.premios-dots .dot.active {
+    background-color: #333;
+}
+
  
 

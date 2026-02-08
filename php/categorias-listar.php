@@ -1,17 +1,25 @@
 <?php
-require __DIR__ . "/config/conexion.php";
-header("Content-Type: application/json; charset=utf-8");
+require "config/conexion.php";
+header("Content-Type: application/json");
 
-$stmt = $conexion->prepare("
-    SELECT id, nombre
-    FROM categorias
-    WHERE nombre IN ('alumnos', 'alumni')
-    ORDER BY nombre ASC
-");
-$stmt->execute();
-$res = $stmt->get_result();
+$sql = "SELECT id, nombre, premios, premio_fisico FROM categorias";
+$res = $conexion->query($sql);
+
+if (!$res) {
+    echo json_encode([
+        "ok" => false,
+        "msg" => "Error SQL",
+        "sql_error" => $conexion->error
+    ]);
+    exit;
+}
+
+$categorias = [];
+while ($fila = $res->fetch_assoc()) {
+    $categorias[] = $fila;
+}
 
 echo json_encode([
     "ok" => true,
-    "data" => $res->fetch_all(MYSQLI_ASSOC)
+    "data" => $categorias
 ]);
