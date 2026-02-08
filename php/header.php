@@ -9,36 +9,33 @@ if (session_status() === PHP_SESSION_NONE) {
     <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
   </div>
 
-  <div class="search-bar">
-    <input type="text" placeholder="Buscar...">
-  </div>
 
-  <nav>
-    <ul class="nav-links">
+
+   
+    <div class="nav-right">
 
       <?php if (!isset($_SESSION["id_usuario"])): ?>
 
         <!-- 🔹 NO LOGUEADO -->
-        <li><a href="../HTML/calendario.html">Calendario</a></li>
-        <li><a href="../HTML/sobre_nosotros.html">Sobre nosotros</a></li>
-
+        <a href="../HTML/calendario.html">Calendario</a>
+       
       <?php elseif ($_SESSION["rol"] === "participante"): ?>
 
         <!-- 🔹 PARTICIPANTE -->
-        <li><a href="../HTML/participante.html">Panel</a></li>
-        <li><a href="../HTML/calendario.html">Calendario</a></li>
-        <li><a href="../HTML/sobre_nosotros.html">Sobre nosotros</a></li>
+        <a href="../HTML/participante.html">Panel</a>
+        <a href="../HTML/calendario.html">Calendario</a>
+       
 
       <?php elseif ($_SESSION["rol"] === "organizador"): ?>
 
         <!-- 🔹 ORGANIZADOR -->
-        <li><a href="../HTML/organizador.html">Panel</a></li>
-        <li><a href="../HTML/sobre_nosotros.html">Sobre nosotros</a></li>
+        <a href="../HTML/organizador.html">Panel</a>
+      
 
       <?php endif; ?>
 
-    </ul>
-  </nav>
+  </div>
+   
 
   <div class="nav-buttons">
     <?php if (!isset($_SESSION["id_usuario"])): ?>

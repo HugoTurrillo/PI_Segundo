@@ -103,7 +103,9 @@ $rol = $_SESSION["rol"] ?? null;
       </div>
 
       <div class="footer-center">
-        <a href="../HTML/contacto.html" class="footer-contact-link">Contacta con nosotros</a>
+         <a href="../HTML/sobre_nosotros.html" class="footer-contact-link">Sobre nosotros: ¿Quiénes Somos?</a><br>
+                   <a href="../HTML/contacto.html" class="footer-contact-link">Contáctanos</a>
+
       </div>
 
       <div class="footer-right">

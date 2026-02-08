@@ -996,8 +996,10 @@ nav {
 
 /* BOTÓN AÑADIR NOTICIA */
 .btn.login-btn.btn-anadir-noticia {
-    padding: 0.4rem 1rem;
-    font-size: 0.9rem;
+    padding: 0.2rem 0.6rem;
+   font-size: 0.75rem;
+   width: auto;
+   border-radius: 6px;
 }
 
 /*PATROCINADORES SECCION ORGANIZADOR*/
@@ -1376,7 +1378,7 @@ nav {
 
 /* Por defecto, el activo es rojo */
 .switch-btn.active {
-    background: #900 !important;
+    background: #FF3228 !important;
     color: #fff !important;
 }
 
@@ -1387,12 +1389,24 @@ nav {
 }
 /* FORZAR PRE-EVENTO GRIS */
 #gala-botones #btn-pre.switch-btn.active {
-    background:  #900 !important;
+    background:  #FF3228 !important;
     color: #000 !important;
 }
 
 /* FORZAR POST-EVENTO ROJO */
 #gala-botones #btn-post.switch-btn.active {
-    background: #900 !important;
+    background: #FF3228 !important;
     color: #fff !important;
 }
+
+ 
+
+.nav-right {
+    margin-left: auto;    
+    display: flex;
+    gap: 1rem;           
+    align-items: center;
+}
+
+ 
+
