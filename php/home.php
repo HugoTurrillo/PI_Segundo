@@ -82,6 +82,12 @@ $rol = $_SESSION["rol"] ?? null;
       <div id="patrocinadores-home" class="patro-grid"></div>
     </section>
 
+    <section class="home-premios">
+  <h2>Categorías del festival</h2>
+  <div id="contenedorPremios"></div>
+</section>
+
+
   </div>
 
   <!-- ================= FOOTER ================= -->
@@ -124,7 +130,7 @@ $rol = $_SESSION["rol"] ?? null;
   <script src="../JS/carrusel.js"></script>
   <script src="../JS/home_noticias.js"></script>
   <script src="../JS/home-patrocinadores.js"></script>
-
+<script src="../JS/home-premios.js"></script>
 </body>
 
 </html>
