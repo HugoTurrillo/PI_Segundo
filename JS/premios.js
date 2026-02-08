@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             categorias.forEach(cat => {
                 contenedor.innerHTML += `
-                    <div class="panel-card categoria-card">
+                    <div class="panel-card-categoria categoria-card">
                         <h3>${cat.nombre}</h3>
                         <p>Premios: ${cat.premios}</p>
                         <p>Premio físico: ${cat.premio_fisico}</p>
