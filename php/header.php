@@ -22,14 +22,14 @@ if (session_status() === PHP_SESSION_NONE) {
       <?php elseif ($_SESSION["rol"] === "participante"): ?>
 
         <!-- 🔹 PARTICIPANTE -->
-        <a href="../HTML/participante.html">Panel</a>
-        <a href="../HTML/calendario.html">Calendario</a>
+        <a href="../HTML/participante.html"  style="text-decoration: none; color: rgb(30, 30, 30);">Panel</a>
+        <a href="../HTML/calendario.html"  style="text-decoration: none; color: rgb(30, 30, 30);">Calendario</a>
        
 
       <?php elseif ($_SESSION["rol"] === "organizador"): ?>
 
         <!-- 🔹 ORGANIZADOR -->
-        <a href="../HTML/organizador.html">Panel</a>
+        <a href="../HTML/organizador.html" >Panel</a>
       
 
       <?php endif; ?>

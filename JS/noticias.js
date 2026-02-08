@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         noticias.forEach(n => {
             contenedor.innerHTML += `
-                <div class="panel-card noticia-card">
+                <div class="panel-card-noticia noticia-card">
 
                     <img class="noticia-img-admin" 
                          src="../php/uploads_noticias/${n.imagen_ruta}" 
