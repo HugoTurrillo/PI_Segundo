@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const okPassword = validarPassword();
 
     if (!okEmail || !okPassword) {
-      errorGlobal.textContent = "Hay errores en el formulario. Revísalos antes de continuar.";
+      errorGlobal.textContent = "No se puede iniciar sesión aun, revise los errores.";
       return;
     }
 
