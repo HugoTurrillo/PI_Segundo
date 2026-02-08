@@ -32,8 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         <p>Premio físico: ${cat.premio_fisico}</p>
 
                         <div class="categoria-acciones">
-                            <a href="categoria-editar.html?id=${cat.id}" class="btn login-btn">Editar</a>
-                            <button class="btn login-btn btn-eliminar-categoria" data-id="${cat.id}">Eliminar</button>
+                            <a href="categoria-editar.html?id=${cat.id}" class="btn-accion btn-editar">Editar</a>
+                            <button class="btn-accion btn-eliminar btn-eliminar-categoria" data-id="${cat.id}">Eliminar</button>
                         </div>
                     </div>
                 `;

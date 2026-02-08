@@ -30,9 +30,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     <div class="patrocinador-acciones">
                         <a href="patrocinador-editar.html?id=${p.id_patrocinador}"
-                           class="btn login-btn">Editar</a>
+                            class="btn-accion btn-editar">Editar</a>
 
-                        <button class="btn login-btn btn-eliminar-patrocinador"
+                        <button class="btn-accion btn-eliminar btn-eliminar-patrocinador"
                                 data-id="${p.id_patrocinador}">
                             Eliminar
                         </button>

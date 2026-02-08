@@ -362,7 +362,7 @@ nav {
   font-weight: bold;
   text-decoration: none;
   font-size: 1rem;
-  
+
 }
 
 .home-btn:hover{
@@ -860,7 +860,7 @@ nav {
 }
 .contacto-bloque:hover{
   transform: translateY(-4px);
-  
+
 }
 
 .contacto-dato-principal {
@@ -1399,7 +1399,7 @@ nav {
     color: #fff !important;
 }
 
- 
+
 
 .nav-right {
     margin-left: auto;    
@@ -1453,6 +1453,44 @@ nav {
 .premios-dots .dot.active {
     background-color: #333;
 }
+/* BOTONES EDITAR / ELIMINAR UNIFICADOS */
+.btn-accion {
+    display: inline-block;
+    padding: 0.5rem 1.2rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    color: #fff;
+    background-color: #FF3228;
+    text-decoration: none;
+    transition: 0.2s ease;
+    width: 120px;
+}
 
- 
+/* EDITAR */
+.btn-editar {
+    background-color: #FF3228;
+}
 
+.btn-editar:hover {
+    background-color: #d62820;
+}
+
+/* ELIMINAR */
+.btn-eliminar {
+    background-color: #b30000;
+}
+
+.btn-eliminar:hover {
+    background-color: #7a0000;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+    .btn-accion {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}

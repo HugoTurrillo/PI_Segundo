@@ -25,10 +25,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     <div class="noticia-acciones">
                         <a href="noticia-editar.html?id_noticia=${n.id_noticia}"
-                           class="btn login-btn">Editar</a>
+                            class="btn-accion btn-editar">Editar</a>
 
-                        <button class="btn login-btn btn-eliminar-noticia"
-                                data-id="${n.id_noticia}">
+                        <button class="btn-accion btn-eliminar"
+                        data-id="${n.id_noticia}">
                             Eliminar
                         </button>
                     </div>
