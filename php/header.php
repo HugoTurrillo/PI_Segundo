@@ -30,10 +30,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
         <!--  ORGANIZADOR -->
 
-        <a href="../HTML/organizador.html"style="text-decoration: none; color: rgb(30, 30, 30);" >Panel</a>
-
-
-        <a href="../HTML/organizador.html"style="text-decoration: none; color: rgb(30, 30, 30);" >Panel</a>
+        
 
         <a href="../HTML/organizador.html" style="text-decoration: none; color: rgb(30, 30, 30);">Panel</a>
 

@@ -5,36 +5,26 @@ header("Content-Type: application/json");
 $categoria = $_GET["categoria"] ?? "todas";
 
 /* ============================
-<<<<<<< HEAD
-   CONSULTA
-=======
-   CONSULTA CORREGIDA
->>>>>>> ddc7d9b914ae1fa27af397b1db366b0b79b1a657
+   CONSULTA CORREGIDA 
 ============================ */
 $sql = "
   SELECT 
     c.id_candidatura,
     c.titulo_obra,
 
-<<<<<<< HEAD
-    /* AUTOR / EMAIL */
+    /* AUTOR / EMAIL (fallback seguro) */
     COALESCE(NULLIF(c.nombre_contacto,''), u.nombre_completo) AS nombre_contacto,
     COALESCE(NULLIF(c.email_contacto,''), u.email) AS email_contacto,
 
-   
+    /* PERFIL (evita NULL / vacío) */
     COALESCE(NULLIF(u.rol_participante,''), '—') AS rol_participante,
-=======
-    /* FIX DEFINITIVO */
-    COALESCE(c.nombre_contacto, u.nombre_completo) AS nombre_contacto,
-    COALESCE(c.email_contacto, u.email) AS email_contacto,
-    u.rol_participante,
->>>>>>> ddc7d9b914ae1fa27af397b1db366b0b79b1a657
 
     c.estado,
     c.motivo_rechazo,
     c.mensaje_subsanacion,
     c.id_categoria,
     cat.nombre AS categoria_nombre
+
   FROM candidatura c
   INNER JOIN usuario u ON u.id_usuario = c.id_usuario
   LEFT JOIN categorias cat ON cat.id = c.id_categoria
