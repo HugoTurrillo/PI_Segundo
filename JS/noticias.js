@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ELIMINAR NOTICIA
     // ============================
     function activarEliminar() {
-        document.querySelectorAll(".btn-eliminar-noticia").forEach(btn => {
+        document.querySelectorAll(".btn-eliminar").forEach(btn => {
             btn.addEventListener("click", async () => {
                 const id = btn.dataset.id;
 
