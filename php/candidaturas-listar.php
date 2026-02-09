@@ -5,17 +5,30 @@ header("Content-Type: application/json");
 $categoria = $_GET["categoria"] ?? "todas";
 
 /* ============================
+<<<<<<< HEAD
+   CONSULTA
+=======
    CONSULTA CORREGIDA
+>>>>>>> ddc7d9b914ae1fa27af397b1db366b0b79b1a657
 ============================ */
 $sql = "
   SELECT 
     c.id_candidatura,
     c.titulo_obra,
 
+<<<<<<< HEAD
+    /* AUTOR / EMAIL */
+    COALESCE(NULLIF(c.nombre_contacto,''), u.nombre_completo) AS nombre_contacto,
+    COALESCE(NULLIF(c.email_contacto,''), u.email) AS email_contacto,
+
+   
+    COALESCE(NULLIF(u.rol_participante,''), '—') AS rol_participante,
+=======
     /* FIX DEFINITIVO */
     COALESCE(c.nombre_contacto, u.nombre_completo) AS nombre_contacto,
     COALESCE(c.email_contacto, u.email) AS email_contacto,
     u.rol_participante,
+>>>>>>> ddc7d9b914ae1fa27af397b1db366b0b79b1a657
 
     c.estado,
     c.motivo_rechazo,
