@@ -103,9 +103,11 @@ document.addEventListener("DOMContentLoaded", () => {
             <p><strong>Email:</strong> ${c.email_contacto}</p>
             <p><strong>Perfil:</strong> ${c.rol_participante}</p>
 
-            <video controls poster="..${c.portada_ruta}"
+            <video controls poster="../php/${c.portada_ruta}"
+
                    style="width:100%;margin:1rem 0;">
-              <source src="..${c.video_ruta}" type="video/mp4">
+             <source src="../php/${c.video_ruta}" type="video/mp4">
+
             </video>
 
             <p><strong>Sinopsis:</strong></p>

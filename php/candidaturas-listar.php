@@ -4,13 +4,21 @@ header("Content-Type: application/json");
 
 $categoria = $_GET["categoria"] ?? "todas";
 
+/* ============================
+   CONSULTA
+============================ */
 $sql = "
   SELECT 
     c.id_candidatura,
     c.titulo_obra,
-    c.nombre_contacto,
-    c.email_contacto,
-    u.rol_participante,
+
+    /* AUTOR / EMAIL */
+    COALESCE(NULLIF(c.nombre_contacto,''), u.nombre_completo) AS nombre_contacto,
+    COALESCE(NULLIF(c.email_contacto,''), u.email) AS email_contacto,
+
+   
+    COALESCE(NULLIF(u.rol_participante,''), '—') AS rol_participante,
+
     c.estado,
     c.motivo_rechazo,
     c.mensaje_subsanacion,
@@ -23,11 +31,10 @@ $sql = "
 
 if ($categoria !== "todas") {
 
-    // Mapeo del desplegable → nombre real en la tabla categorias
     $map = [
-        "alumnos" => "alumnos",
+        "alumnos" => "Alumnos",
         "alumni" => "Alumni",
-        "profesionales" => "profesionales"
+        "profesionales" => "Profesionales"
     ];
 
     if (isset($map[$categoria])) {

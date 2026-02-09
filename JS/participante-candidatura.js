@@ -26,9 +26,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         <p><strong>Estado:</strong> ${c.estado}</p>
 
         ${c.video_ruta ? `
-          <video controls style="width:100%;border-radius:8px;">
-            <source src="${c.video_ruta}">
-          </video>
+          <video controls
+       poster="../php/${c.portada_ruta}"
+       style="width:100%;border-radius:8px;">
+  <source src="../php/${c.video_ruta}" type="video/mp4">
+</video>
+
         ` : ""}
 
         <h4>Sinopsis</h4>
