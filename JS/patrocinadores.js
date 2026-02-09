@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (form.dataset.id) {
             datos.append("id", form.dataset.id);
 
-            const res = await fetch("../php/patrocinador-editar.html", {
+            const res = await fetch("../php/patrocinador-editar.php", {
                 method: "POST",
                 body: datos
             });
@@ -184,7 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // CREAR
-        let res = await fetch("../php/patrocinador-nuevo.html", {
+        let res = await fetch("../php/patrocinador-nuevo.php", {
             method: "POST",
             body: datos
         });
@@ -203,7 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!conf.isConfirmed) return;
 
-            res = await fetch("../php/patrocinador-nuevo.html?forzar=1", {
+            res = await fetch("../php/patrocinador-nuevo.php?forzar=1", {
                 method: "POST",
                 body: datos
             });

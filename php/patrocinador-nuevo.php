@@ -25,7 +25,7 @@ if (!$forzar) {
     $stmt->store_result();
 
     if ($stmt->num_rows > 0) {
-        echo json_encode([
+        echo json_encode([  
             "ok" => false,
             "confirmar" => true,
             "msg" => "Ya existe un patrocinador con ese nombre. ¿Deseas crearlo igualmente?"

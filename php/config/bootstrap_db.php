@@ -246,7 +246,6 @@ $conexion->query("
     INSERT INTO categorias (nombre,premios,premio_fisico) VALUES
     ('Alumnos',3,1),
     ('Alumni',3,0),
-    ('Profesionales',3,0);
 ");
 
     /* ===============================
