@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const contenedor = document.getElementById("contenedorNoticias");
 
     try {
-        const res = await fetch("noticias-listar.php");
+        const res = await fetch("../php/noticias-listar.php");
         const noticias = await res.json();
 
         if (!Array.isArray(noticias) || noticias.length === 0) {
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const fd = new FormData();
                 fd.append("id_noticia", card.dataset.id);
 
-                const r = await fetch("noticia-obtener.php", {
+                const r = await fetch("../php/noticia-obtener.php", {
                     method: "POST",
                     body: fd
                 });
