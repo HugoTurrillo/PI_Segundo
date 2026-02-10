@@ -61,13 +61,15 @@ if ($check->num_rows === 0) {
     ");
 
     $conexion->query("
-        CREATE TABLE categorias (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            nombre VARCHAR(255) NOT NULL,
-            premios INT NOT NULL,
-            premio_fisico TINYINT(1) NOT NULL
-        );
-    ");
+    CREATE TABLE categorias (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        nombre VARCHAR(255) NOT NULL,
+        premios INT NOT NULL,
+        premio_fisico TINYINT(1) NOT NULL,
+        es_base TINYINT(1) NOT NULL DEFAULT 0
+    );
+");
+
 
     $conexion->query("
         CREATE TABLE candidatura (
@@ -251,10 +253,11 @@ INSERT INTO usuario
 ================================ */
 
     $conexion->query("
-    INSERT INTO categorias (nombre,premios,premio_fisico) VALUES
-    ('Alumnos',3,1),
-    ('Alumni',3,0);
+INSERT INTO categorias (nombre,premios,premio_fisico,es_base) VALUES
+('Alumnos',3,1,1),
+('Alumni',3,0,1);
 ");
+
 
     /* ===============================
    4. CANDIDATURAS (11 entradas)
@@ -264,11 +267,11 @@ INSERT INTO usuario
     INSERT INTO candidatura
 (id_usuario,id_edicion,id_categoria,titulo_obra,sinopsis,nombre_contacto,email_contacto,dni,video_ruta,portada_ruta,estado,motivo_rechazo,mensaje_subsanacion)
 VALUES
-(3,1,2,'Horizonte Perdido','Documental social','Carlos López','carlos@correo.es','22222222B','/videos/horizonte.mp4','/portadas/horizonte.jpg','aceptada',NULL,NULL),
-(4,1,2,'Latidos Rotos','Experimental visual','Lucía Martín','lucia@correo.es','33333333C','/videos/latidos_rotos.mp4','/portadas/latidos_rotos.jpg','rechazada','No cumple requisitos técnicos',NULL),
-(10,1,1,'Ciclos','Experimental conceptual','María Sánchez','maria@correo.es','99999999J','/videos/ciclos.mp4','/portadas/ciclos.jpg','en_proceso',NULL,NULL),
-(11,1,1,'Niebla','Drama introspectivo','Pablo Herrera','pablo@correo.es','10101010K','/videos/niebla.mp4','/portadas/niebla.jpg','rechazada','Iluminación insuficiente',NULL),
-(12,1,2,'Senderos','Documental de viaje','Laura Díaz','laura@correo.es','12121212L','/videos/senderos.mp4','/portadas/senderos.jpg','aceptada',NULL,NULL);
+(3,1,2,'Horizonte Perdido','Documental social','Carlos López','carlos@correo.es','22222222B','videos/horizonte.mp4','portadas/horizonte.jpg','aceptada',NULL,NULL),
+(4,1,2,'Latidos Rotos','Experimental visual','Lucía Martín','lucia@correo.es','33333333C','videos/latidos_rotos.mp4','portadas/latidos_rotos.jpg','rechazada','No cumple requisitos técnicos',NULL),
+(10,1,1,'Ciclos','Experimental conceptual','María Sánchez','maria@correo.es','99999999J','videos/ciclos.mp4','portadas/ciclos.jpg','en_proceso',NULL,NULL),
+(11,1,1,'Niebla','Drama introspectivo','Pablo Herrera','pablo@correo.es','10101010K','videos/niebla.mp4','portadas/niebla.jpg','rechazada','Iluminación insuficiente',NULL),
+(12,1,2,'Senderos','Documental de viaje','Laura Díaz','laura@correo.es','12121212L','videos/senderos.mp4','portadas/senderos.jpg','aceptada',NULL,NULL);
 
 ");
 
