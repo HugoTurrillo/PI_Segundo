@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const formData = new FormData(form);
 
-    // DNI si existe en tu formulario
+    // DNI si existe en el formulario
     const dniInput = document.getElementById("dni");
     if (dniInput) {
       formData.set("dni", dniInput.value.trim().toUpperCase());
