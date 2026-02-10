@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const contenedor = document.getElementById("patrocinadores-home");
 
-    fetch("patrocinadores-listar.php")
+    fetch("../php/patrocinadores-listar.php")
         .then(r => r.json())
         .then(lista => {
             contenedor.innerHTML = "";

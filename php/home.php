@@ -13,6 +13,8 @@ $rol = $_SESSION["rol"] ?? null;
 
   <link rel="stylesheet" href="../CSS/estilos.css">
   <link rel="icon" href="../IMG/favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 </head>
 
 <body>
@@ -26,108 +28,115 @@ $rol = $_SESSION["rol"] ?? null;
     <!-- ================= CONTENIDO PRINCIPAL ================= -->
     <main class="home-main">
 
-      <!-- IZQUIERDA -->
-      <section class="home-left">
-        <h1>El talento universitario empieza aquí</h1>
-        <p>
-          Sube tu corto,<br>
-          entra a formar parte del festival
-        </p>
+      
 
-        <?php if (!$logueado): ?>
-          <a href="../HTML/registro.html" class="btn home-btn">Crea tu cuenta gratis</a>
+          <section class="home-hero-art">
+        <div class="hero-art-inner">
+          <span class="hero-accent"></span>
 
-        <?php elseif ($rol === "participante"): ?>
-          <a href="../HTML/participante.html" class="btn home-btn">Ir a mi panel</a>
+          <h1 class="hero-title">
+            TALENTO<br>
+            <span>UNIVERSITARIO</span>
+          </h1>
 
-        <?php elseif ($rol === "organizador"): ?>
-          <a href="../HTML/organizador.html" class="btn home-btn">Ir al panel organizador</a>
-
-        <?php endif; ?>
-      </section>
-
-      <!-- DERECHA: CARRUSEL -->
-      <section class="home-carousel">
-        <div class="carousel-container">
-
-          <div class="carousel-track">
-            <div class="carousel-slide"><img src="../IMG/carruselh1.jpg" alt=""></div>
-            <div class="carousel-slide"><img src="../IMG/carruselh2.jpg" alt=""></div>
-            <div class="carousel-slide"><img src="../IMG/carruselh3.jpg" alt=""></div>
-            <div class="carousel-slide"><img src="../IMG/carruselh4.jpg" alt=""></div>
-          </div>
-
-          <button class="carousel-btn prev">&#10094;</button>
-          <button class="carousel-btn next">&#10095;</button>
-
-          <div class="carousel-dots">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-          </div>
+          <p class="hero-subtitle">
+            Festival de Cortometrajes<br>
+            Universidad Europea
+          </p>
+        <p class="hero-word">
+        <span class="word active">Cine</span>
+        <span class="word">Creación</span>
+        <span class="word">Talento</span>
+        <span class="word">Pasión</span>
+      </p>
 
         </div>
       </section>
+
 
     </main>
 
     <section class="home-news">
-      <h2>Últimas noticias</h2>
-      <div id="contenedorNoticias"></div>
+      <div class="home-section-inner">
+        <p class="section-intro">
+        <h2>Últimas noticias</h2>
+        </p>
+        <div id="contenedorNoticias"></div>
+      </div>
     </section>
+
+
+   <section class="home-premios">
+  <div class="home-section-inner">
+
+    <h2>Categorías del festival</h2>
+
+    <div class="panel-grid">
+      <a href="#" class="panel-card panel-card-categoria">
+        <h3>Alumnos</h3>
+        <p>Premios: 3</p>
+        <p>Premio físico: 1</p>
+      </a>
+
+      <a href="#" class="panel-card panel-card-categoria">
+        <h3>Alumni</h3>
+        <p>Premios: 3</p>
+        <p>Premio físico: 0</p>
+      </a>
+    </div>
+
+  </div>
+</section>
+
 
     <section class="patrocinadores-home">
+      <div class="home-section-inner">
+        <p class="section-intro">
       <h2>Nuestros patrocinadores</h2>
+</p>
       <div id="patrocinadores-home" class="patro-grid"></div>
+      </div>
     </section>
 
-    <section class="home-premios">
-  <h2>Categorías del festival</h2>
-  <div id="contenedorPremios"></div>
-</section>
 
 
   </div>
 
-  <!-- ================= FOOTER ================= -->
-  <footer class="footer">
-    <div class="footer-main">
-      <div class="footer-left">
-        <div class="footer-social-row">
-          <img src="../IMG/instagram.png" alt="Instagram">
-          <span>@cortosuem</span>
-        </div>
-        <div class="footer-social-row">
-          <img src="../IMG/facebook.png" alt="Facebook">
-          <span>@cortosuem</span>
-        </div>
-        <div class="footer-social-row">
-          <img src="../IMG/twitter.png" alt="Twitter">
-          <span>@cortosuem</span>
-        </div>
-      </div>
+ <footer class="footer">
 
-      <div class="footer-center">
-         <a href="../HTML/sobre_nosotros.html" class="footer-contact-link">Sobre nosotros: ¿Quiénes Somos?</a><br>
-                   <a href="../HTML/contacto.html" class="footer-contact-link">Contáctanos</a>
+  <div class="footer-main">
 
-      </div>
-
-      <div class="footer-right">
-        <div class="footer-logo-circle">
-          <img src="../IMG/logosimple.jpg" alt="Logo">
-        </div>
-      </div>
+    
+    <div class="footer-col footer-brand">
+      <img src="../IMG/logo-ue-blanco.png" alt="Festival Universitario" class="footer-logo">
+      <p class="footer-tagline">Talento universitario en acción</p>
     </div>
 
-    <div class="footer-bottom">
-      Universidad Europea © 2025. Todos los Derechos Reservados
+    
+    <div class="footer-col footer-links">
+      <a href="quienes-somos.html">Quiénes somos</a>
+      <a href="contacto.html">Contacta con nosotros</a>
     </div>
-  </footer>
+
+    <!-- COLUMNA 3 · REDES -->
+    <div class="footer-col footer-social">
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+      <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="#" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+    </div>
+
+  </div>
+
+  <!-- FRANJA ROJA -->
+  <div class="footer-bottom">
+    © 2026 Festival Universitario
+  </div>
+
+</footer>
+
   
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="../JS/carrusel.js"></script>
   <script src="../JS/home_noticias.js"></script>
   <script src="../JS/home-patrocinadores.js"></script>
 <script src="../JS/home-premios.js"></script>
