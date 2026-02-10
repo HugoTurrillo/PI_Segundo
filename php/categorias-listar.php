@@ -2,7 +2,7 @@
 require "config/conexion.php";
 header("Content-Type: application/json");
 
-$sql = "SELECT id, nombre, premios, premio_fisico FROM categorias";
+$sql = "SELECT id, nombre, premios, premio_fisico, es_base FROM categorias";
 $res = $conexion->query($sql);
 
 if (!$res) {

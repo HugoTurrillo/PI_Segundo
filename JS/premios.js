@@ -33,7 +33,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         <div class="categoria-acciones">
                             <a href="categoria-editar.html?id=${cat.id}" class="btn-accion btn-editar">Editar</a>
-                            <button class="btn-accion btn-eliminar btn-eliminar-categoria" data-id="${cat.id}">Eliminar</button>
+                           ${cat.es_base == 0 ? `
+                            <button class="btn-accion btn-eliminar btn-eliminar-categoria" data-id="${cat.id}">
+                            Eliminar
+                            </button>` : ``}
+
                         </div>
                     </div>
                 `;
@@ -125,8 +129,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (!confirm.isConfirmed) return;
 
                 try {
-                    const res = await fetch(`../php/categoria-eliminar.php?id=${id}`);
+                    const res = await fetch("../php/categoria-eliminar.php", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ id })
+                    });
+
                     const resultado = await res.json();
+
 
                     if (!resultado.ok) {
                         Swal.fire("Error", resultado.msg || "No se pudo eliminar", "error");

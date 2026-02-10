@@ -61,13 +61,15 @@ if ($check->num_rows === 0) {
     ");
 
     $conexion->query("
-        CREATE TABLE categorias (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            nombre VARCHAR(255) NOT NULL,
-            premios INT NOT NULL,
-            premio_fisico TINYINT(1) NOT NULL
-        );
-    ");
+    CREATE TABLE categorias (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        nombre VARCHAR(255) NOT NULL,
+        premios INT NOT NULL,
+        premio_fisico TINYINT(1) NOT NULL,
+        es_base TINYINT(1) NOT NULL DEFAULT 0
+    );
+");
+
 
     $conexion->query("
         CREATE TABLE candidatura (
@@ -251,10 +253,11 @@ INSERT INTO usuario
 ================================ */
 
     $conexion->query("
-    INSERT INTO categorias (nombre,premios,premio_fisico) VALUES
-    ('Alumnos',3,1),
-    ('Alumni',3,0);
+INSERT INTO categorias (nombre,premios,premio_fisico,es_base) VALUES
+('Alumnos',3,1,1),
+('Alumni',3,0,1);
 ");
+
 
     /* ===============================
    4. CANDIDATURAS (11 entradas)
