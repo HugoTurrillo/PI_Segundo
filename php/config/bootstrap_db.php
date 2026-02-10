@@ -6,6 +6,10 @@ $pass = "";
 $dbname = "festival_cortos_uem";
 
 $conexion = new mysqli($host, $user, $pass);
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 
 if ($conexion->connect_error) {
     die("Error de conexión: " . $conexion->connect_error);
@@ -213,20 +217,24 @@ if ($check->num_rows === 0) {
 ================================ */
 
 $conexion->query("
-    INSERT INTO usuario (nombre_completo, email, password_hash, rol) VALUES
-    ('Organizador Principal','organizador@uem.es','$passOrg','organizador'),
-    ('Participante Principal','participante@uem.es','$passPar','participante'),
-    ('Usuario 3','u3@correo.es','$passPar','participante'),
-    ('Usuario 4','u4@correo.es','$passPar','participante'),
-    ('Usuario 5','u5@correo.es','$passPar','participante'),
-    ('Usuario 6','u6@correo.es','$passPar','participante'),
-    ('Usuario 7','u7@correo.es','$passPar','participante'),
-    ('Usuario 8','u8@correo.es','$passPar','participante'),
-    ('Usuario 9','u9@correo.es','$passPar','participante'),
-    ('Usuario 10','u10@correo.es','$passPar','participante'),
-    ('Usuario 11','u11@correo.es','$passPar','participante'),
-    ('Usuario 12','u12@correo.es','$passPar','participante')
+INSERT INTO usuario 
+(nombre_completo, email, password_hash, rol, dni, numero_expediente) VALUES
+('Organizador Principal','organizador@uem.es','$passOrg','organizador','00000000A','ORG001'),
+('Participante Principal','participante@uem.es','$passPar','participante','11111111B','PAR001'),
+('Usuario 3','u3@correo.es','$passPar','participante','22222222C','PAR002'),
+('Usuario 4','u4@correo.es','$passPar','participante','33333333D','PAR003'),
+('Usuario 5','u5@correo.es','$passPar','participante','44444444E','PAR004'),
+('Usuario 6','u6@correo.es','$passPar','participante','55555555F','PAR005'),
+('Usuario 7','u7@correo.es','$passPar','participante','66666666G','PAR006'),
+('Usuario 8','u8@correo.es','$passPar','participante','77777777H','PAR007'),
+('Usuario 9','u9@correo.es','$passPar','participante','88888888I','PAR008'),
+('Usuario 10','u10@correo.es','$passPar','participante','99999999J','PAR009'),
+('Usuario 11','u11@correo.es','$passPar','participante','10101010K','PAR010'),
+('Usuario 12','u12@correo.es','$passPar','participante','12121212L','PAR011')
 ");
+
+
+
 
 
     /* ===============================
@@ -245,7 +253,7 @@ $conexion->query("
     $conexion->query("
     INSERT INTO categorias (nombre,premios,premio_fisico) VALUES
     ('Alumnos',3,1),
-    ('Alumni',3,0),
+    ('Alumni',3,0);
 ");
 
     /* ===============================
@@ -254,13 +262,14 @@ $conexion->query("
 
     $conexion->query("
     INSERT INTO candidatura
-    (id_usuario,id_edicion,id_categoria,titulo_obra,sinopsis,nombre_contacto,email_contacto,dni,video_ruta,portada_ruta,estado,motivo_rechazo,mensaje_subsanacion)
-    VALUES
-    (3,1,2,'Horizonte Perdido','Documental social','Carlos López','carlos@correo.es','22222222B','/videos/horizonte.mp4','/portadas/horizonte.jpg','aceptada',NULL,NULL),
-    (4,1,3,'Latidos Rotos','Experimental visual','Lucía Martín','lucia@correo.es','33333333C','/videos/latidos_rotos.mp4','/portadas/latidos_rotos.jpg','rechazada','No cumple requisitos técnicos',NULL),
-    (10,1,3,'Ciclos','Experimental conceptual','María Sánchez','maria@correo.es','99999999J','/videos/ciclos.mp4','/portadas/ciclos.jpg','en_proceso',NULL,NULL),
-    (11,1,1,'Niebla','Drama introspectivo','Pablo Herrera','pablo@correo.es','10101010K','/videos/niebla.mp4','/portadas/niebla.jpg','rechazada','Iluminación insuficiente',NULL),
-    (12,1,2,'Senderos','Documental de viaje','Laura Díaz','laura@correo.es','12121212L','/videos/senderos.mp4','/portadas/senderos.jpg','aceptada',NULL,NULL);
+(id_usuario,id_edicion,id_categoria,titulo_obra,sinopsis,nombre_contacto,email_contacto,dni,video_ruta,portada_ruta,estado,motivo_rechazo,mensaje_subsanacion)
+VALUES
+(3,1,2,'Horizonte Perdido','Documental social','Carlos López','carlos@correo.es','22222222B','/videos/horizonte.mp4','/portadas/horizonte.jpg','aceptada',NULL,NULL),
+(4,1,2,'Latidos Rotos','Experimental visual','Lucía Martín','lucia@correo.es','33333333C','/videos/latidos_rotos.mp4','/portadas/latidos_rotos.jpg','rechazada','No cumple requisitos técnicos',NULL),
+(10,1,1,'Ciclos','Experimental conceptual','María Sánchez','maria@correo.es','99999999J','/videos/ciclos.mp4','/portadas/ciclos.jpg','en_proceso',NULL,NULL),
+(11,1,1,'Niebla','Drama introspectivo','Pablo Herrera','pablo@correo.es','10101010K','/videos/niebla.mp4','/portadas/niebla.jpg','rechazada','Iluminación insuficiente',NULL),
+(12,1,2,'Senderos','Documental de viaje','Laura Díaz','laura@correo.es','12121212L','/videos/senderos.mp4','/portadas/senderos.jpg','aceptada',NULL,NULL);
+
 ");
 
     /* ===============================

@@ -333,28 +333,42 @@ nav {
 /* HOME MAIN */
 .home-main {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 3rem 2rem;
-  gap: 2rem;
+  padding: 8rem 2rem 10rem;
+}
+.home-main::after {
+  content: "";
+  display: block;
+  width: 120px;
+  height: 2px;
+  background-color: #FF3228;
+  margin: 5rem auto 0;
+  opacity: 0.6;
 }
 
-/* IZQUIERDA */
-.home-left {
-  flex: 1;
-  max-width: 500px;
+.section-intro {
+  text-align: center;
+  margin-top: 1.2rem;
+  margin-bottom: 3rem;
+  font-size: 0.95rem;
+  color: #666;
 }
 
-.home-left h1 {
-  font-size: 2.2rem;
-  margin-bottom: 1rem;
-  color: #FF3228;
+
+
+
+/* =========================
+   SEPARACIÓN ENTRE SECCIONES HOME
+========================= */
+
+.home-news,
+.home-premios,
+.patrocinadores-home {
+  padding: 6rem 0 7rem;
+  margin-top: 4rem;
 }
 
-.home-left p {
-  font-size: 1.3rem;
-  margin-bottom: 2rem;
-}
 
 .home-btn {
   display: inline-block;
@@ -479,6 +493,26 @@ nav {
   gap: 2rem;
   margin-top: 2rem;
 }
+/* =========================
+   HOME – CATEGORÍAS FESTIVAL
+========================= */
+
+.home-premios .panel-grid {
+  display: flex !important;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch;
+  gap: 4rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.home-premios .panel-card-categoria {
+  flex: 0 0 320px;
+}
+
+
 
 .panel-card {
   background-color: #fff;
@@ -647,13 +681,13 @@ nav {
 .patro-grid {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px;
+    justify-content: space-between;
+    gap: 4rem;
     padding: 20px 0;
 }
 
 .patro-item {
-    width: 220px;
+    width: 200px;
     text-align: center;
     padding: 15px;
     border-radius: 8px;
@@ -1317,15 +1351,55 @@ nav {
 ===================================================== */
 
 .home-news {
-  padding: 3rem 2rem;
+  padding: 0 2rem;
 }
 
-.home-news h2 {
-  text-align: center;
-  color: #FF3228;
-  font-size: 2rem;
-  margin-bottom: 2rem;
+
+.home-news h2,
+.home-premios h2,
+.patrocinadores-home h2 {
+  margin-bottom: 3.5rem;
 }
+#contenedorNoticias,
+#contenedorPremios,
+#patrocinadores-home {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+/* =========================
+   HOME – SECCIONES A ANCHO COMPLETO
+========================= */
+
+
+
+/* CONTENIDO INTERNO */
+.home-section-inner {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+.home-section-inner h2::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background-color: #FF3228;
+  margin: 1.5rem auto 0;
+}
+
+.home-news {
+  background-color: #f5f5f5;
+}
+
+.home-premios {
+  background-color: #ffffff;
+  width: 100%;
+}
+
+.patrocinadores-home {
+  background-color: #f5f5f5;
+}
+
 
 /* CONTENEDOR PRINCIPAL */
 .news-carousel {
@@ -1344,13 +1418,14 @@ nav {
 .news-slide {
   min-width: 100%;
   display: flex;
-  justify-content: center;
-  gap: 2rem;
+  justify-content: space-between;
+  padding: 0 1rem;   
+  gap: 3.5rem;    
 }
 
 /* CARD INDIVIDUAL */
 .news-card {
-  width: 30%;
+  width: 28%;
   background-color: #ffffff;
   cursor: pointer;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -1481,17 +1556,19 @@ nav {
 }
 
 .premios-slide {
-    min-width: 100%;
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
+  justify-content: space-between;
+  padding: 0 1rem;
+  gap: 3rem;
 }
+
+
+
 
 .premio-card {
     background: #fff;
     padding: 1rem;
     border-radius: 10px;
-    width: 30%;
+    width: 26%;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     text-align: center;
 }
@@ -1551,6 +1628,120 @@ nav {
     border: black;
 }
 
+/* =========================
+   HERO ART HOME (ESTÉTICA)
+========================= */
+
+.home-hero-art {
+  width: 100%;
+  max-width: 900px;
+}
+
+.hero-art-inner {
+  position: relative;
+  padding-left: 2rem;
+}
+
+/* ACENTO GRÁFICO */
+.hero-accent {
+  position: absolute;
+  left: 0;
+  top: 0.3rem;
+  width: 6px;
+  height: 120px;
+  background-color: #FF3228;
+}
+
+/* TÍTULO PRINCIPAL */
+.hero-title {
+  font-size: 3.8rem;
+  line-height: 1.1;
+  font-weight: 700;
+  color: #FF3228;
+  margin-bottom: 1.5rem;
+}
+
+/* JUEGO DE ESCALA */
+.hero-title span {
+  font-size: 3.2rem;
+  font-weight: 500;
+  color: #FF3228;
+}
+
+/* SUBTÍTULO */
+.hero-subtitle {
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.6;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+/* =========================
+   PALABRA DINÁMICA HERO
+========================= */
+
+.hero-word {
+  margin-top: 2rem;
+  height: 1.4rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-word .word {
+  position: absolute;
+  left: 0;
+  opacity: 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #000;
+  animation: wordFade 12s infinite;
+}
+
+/* Timing de cada palabra */
+.hero-word .word:nth-child(1) { animation-delay: 0s; }
+.hero-word .word:nth-child(2) { animation-delay: 3s; }
+.hero-word .word:nth-child(3) { animation-delay: 6s; }
+.hero-word .word:nth-child(4) { animation-delay: 9s; }
+
+@keyframes wordFade {
+  0%   { opacity: 0; transform: translateY(5px); }
+  10%  { opacity: 1; transform: translateY(0); }
+  30%  { opacity: 1; }
+  40%  { opacity: 0; transform: translateY(-5px); }
+  100% { opacity: 0; }
+}
+.hero-accent {
+  animation: accentIn 0.8s ease-out forwards;
+}
+
+@keyframes accentIn {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    height: 120px;
+    opacity: 1;
+  }
+}
+
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.8rem;
+  }
+
+  .hero-title span {
+    font-size: 2.3rem;
+  }
+
+  .hero-accent {
+    height: 90px;
+  }
+}
+
+
 /* RESPONSIVE */
 @media (max-width: 600px) {
     .btn-accion {
@@ -1558,3 +1749,4 @@ nav {
         margin-bottom: 0.5rem;
     }
 }
+
