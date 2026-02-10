@@ -72,21 +72,35 @@ $rol = $_SESSION["rol"] ?? null;
     <h2>Categorías del festival</h2>
 
     <div class="panel-grid">
-      <a href="#" class="panel-card panel-card-categoria">
+      <a href="#" 
+        class="panel-card panel-card-categoria js-premio"
+        data-categoria="Alumnos">
         <h3>Alumnos</h3>
-        <p>Premios: 3</p>
-        <p>Premio físico: 1</p>
+        <p>Premios oficiales del festival</p>
       </a>
 
-      <a href="#" class="panel-card panel-card-categoria">
-        <h3>Alumni</h3>
-        <p>Premios: 3</p>
-        <p>Premio físico: 0</p>
-      </a>
+
+          <a href="#" 
+      class="panel-card panel-card-categoria js-premio"
+      data-categoria="Alumni">
+      <h3>Alumni</h3>
+      <p>Premios oficiales del festival</p>
+    </a>
+
     </div>
 
   </div>
-</section>
+      </section>
+      <section class="home-gala">
+        <div class="home-section-inner">
+          <h2>Próxima Gala</h2>
+
+          <div id="home-gala-card" class="panel-card panel-card-categoria">
+            <p>Cargando información de la gala…</p>
+          </div>
+        </div>
+      </section>
+
 
 
     <section class="patrocinadores-home">
@@ -114,8 +128,8 @@ $rol = $_SESSION["rol"] ?? null;
 
     
     <div class="footer-col footer-links">
-      <a href="quienes-somos.html">Quiénes somos</a>
-      <a href="contacto.html">Contacta con nosotros</a>
+      <a href="../HTML/sobre_nosotros.html">Quiénes somos</a>
+      <a href="../HTML/contacto.html">Contacta con nosotros</a>
     </div>
 
     <!-- COLUMNA 3 · REDES -->
@@ -139,7 +153,9 @@ $rol = $_SESSION["rol"] ?? null;
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="../JS/home_noticias.js"></script>
   <script src="../JS/home-patrocinadores.js"></script>
-<script src="../JS/home-premios.js"></script>
+  <script src="../JS/home-premios.js"></script>
+  <script src="../JS/home-gala.js"></script>
+
 </body>
 
 </html>
