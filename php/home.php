@@ -72,17 +72,21 @@ $rol = $_SESSION["rol"] ?? null;
     <h2>Categorías del festival</h2>
 
     <div class="panel-grid">
-      <a href="#" class="panel-card panel-card-categoria">
+      <a href="#" 
+        class="panel-card panel-card-categoria js-premio"
+        data-categoria="Alumnos">
         <h3>Alumnos</h3>
-        <p>Premios: 3</p>
-        <p>Premio físico: 1</p>
+        <p>Premios oficiales del festival</p>
       </a>
 
-      <a href="#" class="panel-card panel-card-categoria">
-        <h3>Alumni</h3>
-        <p>Premios: 3</p>
-        <p>Premio físico: 0</p>
-      </a>
+
+          <a href="#" 
+      class="panel-card panel-card-categoria js-premio"
+      data-categoria="Alumni">
+      <h3>Alumni</h3>
+      <p>Premios oficiales del festival</p>
+    </a>
+
     </div>
 
   </div>
