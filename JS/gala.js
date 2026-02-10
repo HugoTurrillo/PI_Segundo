@@ -144,6 +144,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 <textarea id="post-texto" rows="5" class="gala-textarea">${galaActual.post_evento_texto ?? ""}</textarea>
                 <div class="gala-acciones">
                     <button class="btn login-btn" id="btn-guardar-post">Guardar texto</button>
+                    <button class="btn login-btn" id="btn-publicar-post"
+                        style="background:#000;">
+                         Publicar post-evento
+                         </button>
+
                 </div>
                 <div id="post-texto-error" class="error-campo"></div>
             </div>
@@ -169,6 +174,40 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
 
         document.getElementById("btn-guardar-post").addEventListener("click", guardarTextoPostEvento);
+        document.getElementById("btn-publicar-post").addEventListener("click", async () => {
+
+            const confirmacion = await Swal.fire({
+            title: "¿Publicar post-evento?",
+            text: "Esto hará visible el contenido para todos los usuarios.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, publicar",
+            cancelButtonText: "Cancelar"
+            });
+
+            if (!confirmacion.isConfirmed) return;
+
+            const res = await fetch("../php/postevento-publicar.php", {
+            method: "POST"
+            });
+
+            const r = await res.json();
+
+            if (r.ok) {
+            Swal.fire(
+                "Publicado",
+                "El post-evento ya es visible públicamente",
+                "success"
+            );
+            } else {
+            Swal.fire(
+                "Error",
+                r.msg || "No se pudo publicar el post-evento",
+                "error"
+            );
+            }
+        });
+
         document.getElementById("form-galeria").addEventListener("submit", subirImagenGaleria);
 
         cargarGanadores();

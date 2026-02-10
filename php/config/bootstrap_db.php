@@ -148,23 +148,26 @@ if ($check->num_rows === 0) {
     ");
 
     $conexion->query("
-        CREATE TABLE post_evento (
-            id_post_evento INT AUTO_INCREMENT PRIMARY KEY,
-            id_edicion INT NOT NULL,
-            resumen TEXT,
-            ganador_alumnos VARCHAR(255),
-            corto_alumnos VARCHAR(255),
-            ganador_alumni VARCHAR(255),
-            corto_alumni VARCHAR(255),
-            ganador_profesional VARCHAR(255),
-            corto_profesional VARCHAR(255),
-            anio_edicion INT,
-            numero_participantes INT,
-            ganadores_json TEXT,
-            fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (id_edicion) REFERENCES edicion_festival(id_edicion)
-        );
-    ");
+    CREATE TABLE post_evento (
+    id_post_evento INT AUTO_INCREMENT PRIMARY KEY,
+    id_edicion INT NOT NULL,
+    resumen TEXT,
+    ganador_alumnos VARCHAR(255),
+    corto_alumnos VARCHAR(255),
+    ganador_alumni VARCHAR(255),
+    corto_alumni VARCHAR(255),
+    ganador_profesional VARCHAR(255),
+    corto_profesional VARCHAR(255),
+    anio_edicion INT,
+    numero_participantes INT,
+    ganadores_json TEXT,
+    publicado TINYINT(1) DEFAULT 0,
+    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_edicion) REFERENCES edicion_festival(id_edicion)
+);
+
+");
+
 
     $conexion->query("
         CREATE TABLE post_evento_imagen (

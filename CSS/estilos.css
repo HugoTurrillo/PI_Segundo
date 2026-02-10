@@ -67,6 +67,13 @@ body {
   background-color: #f5f5f5;
   color: #333;
 }
+/* =========================
+   PÁGINAS GENERALES
+========================= */
+.page-wrapper {
+  flex: 1;
+  padding: 4rem 2rem;
+}
 
 /* NAVBAR GENERAL */
 .navbar {
@@ -1800,6 +1807,79 @@ nav {
   cursor: pointer;
 }
 
+/* =========================
+   GALA · PÁGINA PÚBLICA
+========================= */
+
+.gala-page {
+  background-color: #f5f5f5;
+}
+
+/* HERO */
+.gala-hero {
+  background: #fff;
+  padding: 8rem 2rem 6rem; 
+  min-height: calc(100vh - 80px); 
+  display: flex;
+  align-items: center;
+}
+
+.gala-hero-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  padding-left: 2rem;
+}
+
+.gala-accent {
+  position: absolute;
+  left: 0;
+  top: 0.3rem;
+  width: 6px;
+  height: 120px;
+  background-color: #FF3228;
+}
+
+.gala-hero h1 {
+  font-size: 4.2rem;
+  color: #FF3228;
+  line-height: 1.05;
+  font-weight: 700;
+}
+
+.gala-hero h1 span {
+  font-size: 3.4rem;
+  font-weight: 400;
+}
+
+.gala-hero p {
+  margin-top: 2rem;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #555;
+}
+
+/* CONTENIDO */
+.gala-contenido {
+   margin-top: -4rem;
+}
+
+.gala-card {
+  background: #fff;
+  padding: 3rem 3.5rem;
+}
+
+.gala-card h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.gala-card p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 0.6rem;
+}
 
 
 

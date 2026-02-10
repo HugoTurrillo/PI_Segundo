@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     .getElementById("form-ganador")
     .addEventListener("submit", e => guardarGanador(e, idGanador));
 
-  /* 🔙 BOTÓN SALIR SIN GUARDAR */
+  /*  BOTÓN SALIR SIN GUARDAR */
   const btnCancelar = document.getElementById("btn-cancelar");
   if (btnCancelar) {
     btnCancelar.addEventListener("click", () => {

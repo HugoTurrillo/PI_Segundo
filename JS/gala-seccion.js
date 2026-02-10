@@ -27,8 +27,8 @@ document.addEventListener("DOMContentLoaded", () => {
     async function cargarSeccion() {
         try {
             const res = await fetch("../php/gala-secciones-listar.php?id_gala=0"); 
-            // No existe un endpoint para obtener una sola sección,
-            // así que lo creamos aquí manualmente:
+            
+            
 
             const res2 = await fetch("../php/gala-secciones-listar.php?id_gala=1");
             const data = await res2.json();
