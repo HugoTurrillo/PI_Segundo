@@ -98,7 +98,7 @@ if (!isset($_FILES["portada"]) || $_FILES["portada"]["size"] === 0) {
 $carpeta_fisica = __DIR__ . "/uploads/candidaturas/";
 
 /* RUTA WEB (la que va a la BBDD) */
-$carpeta_bd = "php/uploads/candidaturas/";
+$carpeta_bd = "../php/uploads/candidaturas/";
 
 if (!is_dir($carpeta_fisica)) {
     mkdir($carpeta_fisica, 0777, true);
@@ -122,7 +122,6 @@ move_uploaded_file(
 
 $video_ruta_bd   = $carpeta_bd . $video_nombre;
 $portada_ruta_bd = $carpeta_bd . $portada_nombre;
-
 
 /* ============================
    INSERTAR CANDIDATURA 
@@ -158,7 +157,6 @@ $stmt->bind_param(
     $video_ruta_bd,
     $portada_ruta_bd
 );
-
 
 $stmt->execute();
 
