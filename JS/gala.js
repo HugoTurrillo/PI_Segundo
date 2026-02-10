@@ -278,7 +278,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!galaActual) return;
 
         try {
-            const res = await fetch(`../php/gala-galeria-listar.php?id_gala=${galaActual.id}`);
+            const res = await fetch(`../php/gala-galeria-listar.php?id_post_evento=${galaActual.id_post_evento}`);
+
             const data = await res.json();
 
             if (!data.ok || !data.data.length) {
@@ -311,7 +312,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const datos = new FormData();
-        datos.append("id_gala", galaActual.id);
+        datos.append("id_post_evento", galaActual.id_post_evento);
         datos.append("imagen", input.files[0]);
 
         try {
