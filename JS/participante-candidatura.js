@@ -33,6 +33,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
         ${c.video_ruta ? `
+<<<<<<< HEAD
   <div class="candidatura-video-wrapper">
   <video
     class="candidatura-video"
@@ -45,6 +46,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 ` : ""}
 
+
+ 
 
 
         <h4>Sinopsis</h4>
