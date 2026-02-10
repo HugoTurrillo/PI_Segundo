@@ -23,19 +23,27 @@ document.addEventListener("DOMContentLoaded", async () => {
       card.innerHTML = `
         <h3>${c.titulo_obra}</h3>
 
-        <p><strong>Estado:</strong> ${c.estado}</p>
+        <span class="estado-badge estado-${c.estado}">
+        ${c.estado === "en_proceso" ? "En proceso"
+        : c.estado === "aceptada" ? "Aceptada"
+        : c.estado === "rechazada" ? "Rechazada"
+        : c.estado}
+        </span>
+
+
 
         ${c.video_ruta ? `
-          <video controls
-       poster="../php/${c.portada_ruta}"
-       style="width:100%;border-radius:8px;">
-  <source src="../php/${c.video_ruta}" type="video/mp4">
-</video>
+  <video
+    class="candidatura-video"
+    controls
+    poster="../php/${c.portada_ruta}">
+    <source src="../php/${c.video_ruta}" type="video/mp4">
+  </video>
+` : ""}
 
-        ` : ""}
 
         <h4>Sinopsis</h4>
-        <p>${c.sinopsis}</p>
+        <p class="candidatura-sinopsis">${c.sinopsis}</p>
 
         ${c.estado === "rechazada" ? `
   <div style="margin-top:1rem;">

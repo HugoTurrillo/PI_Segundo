@@ -33,7 +33,17 @@ document.addEventListener("DOMContentLoaded", () => {
           <p><strong>Autor:</strong> ${c.nombre_contacto}</p>
           <p><strong>Email:</strong> ${c.email_contacto}</p>
           <p><strong>Perfil:</strong> ${c.rol_participante}</p>
-          <p><strong>Estado:</strong> ${c.estado}</p>
+          <span class="estado-badge estado-${c.estado}">
+          ${
+            c.estado === "en_proceso" ? "En proceso"
+            : c.estado === "aceptada" ? "Aceptada"
+            : c.estado === "rechazada" ? "Rechazada"
+            : c.estado
+          }
+        </span>
+
+          
+
 
           ${c.estado === "rechazada" ? `
             <p style="color:red;">
