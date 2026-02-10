@@ -94,26 +94,35 @@ if (!isset($_FILES["portada"]) || $_FILES["portada"]["size"] === 0) {
    SUBIR ARCHIVOS
 ============================ */
 
-/* RUTA REAL */
+/* RUTA REAL EN DISCO */
 $carpeta_fisica = __DIR__ . "/uploads/candidaturas/";
-/* RUTA WEB */
-$carpeta_bd = "uploads/candidaturas/";
+
+/* RUTA WEB (la que va a la BBDD) */
+$carpeta_bd = "php/uploads/candidaturas/";
 
 if (!is_dir($carpeta_fisica)) {
     mkdir($carpeta_fisica, 0777, true);
 }
 
 /* VIDEO */
-$video_nombre = time() . "_video_" . basename($_FILES["video"]["name"]);
-$video_ruta_fisica = $carpeta_fisica . $video_nombre;
-$video_ruta_bd = $carpeta_bd . $video_nombre;
-move_uploaded_file($_FILES["video"]["tmp_name"], $video_ruta_fisica);
+$video_ext = pathinfo($_FILES["video"]["name"], PATHINFO_EXTENSION);
+$video_nombre = time() . "_video." . strtolower($video_ext);
+move_uploaded_file(
+    $_FILES["video"]["tmp_name"],
+    $carpeta_fisica . $video_nombre
+);
 
 /* PORTADA */
-$portada_nombre = time() . "_portada_" . basename($_FILES["portada"]["name"]);
-$portada_ruta_fisica = $carpeta_fisica . $portada_nombre;
+$portada_ext = pathinfo($_FILES["portada"]["name"], PATHINFO_EXTENSION);
+$portada_nombre = time() . "_portada." . strtolower($portada_ext);
+move_uploaded_file(
+    $_FILES["portada"]["tmp_name"],
+    $carpeta_fisica . $portada_nombre
+);
+
+$video_ruta_bd   = $carpeta_bd . $video_nombre;
 $portada_ruta_bd = $carpeta_bd . $portada_nombre;
-move_uploaded_file($_FILES["portada"]["tmp_name"], $portada_ruta_fisica);
+
 
 /* ============================
    INSERTAR CANDIDATURA 
@@ -149,6 +158,7 @@ $stmt->bind_param(
     $video_ruta_bd,
     $portada_ruta_bd
 );
+
 
 $stmt->execute();
 

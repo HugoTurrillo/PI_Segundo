@@ -56,10 +56,17 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function validarRol() {
-    errorRol.textContent = "";
-    // ESTE CAMPO YA NO EXISTE, PERO LO MANTENGO POR SI LO USAS EN EL FUTURO
-    return true;
+  errorRol.textContent = "";
+  const rol = document.getElementById("rol_participante").value;
+
+  if (!rol) {
+    errorRol.textContent = "Debes seleccionar un perfil.";
+    return false;
   }
+
+  return true;
+}
+
 
   function validarExpediente() {
     errorExpediente.textContent = "";
@@ -95,12 +102,8 @@ document.addEventListener("DOMContentLoaded", function () {
     return "";
   }
 
-  function validarCategoria() {
-    if (!inputCategoria.value) {
-      return "Debes seleccionar una categoría.";
-    }
-    return "";
-  }
+  
+
 
   function validarVideo() {
     if (!inputVideo.files.length) {
@@ -133,13 +136,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Validaciones candidatura
     const erroresCandidatura = [
-      validarTitulo(),
-      validarSinopsis(),
-      validarDni(),
-      validarCategoria(),
-      validarVideo(),
-      validarPortada()
-    ].filter(e => e !== "");
+  validarTitulo(),
+  validarSinopsis(),
+  validarDni(),
+  validarVideo(),
+  validarPortada()
+].filter(e => e !== "");
+
+
 
     if (!okNombre || !okEmail || !okPassword || !okRol || !okExpediente || erroresCandidatura.length > 0) {
       errorGlobal.textContent = "Hay errores en el formulario.";

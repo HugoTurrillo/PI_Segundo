@@ -32,19 +32,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
 
-        ${c.video_ruta ? `
-<<<<<<< HEAD
+       ${c.video_ruta ? `
   <div class="candidatura-video-wrapper">
-  <video
-    class="candidatura-video"
-    preload="metadata"
-    poster="../php/${c.portada_ruta}">
-    <source src="../php/${c.video_ruta}" type="video/mp4">
-  </video>
-  <span class="video-play">▶</span>
-</div>
+    <video
+  class="candidatura-video"
+  preload="metadata"
+  poster="../${c.portada_ruta}"
+<source src="../${c.video_ruta}" type="video/mp4">
 
+</video>
+
+    <span class="video-play">▶</span>
+  </div>
 ` : ""}
+
 
 
  

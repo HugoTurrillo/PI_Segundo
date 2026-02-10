@@ -14,7 +14,10 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 $nombre = trim($_POST["nombre"] ?? "");
 $email = trim($_POST["email"] ?? "");
 $password = $_POST["password"] ?? "";
-$rol_participante = "participante";
+
+/*  ESTE ES EL CAMPO CLAVE */
+$rol_participante = trim($_POST["rol_participante"] ?? "");
+
 $dni = trim($_POST["dni"] ?? "");
 $numero_expediente = trim($_POST["numero_expediente"] ?? "");
 
@@ -27,6 +30,15 @@ if (
     $numero_expediente === ""
 ) {
     echo json_encode(["ok" => false, "mensaje" => "Todos los campos del usuario son obligatorios"]);
+    exit;
+}
+
+/*  VALIDAR PERFIL */
+if (!in_array($rol_participante, ["alumno", "alumni"])) {
+    echo json_encode([
+        "ok" => false,
+        "mensaje" => "Perfil de participante no válido"
+    ]);
     exit;
 }
 
@@ -53,24 +65,27 @@ if ($res->num_rows > 0) {
 }
 $stmt->close();
 
-/* CREAR USUARIO */
+/* ============================
+   CREAR USUARIO
+============================ */
+
 $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
 $stmt = $conexion->prepare("
     INSERT INTO usuario 
     (nombre_completo, email, password_hash, rol, rol_participante, dni, numero_expediente)
-    VALUES (?, ?, ?, 'participante', 'participante', ?, ?)
+    VALUES (?, ?, ?, 'participante', ?, ?, ?)
 ");
 
 $stmt->bind_param(
-    "sssss",
+    "ssssss",
     $nombre,
     $email,
     $password_hash,
+    $rol_participante,
     $dni,
     $numero_expediente
 );
-
 
 $stmt->execute();
 $id_usuario = $stmt->insert_id;
@@ -95,13 +110,16 @@ $id_edicion = $ed->fetch_assoc()["id_edicion"];
 
 $titulo_obra = trim($_POST["titulo_obra"] ?? "");
 $sinopsis = trim($_POST["sinopsis"] ?? "");
-$dni_candidatura = trim($_POST["dni"] ?? ""); // puede ser el mismo DNI del usuario
-$id_categoria = intval($_POST["id_categoria"] ?? 0);
+$dni_candidatura = trim($_POST["dni"] ?? "");
 
-if ($titulo_obra === "" || $sinopsis === "" || $dni_candidatura === "" || $id_categoria === 0) {
-    echo json_encode(["ok" => false, "mensaje" => "Todos los campos de la candidatura son obligatorios"]);
+if ($titulo_obra === "" || $sinopsis === "" || $dni_candidatura === "") {
+    echo json_encode([
+        "ok" => false,
+        "mensaje" => "Todos los campos de la candidatura son obligatorios"
+    ]);
     exit;
 }
+
 
 /* ============================
    4. SUBIR ARCHIVOS
@@ -141,15 +159,15 @@ if (!move_uploaded_file($_FILES["portada"]["tmp_name"], $portada_ruta)) {
 
 $stmt = $conexion->prepare("
     INSERT INTO candidatura 
-    (id_usuario, id_edicion, id_categoria, titulo_obra, sinopsis, nombre_contacto, email_contacto, dni, video_ruta, portada_ruta)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+(id_usuario, id_edicion, titulo_obra, sinopsis, nombre_contacto, email_contacto, dni, video_ruta, portada_ruta)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+
 ");
 
 $stmt->bind_param(
-    "iiisssssss",
+    "iisssssss",
     $id_usuario,
     $id_edicion,
-    $id_categoria,
     $titulo_obra,
     $sinopsis,
     $nombre,
@@ -158,6 +176,7 @@ $stmt->bind_param(
     $video_ruta,
     $portada_ruta
 );
+
 
 $stmt->execute();
 $stmt->close();

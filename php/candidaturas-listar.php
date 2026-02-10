@@ -5,7 +5,7 @@ header("Content-Type: application/json");
 $categoria = $_GET["categoria"] ?? "todas";
 
 /* ============================
-   CONSULTA CORREGIDA 
+   CONSULTA CORREGIDA DEFINITIVA
 ============================ */
 $sql = "
   SELECT 
@@ -16,8 +16,17 @@ $sql = "
     COALESCE(NULLIF(c.nombre_contacto,''), u.nombre_completo) AS nombre_contacto,
     COALESCE(NULLIF(c.email_contacto,''), u.email) AS email_contacto,
 
-    /* PERFIL (evita NULL / vacío) */
-    COALESCE(NULLIF(u.rol_participante,''), '—') AS rol_participante,
+    /* PERFIL:
+       1. Usa rol_participante si existe
+       2. Si NO existe, dedúcelo por la categoría
+    */
+    CASE
+        WHEN u.rol_participante IS NOT NULL THEN u.rol_participante
+        WHEN cat.nombre = 'Alumnos' THEN 'alumno'
+        WHEN cat.nombre = 'Alumni' THEN 'alumni'
+        WHEN cat.nombre = 'Profesionales' THEN 'profesional'
+        ELSE '—'
+    END AS rol_participante,
 
     c.estado,
     c.motivo_rechazo,

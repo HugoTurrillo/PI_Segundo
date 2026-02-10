@@ -71,12 +71,14 @@
       <label>Sinopsis</label>
       <textarea id="sinopsis" name="sinopsis"></textarea>
 
-      <label>Categoría</label>
-      <select id="id_categoria" name="id_categoria">
-        <option value="">Selecciona categoría</option>
-        <option value="1">Alumni</option>
-        <option value="2">Alumnos</option>
+     <label>Perfil</label>
+      <select id="rol_participante" name="rol_participante" required>
+        <option value="">Selecciona tu perfil</option>
+        <option value="alumno">Alumno</option>
+        <option value="alumni">Alumni</option>
       </select>
+      
+
 
       <label>Vídeo</label>
       <input type="file" id="video" name="video" accept="video/*">
