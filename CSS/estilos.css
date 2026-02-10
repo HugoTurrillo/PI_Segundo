@@ -537,6 +537,48 @@ nav {
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+/* Card específica candidatura */
+#conCandidatura .panel-card {
+  padding: 1.2rem;
+}
+
+#conCandidatura .panel-card h3 {
+  font-size: 1.05rem;
+  margin-bottom: 0.4rem;
+}
+
+#conCandidatura .panel-card p {
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+}
+
+
+/* Sinopsis compacta */
+.candidatura-sinopsis {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: #555;
+  margin-top: 0.4rem;
+}
+.estado-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 4px;
+  margin-bottom: 0.4rem;
+}
+
+.estado-pendiente { background: #f0f0f0; color: #333; }
+.estado-aceptada { background: #e6f7ed; color: #1a7f37; }
+.estado-rechazada { background: #fdecea; color: #b42318; }
+.estado-en_proceso {
+  background: #fff4e5;
+  color: #9a6700;
+}
+
+
+
 .panel-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -1640,6 +1682,16 @@ nav {
     color: black;
     border: black;
 }
+/* =========================
+   PARTICIPANTE · MIS CANDIDATURAS
+========================= */
+
+#conCandidatura {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
 
 /* =========================
    HERO ART HOME (ESTÉTICA)
@@ -1726,6 +1778,37 @@ nav {
 .hero-accent {
   animation: accentIn 0.8s ease-out forwards;
 }
+/* =========================
+   CANDIDATURA · VIDEO MINIATURA
+========================= */
+
+.candidatura-video-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  overflow: hidden;
+  margin: 0.8rem 0 1rem;
+}
+
+.candidatura-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* ← portada SIN recorte */
+  background: #000;
+  display: block;
+  cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
 
 @keyframes accentIn {
   from {

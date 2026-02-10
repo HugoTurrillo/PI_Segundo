@@ -23,19 +23,32 @@ document.addEventListener("DOMContentLoaded", async () => {
       card.innerHTML = `
         <h3>${c.titulo_obra}</h3>
 
-        <p><strong>Estado:</strong> ${c.estado}</p>
+        <span class="estado-badge estado-${c.estado}">
+        ${c.estado === "en_proceso" ? "En proceso"
+        : c.estado === "aceptada" ? "Aceptada"
+        : c.estado === "rechazada" ? "Rechazada"
+        : c.estado}
+        </span>
+
+
 
         ${c.video_ruta ? `
-          <video controls
-       poster="../php/${c.portada_ruta}"
-       style="width:100%;border-radius:8px;">
-  <source src="../php/${c.video_ruta}" type="video/mp4">
-</video>
+  <div class="candidatura-video-wrapper">
+  <video
+    class="candidatura-video"
+    preload="metadata"
+    poster="../php/${c.portada_ruta}">
+    <source src="../php/${c.video_ruta}" type="video/mp4">
+  </video>
+  <span class="video-play">▶</span>
+</div>
 
-        ` : ""}
+` : ""}
+
+
 
         <h4>Sinopsis</h4>
-        <p>${c.sinopsis}</p>
+        <p class="candidatura-sinopsis">${c.sinopsis}</p>
 
         ${c.estado === "rechazada" ? `
   <div style="margin-top:1rem;">
@@ -49,9 +62,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     <label>Nueva sinopsis (opcional)</label>
     <textarea class="sinopsisEditada">${c.sinopsis}</textarea>
-
-    <label>Portada actual</label>
-    <img src="${c.portada_ruta}" style="width:100%;border-radius:8px;margin-bottom:1rem;">
 
     <label>Nueva portada (opcional)</label>
     <input type="file" class="portadaEditada" accept="image/*">
@@ -67,6 +77,19 @@ document.addEventListener("DOMContentLoaded", async () => {
       `;
 
       conCandidatura.appendChild(card);
+      const video = card.querySelector(".candidatura-video");
+      const wrapper = card.querySelector(".candidatura-video-wrapper");
+      const playIcon = card.querySelector(".video-play");
+
+      wrapper.addEventListener("click", () => {
+      if (video.paused) {
+        video.setAttribute("controls", "controls");
+        video.play();
+        playIcon.style.display = "none";
+        video.classList.add("playing");
+      }
+});
+
     });
 
     // Activar botones de subsanar
