@@ -14,18 +14,30 @@ document.addEventListener("DOMContentLoaded", async () => {
     const g = data.data;
 
     cont.innerHTML = `
-      <h3>${g.titulo}</h3>
-      <p><strong>Fecha:</strong> ${g.fecha}</p>
-      <p><strong>Lugar:</strong> ${g.lugar}</p>
-      <p>${g.descripcion ?? ""}</p>
+  <h3>${g.titulo}</h3>
 
-      <div style="margin-top:1.2rem;">
-        <a href="../HTML/gala-publica.html" class="btn login-btn">
+  ${
+    g.post_evento_resumen
+      ? `
+        <div class="gala-post-preview">
+          <h4>Así fue la gala</h4>
+          <p>${g.post_evento_resumen}</p>
+        </div>
+      `
+      : `
+        <p><strong>Fecha:</strong> ${g.fecha}</p>
+        <p><strong>Lugar:</strong> ${g.lugar}</p>
+        <p>${g.descripcion ?? ""}</p>
+      `
+  }
 
-          Ver detalles de la gala
-        </a>
-      </div>
-    `;
+  <div style="margin-top:1.5rem; text-align:center;">
+    <a href="../HTML/gala-publica.html" class="btn login-btn">
+      Ver detalles de la gala
+    </a>
+  </div>
+`;
+
 
   } catch (e) {
     cont.innerHTML = "<p>Error al cargar la gala.</p>";

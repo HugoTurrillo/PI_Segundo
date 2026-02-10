@@ -142,6 +142,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 <h3>Post‑evento</h3>
                 <p>Escribe aquí un pequeño resumen de cómo ha sido la gala.</p>
                 <textarea id="post-texto" rows="5" class="gala-textarea">${galaActual.post_evento_texto ?? ""}</textarea>
+                <div id="post-preview" class="gala-post-preview" style="display:none;">
+                <h4>Vista previa del post-evento</h4>
+                <p id="post-preview-text"></p>
+                 </div>
+
                 <div class="gala-acciones">
                     <button class="btn login-btn" id="btn-guardar-post">Guardar texto</button>
                     <button class="btn login-btn" id="btn-publicar-post"
@@ -230,14 +235,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const r = await res.json();
 
-            if (r.ok) {
-                galaActual.post_evento_texto = texto;
-                await Swal.fire({
-                    icon: "success",
-                    title: "Texto guardado",
-                    text: "El resumen del post‑evento se ha guardado correctamente."
-                });
-            } else {
+           if (r.ok) {
+            galaActual.post_evento_texto = texto;
+
+            const preview = document.getElementById("post-preview");
+            const previewText = document.getElementById("post-preview-text");
+
+            previewText.textContent = texto;
+            preview.style.display = "block";
+
+            await Swal.fire({
+                icon: "success",
+                title: "Texto guardado",
+                text: "El resumen del post-evento se ha guardado correctamente."
+            });
+            }else {
                 error.textContent = r.msg || "No se ha podido guardar el texto.";
             }
         } catch (err) {
