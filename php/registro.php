@@ -14,10 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 $nombre = trim($_POST["nombre"] ?? "");
 $email = trim($_POST["email"] ?? "");
 $password = $_POST["password"] ?? "";
-
-/*  ESTE ES EL CAMPO CLAVE */
 $rol_participante = trim($_POST["rol_participante"] ?? "");
-
 $dni = trim($_POST["dni"] ?? "");
 $numero_expediente = trim($_POST["numero_expediente"] ?? "");
 
@@ -33,12 +30,8 @@ if (
     exit;
 }
 
-/*  VALIDAR PERFIL */
 if (!in_array($rol_participante, ["alumno", "alumni"])) {
-    echo json_encode([
-        "ok" => false,
-        "mensaje" => "Perfil de participante no válido"
-    ]);
+    echo json_encode(["ok" => false, "mensaje" => "Perfil de participante no válido"]);
     exit;
 }
 
@@ -52,6 +45,7 @@ if ($res->num_rows > 0) {
     echo json_encode(["ok" => false, "mensaje" => "El email ya está registrado"]);
     exit;
 }
+$stmt->close();
 
 /* DNI DUPLICADO */
 $stmt = $conexion->prepare("SELECT id_usuario FROM usuario WHERE dni = ?");
@@ -120,7 +114,6 @@ if ($titulo_obra === "" || $sinopsis === "" || $dni_candidatura === "") {
     exit;
 }
 
-
 /* ============================
    4. SUBIR ARCHIVOS
 ============================ */
@@ -130,28 +123,50 @@ if (!isset($_FILES["video"]) || !isset($_FILES["portada"])) {
     exit;
 }
 
-$carpeta = "../uploads/candidaturas/";
-if (!is_dir($carpeta)) {
-    mkdir($carpeta, 0777, true);
+/* RUTAS FÍSICAS (fuera de /php) */
+$carpeta_fisica_videos   = __DIR__ . "/../videos/";
+$carpeta_fisica_portadas = __DIR__ . "/../portadas/";
+
+/* RUTAS PÚBLICAS PARA BD */
+$carpeta_bd_videos   = "videos/";
+$carpeta_bd_portadas = "portadas/";
+
+/* Crear carpetas si no existen */
+if (!is_dir($carpeta_fisica_videos)) {
+    mkdir($carpeta_fisica_videos, 0777, true);
+}
+
+if (!is_dir($carpeta_fisica_portadas)) {
+    mkdir($carpeta_fisica_portadas, 0777, true);
 }
 
 /* VIDEO */
-$video_nombre = time() . "_video_" . basename($_FILES["video"]["name"]);
-$video_ruta = $carpeta . $video_nombre;
+$video_ext = pathinfo($_FILES["video"]["name"], PATHINFO_EXTENSION);
+$video_nombre = time() . "_video." . strtolower($video_ext);
 
-if (!move_uploaded_file($_FILES["video"]["tmp_name"], $video_ruta)) {
+if (!move_uploaded_file(
+    $_FILES["video"]["tmp_name"],
+    $carpeta_fisica_videos . $video_nombre
+)) {
     echo json_encode(["ok" => false, "mensaje" => "Error al subir el vídeo"]);
     exit;
 }
 
 /* PORTADA */
-$portada_nombre = time() . "_portada_" . basename($_FILES["portada"]["name"]);
-$portada_ruta = $carpeta . $portada_nombre;
+$portada_ext = pathinfo($_FILES["portada"]["name"], PATHINFO_EXTENSION);
+$portada_nombre = time() . "_portada." . strtolower($portada_ext);
 
-if (!move_uploaded_file($_FILES["portada"]["tmp_name"], $portada_ruta)) {
+if (!move_uploaded_file(
+    $_FILES["portada"]["tmp_name"],
+    $carpeta_fisica_portadas . $portada_nombre
+)) {
     echo json_encode(["ok" => false, "mensaje" => "Error al subir la portada"]);
     exit;
 }
+
+/* RUTAS QUE SE GUARDAN EN BD */
+$video_ruta_bd   = $carpeta_bd_videos . $video_nombre;
+$portada_ruta_bd = $carpeta_bd_portadas . $portada_nombre;
 
 /* ============================
    5. INSERTAR CANDIDATURA
@@ -159,9 +174,8 @@ if (!move_uploaded_file($_FILES["portada"]["tmp_name"], $portada_ruta)) {
 
 $stmt = $conexion->prepare("
     INSERT INTO candidatura 
-(id_usuario, id_edicion, titulo_obra, sinopsis, nombre_contacto, email_contacto, dni, video_ruta, portada_ruta)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-
+    (id_usuario, id_edicion, titulo_obra, sinopsis, nombre_contacto, email_contacto, dni, video_ruta, portada_ruta)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
 ");
 
 $stmt->bind_param(
@@ -173,10 +187,9 @@ $stmt->bind_param(
     $nombre,
     $email,
     $dni_candidatura,
-    $video_ruta,
-    $portada_ruta
+    $video_ruta_bd,
+    $portada_ruta_bd
 );
-
 
 $stmt->execute();
 $stmt->close();
