@@ -8,6 +8,7 @@ $sql = "
         g.id_categoria,
         g.numero_premio,
         c.nombre AS categoria,
+        cand.id_candidatura,
         cand.titulo_obra,
         cand.nombre_contacto
     FROM ganadores g

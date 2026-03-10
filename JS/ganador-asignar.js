@@ -86,10 +86,12 @@ async function cargarNominados(idCategoria) {
   }
 
   json.data.forEach(n => {
+    const sinCategoria = Number(n.sin_categoria) === 1;
+    const etiqueta = sinCategoria
+      ? `${n.titulo_obra} — ${n.nombre_contacto} (sin categoría, se asignará a esta)`
+      : `${n.titulo_obra} — ${n.nombre_contacto}`;
     select.innerHTML += `
-      <option value="${n.id_candidatura}">
-        ${n.titulo_obra} — ${n.nombre_contacto}
-      </option>
+      <option value="${n.id_candidatura}">${etiqueta}</option>
     `;
   });
 }

@@ -12,6 +12,23 @@ if ($id_categoria <= 0 || $numero_premio <= 0 || $id_candidatura <= 0) {
     exit;
 }
 
+// Nominar candidatura a la categoría si aún no lo está (organizador puede nominar desde aquí)
+$stmt_check = $conexion->prepare("
+    SELECT id_categoria FROM candidatura WHERE id_candidatura = ?
+");
+$stmt_check->bind_param("i", $id_candidatura);
+$stmt_check->execute();
+$cand = $stmt_check->get_result()->fetch_assoc();
+$stmt_check->close();
+if ($cand && ($cand["id_categoria"] === null || (int)$cand["id_categoria"] !== (int)$id_categoria)) {
+    $stmt_nom = $conexion->prepare("
+        UPDATE candidatura SET id_categoria = ? WHERE id_candidatura = ?
+    ");
+    $stmt_nom->bind_param("ii", $id_categoria, $id_candidatura);
+    $stmt_nom->execute();
+    $stmt_nom->close();
+}
+
 /* ======================================================
    CASO EDICIÓN → POSIBLE INTERCAMBIO
 ====================================================== */

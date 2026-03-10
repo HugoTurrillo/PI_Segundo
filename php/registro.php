@@ -110,6 +110,20 @@ if ($ed->num_rows === 0) {
 $id_edicion = $ed->fetch_assoc()["id_edicion"];
 
 /* ============================
+   2b. CATEGORÍA SEGÚN PERFIL (Alumno → Alumnos, Alumni → Alumni)
+============================ */
+$nombre_categoria = ($rol_participante === "alumno") ? "Alumnos" : "Alumni";
+$stmt_cat = $conexion->prepare("SELECT id FROM categorias WHERE nombre = ? LIMIT 1");
+$stmt_cat->bind_param("s", $nombre_categoria);
+$stmt_cat->execute();
+$res_cat = $stmt_cat->get_result();
+$id_categoria = null;
+if ($res_cat->num_rows > 0) {
+    $id_categoria = (int) $res_cat->fetch_assoc()["id"];
+}
+$stmt_cat->close();
+
+/* ============================
    3. DATOS DE CANDIDATURA
 ============================ */
 
@@ -185,14 +199,15 @@ $portada_ruta_bd = $carpeta_bd_portadas . $portada_nombre;
 
 $stmt = $conexion->prepare("
     INSERT INTO candidatura 
-    (id_usuario, id_edicion, titulo_obra, sinopsis, nombre_contacto, email_contacto, dni, video_ruta, portada_ruta)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    (id_usuario, id_edicion, id_categoria, titulo_obra, sinopsis, nombre_contacto, email_contacto, dni, video_ruta, portada_ruta)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 ");
 
 $stmt->bind_param(
-    "iisssssss",
+    "iiisssssss",
     $id_usuario,
     $id_edicion,
+    $id_categoria,
     $titulo_obra,
     $sinopsis,
     $nombre,
