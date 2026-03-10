@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 <header class="navbar">
   <div class="logo">
-    <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
+    <a href="home.php" aria-label="Ir al inicio"><img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea"></a>
   </div>
 
 
@@ -43,7 +43,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
   <div class="nav-buttons">
     <?php if (!isset($_SESSION["id_usuario"])): ?>
-      <a href="../HTML/login.html" class="btn nav-btn">Acceso</a>
+      <a href="../HTML/login.html" class="btn nav-btn nav-btn-secondary">Acceso</a>
       <a href="../HTML/registro.html" class="btn nav-btn">Unirse</a>
     <?php else: ?>
       <a href="../php/logout.php" class="btn nav-btn">Salir</a>
