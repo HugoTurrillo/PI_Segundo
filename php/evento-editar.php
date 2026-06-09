@@ -1,21 +1,40 @@
 <?php
-include("conexion.php");
+/**
+ * Actualizo un evento existente por ID; solo organizador.
+ */
+
+require __DIR__ . "/config/conexion.php";
+require_once __DIR__ . "/config/auth.php";
 header("Content-Type: application/json");
+requireApiOrganizer();
 
-$data = json_decode(file_get_contents("php://input"), true);
+$entrada = file_get_contents("php://input");
+$datos = json_decode($entrada, true);
 
-$id = intval($data["id"] ?? 0);
-$titulo = trim($data["titulo"] ?? "");
-$fecha = trim($data["fecha"] ?? "");
-$descripcion = trim($data["descripcion"] ?? "");
-
-if ($id <= 0 || $titulo === "" || $fecha === "" || $descripcion === "") {
-    echo json_encode(["ok" => false, "msg" => "Datos incompletos"]);
-    exit();
+if (!$datos) {
+    echo json_encode(["ok" => false, "mensaje" => "Datos no válidos"]);
+    exit;
 }
 
-$stmt = $pdo->prepare("UPDATE evento SET titulo=?, fecha=?, descripcion=? WHERE id=?");
-$stmt->execute([$titulo, $fecha, $descripcion, $id]);
+$id = intval($datos["id"] ?? 0);
+$titulo = trim($datos["titulo"] ?? "");
+$fecha = trim($datos["fecha"] ?? "");
+$hora = trim($datos["hora"] ?? "");
+$descripcion = trim($datos["descripcion"] ?? "");
 
-echo json_encode(["ok" => true, "msg" => "Evento actualizado"]);
-?>
+if ($id <= 0 || $titulo === "" || $fecha === "" || $hora === "" || $descripcion === "") {
+    echo json_encode(["ok" => false, "mensaje" => "Todos los campos son obligatorios"]);
+    exit;
+}
+
+$stmt = $conexion->prepare(
+    "UPDATE evento 
+     SET titulo = ?, fecha = ?, hora = ?, descripcion = ?
+     WHERE id = ?"
+);
+$stmt->bind_param("ssssi", $titulo, $fecha, $hora, $descripcion, $id);
+$stmt->execute();
+$stmt->close();
+
+echo json_encode(["ok" => true]);
+exit;

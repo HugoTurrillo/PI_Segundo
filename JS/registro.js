@@ -1,19 +1,40 @@
-// JS/registro.js
+/**
+ * Gestiono el formulario de registro y candidatura: valido todos los campos y envío el formulario por POST; si responde ok redirijo al participante.
+ */
 
 document.addEventListener("DOMContentLoaded", function () {
+
   const form = document.getElementById("formRegistro");
+
+  // Campos de usuario
   const inputNombre = document.getElementById("nombre");
   const inputEmail = document.getElementById("email");
   const inputPassword = document.getElementById("password");
+  const inputDni = document.getElementById("dni");
+  const inputExpediente = document.getElementById("numero_expediente");
+
   const errorNombre = document.getElementById("error-nombre");
   const errorEmail = document.getElementById("error-email");
   const errorPassword = document.getElementById("error-password");
+  const errorRol = document.getElementById("error-rol");
+  const errorExpediente = document.getElementById("error-numero-expediente");
+
+  // CAMPOS DE CANDIDATURA
+  const inputTitulo = document.getElementById("titulo_obra");
+  const inputSinopsis = document.getElementById("sinopsis");
+  const inputCategoria = document.getElementById("id_categoria");
+  const inputVideo = document.getElementById("video");
+  const inputPortada = document.getElementById("portada");
+
   const errorGlobal = document.getElementById("registroErrorGlobal");
 
+  /* ============================
+     VALIDACIONES USUARIO
+  ============================ */
+
   function validarNombre() {
-    const valor = inputNombre.value.trim();
     errorNombre.textContent = "";
-    if (valor === "") {
+    if (inputNombre.value.trim() === "") {
       errorNombre.textContent = "El nombre es obligatorio.";
       return false;
     }
@@ -21,9 +42,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function validarEmail() {
-    const valor = inputEmail.value.trim();
     errorEmail.textContent = "";
-    if (valor === "") {
+    if (inputEmail.value.trim() === "") {
       errorEmail.textContent = "El correo es obligatorio.";
       return false;
     }
@@ -31,63 +51,132 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function validarPassword() {
-    const valor = inputPassword.value.trim();
     errorPassword.textContent = "";
-    if (valor === "") {
+    if (inputPassword.value.trim() === "") {
       errorPassword.textContent = "La contraseña es obligatoria.";
       return false;
     }
     return true;
   }
 
-  inputNombre.addEventListener("input", validarNombre);
-  inputEmail.addEventListener("input", validarEmail);
-  inputPassword.addEventListener("input", validarPassword);
+  function validarRol() {
+  errorRol.textContent = "";
+  const rol = document.getElementById("rol_participante").value;
 
-  form.addEventListener("submit", function (event) {
+  if (!rol) {
+    errorRol.textContent = "Debes seleccionar un perfil.";
+    return false;
+  }
+
+  return true;
+}
+
+
+  function validarExpediente() {
+    errorExpediente.textContent = "";
+    if (inputExpediente.value.trim() === "") {
+      errorExpediente.textContent = "El número de expediente es obligatorio.";
+      return false;
+    }
+    return true;
+  }
+
+  /* ============================
+     VALIDACIONES CANDIDATURA
+  ============================ */
+
+  function validarTitulo() {
+    if (inputTitulo.value.trim() === "") {
+      return "El título es obligatorio.";
+    }
+    return "";
+  }
+
+  function validarSinopsis() {
+    if (inputSinopsis.value.trim() === "") {
+      return "La sinopsis es obligatoria.";
+    }
+    return "";
+  }
+
+  function validarDni() {
+    if (inputDni.value.trim() === "") {
+      return "El DNI es obligatorio.";
+    }
+    return "";
+  }
+
+  
+
+
+  function validarVideo() {
+    if (!inputVideo.files.length) {
+      return "Debes subir un vídeo.";
+    }
+    return "";
+  }
+
+  function validarPortada() {
+    if (!inputPortada.files.length) {
+      return "Debes subir una portada.";
+    }
+    return "";
+  }
+
+  /* ============================
+     ENVÍO DEL FORMULARIO
+  ============================ */
+
+  form.addEventListener("submit", async function (event) {
     event.preventDefault();
     errorGlobal.textContent = "";
 
+    // Validaciones usuario
     const okNombre = validarNombre();
     const okEmail = validarEmail();
     const okPassword = validarPassword();
+    const okRol = validarRol();
+    const okExpediente = validarExpediente();
 
-    if (!okNombre || !okEmail || !okPassword) {
-      errorGlobal.textContent = "Hay errores en el formulario. Revísalos antes de continuar.";
+    // Validaciones candidatura
+    const erroresCandidatura = [
+  validarTitulo(),
+  validarSinopsis(),
+  validarDni(),
+  validarVideo(),
+  validarPortada()
+].filter(e => e !== "");
+
+
+
+    if (!okNombre || !okEmail || !okPassword || !okRol || !okExpediente || erroresCandidatura.length > 0) {
+      errorGlobal.textContent = "Hay errores en el formulario.";
       return;
     }
 
-    const datos = {
-      nombre: inputNombre.value.trim(),
-      email: inputEmail.value.trim(),
-      password: inputPassword.value.trim()
-    };
+    // Enviar datos con FormData
+    const formData = new FormData(form);
 
-    fetch("../php/registro.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(datos)
-    })
-      .then(function (respuesta) {
-        return respuesta.json();
-      })
-      .then(function (data) {
-        if (data.ok) {
-          errorGlobal.style.color = "green";
-          errorGlobal.textContent = "Registro completado. Redirigiendo al login...";
-          setTimeout(function () {
-            window.location.href = "login.html";
-          }, 1500);
-        } else {
-          errorGlobal.style.color = "";
-          errorGlobal.textContent = data.mensaje || "Error al registrar usuario.";
-        }
-      })
-      .catch(function () {
-        errorGlobal.style.color = "";
-        errorGlobal.textContent = "Error de comunicación con el servidor.";
+    try {
+      const res = await fetch("../php/registro.php", {
+        method: "POST",
+        body: formData
       });
+
+      const data = await res.json();
+
+      if (data.ok) {
+        Swal.fire("Registro completado", "Tu candidatura ha sido enviada", "success");
+        setTimeout(() => {
+          window.location.href = "login.html";
+        }, 1500);
+      } else {
+        errorGlobal.textContent = data.mensaje;
+      }
+
+    } catch (err) {
+      errorGlobal.textContent = "Error de comunicación con el servidor.";
+    }
   });
+
 });

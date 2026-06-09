@@ -1,142 +1,179 @@
+/**
+ * Cargo las candidaturas del organizador, muestro popup de detalle al clic y gestiono aceptar/rechazar; escapo datos con escapeHtml.
+ */
+
 document.addEventListener("DOMContentLoaded", () => {
 
-    const contenedor = document.getElementById("candidaturas-container");
+  const contenedor = document.getElementById("candidaturas-container");
+  if (!contenedor) return;
 
-    if (!contenedor) {
-        console.error("ERROR: No existe el contenedor #candidaturas-container en el HTML");
-        return;
-    }
+  async function cargarCandidaturas() {
+    const categoria = document.getElementById("filtroCategoria")?.value || "todas";
 
-    async function cargarCandidaturas() {
-        try {
-            const res = await fetch("../php/candidaturas-listar.php");
-            const lista = await res.json();
+    const res = await fetch(`../php/candidaturas-listar.php?categoria=${categoria}`);
+    const lista = await res.json();
 
-            contenedor.innerHTML = "";
+    contenedor.innerHTML = "";
 
-            lista.forEach(c => {
-                contenedor.innerHTML += `
-                    <div class="panel-card">
-                        <h3>${c.titulo_obra}</h3>
-                        <p><strong>Autor:</strong> ${c.nombre_contacto}</p>
-                        <p><strong>Email:</strong> ${c.email_contacto}</p>
-                        <p><strong>Estado:</strong> ${c.estado}</p>
+    const esc = window.escapeHtml || (s => (s == null ? "" : String(s)));
+    lista.forEach(c => {
 
-                        <div style="margin-top:1rem; display:flex; gap:1rem; flex-wrap:wrap;">
-                            ${c.estado === "en_proceso" ? `
-                                <button class="btn login-btn btn-aceptar" data-id="${c.id_candidatura}">
-                                    Aceptar
-                                </button>
-                                <button class="btn login-btn btn-rechazar" data-id="${c.id_candidatura}" style="background:#444;">
-                                    Rechazar
-                                </button>
-                            ` : ""}
+      let bloqueNominacion = "";
 
-                            ${c.estado === "aceptada" ? `
-                                <a href="nominar-categoria.html?id_candidatura=${c.id_candidatura}" 
-                                   class="btn login-btn" style="background:#1a73e8;">
-                                    Nominar a categoría
-                                </a>
-                            ` : ""}
+      if (c.estado === "aceptada" && !c.id_categoria) {
+        bloqueNominacion = `
+          <a href="nominar-categoria.html?id_candidatura=${c.id_candidatura}"
+             class="btn login-btn" style="background:#000;">
+            Nominar a categoría
+          </a>
+        `;
+      }
 
-                            ${c.estado === "rechazada" ? `
-                                <p><strong>Motivo rechazo:</strong> ${c.motivo_rechazo || "No indicado"}</p>
-                            ` : ""}
-                        </div>
-                    </div>
-                `;
-            });
+      contenedor.innerHTML += `
+        <div class="panel-card candidatura-card"
+             data-id="${c.id_candidatura}"
+             style="cursor:pointer;">
 
-            activarBotones();
+          <h3>${esc(c.titulo_obra)}</h3>
+          <p><strong>Autor:</strong> ${esc(c.nombre_contacto)}</p>
+          <p><strong>Email:</strong> ${esc(c.email_contacto)}</p>
+          <p><strong>Perfil:</strong> ${esc(c.rol_participante)}</p>
+          <span class="estado-badge estado-${c.estado}">
+          ${
+            c.estado === "en_proceso" ? "En proceso"
+            : c.estado === "aceptada" ? "Aceptada"
+            : c.estado === "rechazada" ? "Rechazada"
+            : c.estado
+          }
+        </span>
 
-        } catch (error) {
-            console.error("Error cargando candidaturas:", error);
-            contenedor.innerHTML = "<p>Error cargando candidaturas</p>";
+          
+
+
+          ${c.estado === "rechazada" ? `
+            <p style="color:red;">
+              <strong>Motivo rechazo:</strong><br>
+              ${esc(c.motivo_rechazo)}
+            </p>
+          ` : ""}
+
+          ${c.mensaje_subsanacion ? `
+            <p style="color:green;">
+              <strong>Subsanación:</strong><br>
+              ${esc(c.mensaje_subsanacion)}
+            </p>
+          ` : ""}
+
+          <div style="margin-top:1rem; display:flex; gap:1rem; flex-wrap:wrap;">
+            ${c.estado === "en_proceso" ? `
+              <button class="btn login-btn btn-aceptar"
+                      data-id="${c.id_candidatura}">
+                Aceptar
+              </button>
+
+              <button class="btn login-btn btn-rechazar"
+                      data-id="${c.id_candidatura}"
+                      style="background:#444;">
+                Rechazar
+              </button>
+            ` : ""}
+
+            ${bloqueNominacion}
+          </div>
+        </div>
+      `;
+    });
+
+    activarClicks();
+    activarBotones();
+  }
+
+  const filtro = document.getElementById("filtroCategoria");
+  if (filtro) {
+    filtro.addEventListener("change", cargarCandidaturas);
+  }
+
+  function activarClicks() {
+    document.querySelectorAll(".candidatura-card").forEach(card => {
+      card.addEventListener("click", async (e) => {
+        if (e.target.tagName === "BUTTON" || e.target.tagName === "A") return;
+
+        const id = card.dataset.id;
+
+        const res = await fetch(`../php/candidatura-detalle.php?id=${id}`);
+        const data = await res.json();
+
+        if (!data.ok) {
+          Swal.fire("Error", data.msg, "error");
+          return;
         }
-    }
 
-    // ===============================
-    // INSERTAR NUEVA CANDIDATURA
-    // ===============================
-    const formInsertar = document.getElementById("form-nueva-candidatura");
+        const c = data.candidatura;
+        const esc = window.escapeHtml || (s => (s == null ? "" : String(s)));
 
-    if (formInsertar) {
-        formInsertar.addEventListener("submit", async (e) => {
-            e.preventDefault();
+        Swal.fire({
+          title: esc(c.titulo_obra),
+          width: "900px",
+          html: `
+            <p><strong>Autor:</strong> ${esc(c.nombre_contacto)}</p>
+            <p><strong>Email:</strong> ${esc(c.email_contacto)}</p>
+            <p><strong>Perfil:</strong> ${esc(c.rol_participante)}</p>
 
-            const error = document.getElementById("error-insertar");
-
-            const datos = {
-                titulo_obra: document.getElementById("titulo_obra").value,
-                nombre_contacto: document.getElementById("nombre_contacto").value,
-                email_contacto: document.getElementById("email_contacto").value,
-                dni: document.getElementById("dni").value,
-                sinopsis: document.getElementById("sinopsis").value
-            };
-
-            try {
-                const res = await fetch("../php/candidatura-insertar.php", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(datos)
-                });
-
-                const r = await res.json();
-
-                if (!r.ok) {
-                    error.textContent = r.mensaje || "Error al insertar candidatura";
-                        return;
-                            }
-
-                if (r.redireccion) {
-                    window.location.href = r.redireccion;
-                     return;
-                    }
+           <video controls poster="../${esc(c.portada_ruta)}">
+  <source src="../${esc(c.video_ruta)}" type="video/mp4">
+</video>
 
 
-                formInsertar.reset();
-                error.textContent = "";
 
-                cargarCandidaturas();
 
-            } catch (error) {
-                console.error("Error insertando candidatura:", error);
-                error.textContent = "Error de conexión";
-            }
+            <p><strong>Sinopsis:</strong></p>
+            <p>${esc(c.sinopsis)}</p>
+          `,
+          confirmButtonText: "Cerrar"
         });
-    }
+      });
+    });
+  }
 
-    cargarCandidaturas();
+  function activarBotones() {
+    document.querySelectorAll(".btn-aceptar").forEach(btn => {
+      btn.onclick = async (e) => {
+        e.stopPropagation();
+        await fetch("../php/candidatura-aceptar.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id_candidatura: btn.dataset.id })
+        });
+        Swal.fire("Aceptada", "Candidatura aceptada", "success");
+        cargarCandidaturas();
+      };
+    });
 
-    function activarBotones() {
+    document.querySelectorAll(".btn-rechazar").forEach(btn => {
+      btn.onclick = async (e) => {
+        e.stopPropagation();
 
-        // ACEPTAR
-        document.querySelectorAll(".btn-aceptar").forEach(btn => {
-            btn.addEventListener("click", async () => {
-                const id = btn.dataset.id;
-
-                await fetch(`../php/candidatura-aceptar.php?id=${id}`);
-                cargarCandidaturas();
-            });
+        const { value: motivo } = await Swal.fire({
+          title: "Rechazar candidatura",
+          input: "textarea",
+          showCancelButton: true,
+          confirmButtonColor: "#FF3228",
+          inputValidator: v => !v && "Debes indicar un motivo"
         });
 
-        // RECHAZAR
-        document.querySelectorAll(".btn-rechazar").forEach(btn => {
-            btn.addEventListener("click", async () => {
-                const id = btn.dataset.id;
-                const motivo = prompt("Indica el motivo del rechazo:");
+        if (!motivo) return;
 
-                if (!motivo) return;
-
-                await fetch("../php/candidatura-rechazar.php", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ id, motivo })
-                });
-
-                cargarCandidaturas();
-            });
+        await fetch("../php/candidatura-rechazar.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: btn.dataset.id, motivo })
         });
-    }
 
+        Swal.fire("Rechazada", "Candidatura rechazada", "success");
+        cargarCandidaturas();
+      };
+    });
+  }
+
+  cargarCandidaturas();
 });

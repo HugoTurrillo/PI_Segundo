@@ -1,82 +1,174 @@
 <?php
-session_start();
-require "conexion.php";
+/**
+ * Inserto una nueva candidatura desde el panel del participante (ya logueado); valido sesión y datos.
+ */
+
+require __DIR__ . "/config/conexion.php";
 
 header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: http://localhost");
+header("Access-Control-Allow-Credentials: true");
+
+session_start();
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    echo json_encode(["ok" => false, "mensaje" => "Método no permitido."]);
+    echo json_encode(["ok" => false, "mensaje" => "Método no permitido"]);
     exit;
 }
 
-$entrada = file_get_contents("php://input");
-$datos = json_decode($entrada, true);
-
-if (!$datos) {
-    echo json_encode(["ok" => false, "mensaje" => "Datos no válidos."]);
+/* ============================
+   SESIÓN
+============================ */
+if (!isset($_SESSION["email"])) {
+    echo json_encode(["ok" => false, "mensaje" => "Sesión no válida"]);
     exit;
 }
 
-$titulo_obra = trim($datos["titulo_obra"] ?? "");
-$nombre_contacto = trim($datos["nombre_contacto"] ?? "");
-$email_contacto = trim($datos["email_contacto"] ?? "");
-$dni = trim($datos["dni"] ?? "");
-$sinopsis = trim($datos["sinopsis"] ?? "");
+/* ============================
+   DATOS FORMULARIO
+============================ */
+$titulo_obra  = trim($_POST["titulo_obra"] ?? "");
+$sinopsis     = trim($_POST["sinopsis"] ?? "");
+$id_categoria = intval($_POST["categoria"] ?? 0);
 
-if ($titulo_obra === "" || $nombre_contacto === "" || $email_contacto === "" || $dni === "") {
-    echo json_encode(["ok" => false, "mensaje" => "Faltan datos obligatorios."]);
+if ($titulo_obra === "" || $sinopsis === "" || $id_categoria === 0) {
+    echo json_encode(["ok" => false, "mensaje" => "Todos los campos son obligatorios"]);
     exit;
 }
 
-// Edición activa
-$stmt = $pdo->query("SELECT id_edicion FROM edicion_festival WHERE activa = 1 LIMIT 1");
-$ed = $stmt->fetch(PDO::FETCH_ASSOC);
+/* ============================
+   OBTENER USUARIO COMPLETO
+============================ */
+$email_usuario = $_SESSION["email"];
 
-if (!$ed) {
-    echo json_encode(["ok" => false, "mensaje" => "No hay edición activa."]);
-    exit;
-}
-
-$id_edicion = $ed["id_edicion"];
-
-// Crear usuario participante si no existe
-$stmt = $pdo->prepare("SELECT id_usuario FROM usuario WHERE email = ?");
-$stmt->execute([$email_contacto]);
-$u = $stmt->fetch(PDO::FETCH_ASSOC);
-
-if ($u) {
-    $id_usuario = $u["id_usuario"];
-} else {
-    $pass = password_hash("participante123", PASSWORD_DEFAULT);
-    $stmt = $pdo->prepare("
-        INSERT INTO usuario (nombre_completo, email, password_hash, rol)
-        VALUES (?, ?, ?, 'participante')
-    ");
-    $stmt->execute([$nombre_contacto, $email_contacto, $pass]);
-    $id_usuario = $pdo->lastInsertId();
-}
-
-// Insertar candidatura
-$stmt = $pdo->prepare("
-    INSERT INTO candidatura (
-        id_usuario, id_edicion, titulo_obra, sinopsis,
-        nombre_contacto, email_contacto, dni, estado
-    )
-    VALUES (?, ?, ?, ?, ?, ?, ?, 'en_proceso')
+$stmt = $conexion->prepare("
+    SELECT 
+        id_usuario,
+        dni,
+        nombre_completo,
+        email,
+        rol_participante
+    FROM usuario
+    WHERE email = ?
 ");
+$stmt->bind_param("s", $email_usuario);
+$stmt->execute();
+$res = $stmt->get_result();
 
-$stmt->execute([
-    $id_usuario, $id_edicion, $titulo_obra, $sinopsis,
-    $nombre_contacto, $email_contacto, $dni
-]);
+if ($res->num_rows === 0) {
+    echo json_encode(["ok" => false, "mensaje" => "Usuario no encontrado"]);
+    exit;
+}
 
-// Iniciar sesión
-$_SESSION["id_usuario"] = $id_usuario;
-$_SESSION["nombre"] = $nombre_contacto;
-$_SESSION["rol"] = "participante";
+$row = $res->fetch_assoc();
 
-echo json_encode([
-    "ok" => true,
-    "redireccion" => "../HTML/participantes.html"
-]);
+$id_usuario       = $row["id_usuario"];
+$dni              = $row["dni"];
+$nombre_contacto  = $row["nombre_completo"];
+$email_contacto   = $row["email"];
+$rol_participante = $row["rol_participante"];
+
+/* ============================
+   EDICIÓN ACTIVA
+============================ */
+$ed = $conexion->query("SELECT id_edicion FROM edicion_festival WHERE activa = 1 LIMIT 1");
+if (!$ed || $ed->num_rows === 0) {
+    echo json_encode(["ok" => false, "mensaje" => "No hay edición activa"]);
+    exit;
+}
+$id_edicion = $ed->fetch_assoc()["id_edicion"];
+
+/* ============================
+   VALIDAR ARCHIVOS
+============================ */
+if (!isset($_FILES["video"]) || $_FILES["video"]["size"] === 0) {
+    echo json_encode(["ok" => false, "mensaje" => "Debes subir un vídeo"]);
+    exit;
+}
+
+if (!isset($_FILES["portada"]) || $_FILES["portada"]["size"] === 0) {
+    echo json_encode(["ok" => false, "mensaje" => "Debes subir una portada"]);
+    exit;
+}
+
+/* ============================
+   SUBIR ARCHIVOS
+============================ */
+
+/* CARPETAS FÍSICAS (fuera de /php) */
+$carpeta_fisica_videos   = __DIR__ . "/../videos/";
+$carpeta_fisica_portadas = __DIR__ . "/../portadas/";
+
+/* CARPETAS PARA LA BASE DE DATOS (rutas públicas) */
+$carpeta_bd_videos   = "videos/";
+$carpeta_bd_portadas = "portadas/";
+
+/* Crear carpetas si no existen */
+if (!is_dir($carpeta_fisica_videos)) {
+    mkdir($carpeta_fisica_videos, 0777, true);
+}
+if (!is_dir($carpeta_fisica_portadas)) {
+    mkdir($carpeta_fisica_portadas, 0777, true);
+}
+
+/* VIDEO */
+$video_ext = pathinfo($_FILES["video"]["name"], PATHINFO_EXTENSION);
+$video_nombre = time() . "_video." . strtolower($video_ext);
+
+move_uploaded_file(
+    $_FILES["video"]["tmp_name"],
+    $carpeta_fisica_videos . $video_nombre
+);
+
+/* PORTADA */
+$portada_ext = pathinfo($_FILES["portada"]["name"], PATHINFO_EXTENSION);
+$portada_nombre = time() . "_portada." . strtolower($portada_ext);
+
+move_uploaded_file(
+    $_FILES["portada"]["tmp_name"],
+    $carpeta_fisica_portadas . $portada_nombre
+);
+
+/* RUTAS QUE VAN A LA BD */
+$video_ruta_bd   = $carpeta_bd_videos . $video_nombre;
+$portada_ruta_bd = $carpeta_bd_portadas . $portada_nombre;
+
+/* ============================
+   INSERTAR CANDIDATURA 
+============================ */
+$sql = "
+    INSERT INTO candidatura
+    (
+        id_usuario,
+        id_edicion,
+        id_categoria,
+        titulo_obra,
+        sinopsis,
+        nombre_contacto,
+        email_contacto,
+        dni,
+        video_ruta,
+        portada_ruta
+    )
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+";
+
+$stmt = $conexion->prepare($sql);
+$stmt->bind_param(
+    "iiisssssss",
+    $id_usuario,
+    $id_edicion,
+    $id_categoria,
+    $titulo_obra,
+    $sinopsis,
+    $nombre_contacto,
+    $email_contacto,
+    $dni,
+    $video_ruta_bd,
+    $portada_ruta_bd
+);
+
+$stmt->execute();
+
+echo json_encode(["ok" => true, "mensaje" => "Candidatura enviada correctamente"]);
 exit;

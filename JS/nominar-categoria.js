@@ -1,0 +1,110 @@
+/**
+ * Cargo la candidatura y las categorías para que el organizador la nominé a una categoría; envío el formulario y redirijo a ganadores.
+ */
+
+document.addEventListener("DOMContentLoaded", async () => {
+
+  const params = new URLSearchParams(window.location.search);
+  const idCandidatura = params.get("id_candidatura");
+
+  const info = document.getElementById("info-candidatura");
+  const select = document.getElementById("categoria");
+  const error = document.getElementById("error-global");
+  const btn = document.getElementById("btn-nominar");
+
+  let perfilUsuario = null;
+
+  if (!idCandidatura) {
+    info.textContent = "ID de candidatura no válido.";
+    return;
+  }
+
+  /* =========================
+     CARGAR CANDIDATURA
+  ========================= */
+  try {
+    const res = await fetch(`../php/candidatura-obtener.php?id=${idCandidatura}`);
+    const data = await res.json();
+
+    if (!data.ok) {
+      info.textContent = "Error cargando la candidatura.";
+      return;
+    }
+
+    const c = data.data;
+    perfilUsuario = c.rol_participante;
+
+    const esc = window.escapeHtml || (s => (s == null ? "" : String(s)));
+    info.innerHTML = `
+      <h3>${esc(c.titulo_obra)}</h3>
+      <p><strong>Autor:</strong> ${esc(c.nombre_contacto)}</p>
+      <p><strong>Email:</strong> ${esc(c.email_contacto)}</p>
+      <p><strong>Perfil:</strong> ${esc(perfilUsuario)}</p>
+    `;
+
+  } catch {
+    info.textContent = "Error cargando la candidatura.";
+    return;
+  }
+
+  /* =========================
+     CARGAR CATEGORÍAS (FILTRADAS)
+  ========================= */
+  const resCat = await fetch("../php/categorias-listar.php");
+  const dataCat = await resCat.json();
+
+  dataCat.data.forEach(cat => {
+
+    // MAPEADO PERFIL → CATEGORÍA
+    const mapa = {
+      alumno: "Alumnos",
+      alumni: "Alumni",
+      profesional: "Profesionales"
+    };
+
+    if (cat.nombre !== mapa[perfilUsuario]) return;
+
+    const opt = document.createElement("option");
+    opt.value = cat.id;
+    opt.textContent = cat.nombre;
+    select.appendChild(opt);
+  });
+
+  if (select.options.length === 0) {
+    select.disabled = true;
+    btn.disabled = true;
+    error.textContent = "Este perfil no puede ser nominado a ninguna categoría.";
+    return;
+  }
+
+  /* =========================
+     NOMINAR
+  ========================= */
+  btn.addEventListener("click", async () => {
+
+    const idCategoria = select.value;
+
+    if (!idCategoria) {
+      error.textContent = "Selecciona una categoría válida.";
+      return;
+    }
+
+    const res = await fetch("../php/candidatura-nominar.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id_candidatura: idCandidatura,
+        id_categoria: idCategoria
+      })
+    });
+
+    const r = await res.json();
+
+    if (r.ok) {
+      window.location.href = "candidaturas.html";
+    } else {
+      error.textContent = r.msg;
+    }
+  });
+
+});

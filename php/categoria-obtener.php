@@ -1,30 +1,35 @@
 <?php
-include("conexion.php");
+/**
+ * Devuelvo una categoría por ID para el formulario de edición; solo organizador.
+ */
+
+require __DIR__ . "/config/conexion.php";
+require_once __DIR__ . "/config/auth.php";
 header("Content-Type: application/json");
+requireApiOrganizer();
 
-if (!isset($_GET["id"])) {
-    echo json_encode([
-        "ok" => false,
-        "error" => "ID no recibido"
-    ]);
-    exit();
+$id = intval($_GET["id"] ?? 0);
+
+if ($id <= 0) {
+    echo json_encode(["ok" => false, "msg" => "ID no válido"]);
+    exit;
 }
 
-$id = intval($_GET["id"]);
+$stmt = $conexion->prepare("
+    SELECT id, nombre, premios, premio_fisico
+    FROM categorias
+    WHERE id = ?
+");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$res = $stmt->get_result();
 
-$stmt = $pdo->prepare("SELECT * FROM categorias WHERE id = ?");
-$stmt->execute([$id]);
-$categoria = $stmt->fetch(PDO::FETCH_ASSOC);
-
-if (!$categoria) {
+if ($res->num_rows === 1) {
     echo json_encode([
-        "ok" => false,
-        "error" => "Categoría no encontrada"
+        "ok" => true,
+        "data" => $res->fetch_assoc()
     ]);
-    exit();
+    exit;
 }
 
-echo json_encode([
-    "ok" => true,
-    "data" => $categoria
-]);
+echo json_encode(["ok" => false, "msg" => "Categoría no encontrada"]);

@@ -1,17 +1,46 @@
 <?php
-include("conexion.php");
-header("Content-Type: application/json");
+/**
+ * Devuelvo la gala actual con sus secciones y galería para el panel de edición; solo organizador.
+ */
 
-if (!isset($_GET["id"])) {
-    echo json_encode(["error" => "ID no recibido"]);
-    exit();
+require __DIR__ . "/config/conexion.php";
+require_once __DIR__ . "/config/auth.php";
+header("Content-Type: application/json");
+requireApiOrganizer();
+
+$sql = "SELECT * FROM gala LIMIT 1";
+$res = $conexion->query($sql);
+
+if (!$res || $res->num_rows == 0) {
+    echo json_encode([
+        "ok" => false,
+        "msg" => "No existe ninguna gala"
+    ]);
+    exit;
 }
 
-$id = intval($_GET["id"]);
+$gala = $res->fetch_assoc();
 
-$stmt = $pdo->prepare("SELECT * FROM gala WHERE id = ?");
-$stmt->execute([$id]);
-$evento = $stmt->fetch(PDO::FETCH_ASSOC);
+// 2) OBTENER EL POST-EVENTO (EL PRIMERO QUE HAYA)
+$sqlPost = "SELECT id_post_evento, resumen AS post_evento_texto, publicado 
+            FROM post_evento 
+            LIMIT 1";
+$resPost = $conexion->query($sqlPost);
 
-echo json_encode($evento ?: []);
-?>
+if ($resPost && $resPost->num_rows > 0) {
+    $post = $resPost->fetch_assoc();
+    $gala["id_post_evento"] = $post["id_post_evento"];
+    $gala["post_evento_texto"] = $post["post_evento_texto"];
+    $gala["post_evento_publicado"] = $post["publicado"];
+} else {
+    // Si no hay post_evento, devolvemos valores vacíos
+    $gala["id_post_evento"] = null;
+    $gala["post_evento_texto"] = "";
+    $gala["post_evento_publicado"] = 0;
+}
+
+// 3) RESPUESTA FINAL
+echo json_encode([
+    "ok" => true,
+    "data" => $gala
+]);

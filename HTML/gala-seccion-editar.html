@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Sección</title>
+
+  <link rel="stylesheet" href="../CSS/estilos.css">
+  <link rel="icon" href="../IMG/favicon.png" type="image/x-icon">
+</head>
+
+<body data-rol="organizador">
+
+  <div id="navbar-container"></div>
+  <script src="../JS/navbar.js"></script>
+
+<main class="login-container">
+  <h2>Editar Sección</h2>
+
+  <form id="form-seccion" class="login-form">
+
+    <label>Título</label>
+    <input type="text" id="titulo" name="titulo">
+    <span class="error-campo" id="error-titulo"></span>
+
+    <label>Hora</label>
+    <input type="time" id="hora" name="hora">
+    <span class="error-campo" id="error-hora"></span>
+
+    <label>Sala</label>
+    <input type="text" id="sala" name="sala">
+    <span class="error-campo" id="error-sala"></span>
+
+    <label>Descripción</label>
+    <textarea id="descripcion" name="descripcion" rows="4"></textarea>
+    <span class="error-campo" id="error-descripcion"></span>
+
+    <div class="error-global" id="error-global"></div>
+
+    <button type="submit" class="btn login-btn">Guardar cambios</button>
+     <button
+      type="button"
+      class="btn login-btn"
+       style="background:#555;"
+      onclick="window.location.href='gala.html'">
+      Salir sin guardar
+      </button>
+  </form>
+</main>
+
+<footer class="footer">
+
+  <div class="footer-main">
+
+    
+    <div class="footer-col footer-brand">
+      <img src="../IMG/logo-ue-blanco.png" alt="Festival Universitario" class="footer-logo">
+      <p class="footer-tagline">Talento universitario en acción</p>
+    </div>
+
+    
+    <div class="footer-col footer-links">
+      <a href="sobre_nosotros.html">Quiénes somos</a>
+      <a href="contacto.html">Contacta con nosotros</a>
+    </div>
+
+    <!-- COLUMNA 3 · REDES -->
+    <div class="footer-col footer-social">
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+      <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="#" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+    </div>
+
+  </div>
+
+  <!-- FRANJA ROJA -->
+  <div class="footer-bottom">
+    © 2026 Festival Universitario
+  </div>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../JS/auth.js"></script>
+<script src="../JS/gala-seccion.js"></script>
+
+</body>
+</html>

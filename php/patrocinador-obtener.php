@@ -1,6 +1,12 @@
 <?php
-include("conexion.php");
+/**
+ * Devuelvo un patrocinador por ID para el formulario de edición; solo organizador.
+ */
+
+require __DIR__ . "/config/conexion.php";
+require_once __DIR__ . "/config/auth.php";
 header("Content-Type: application/json");
+requireApiOrganizer();
 
 if (!isset($_GET["id"])) {
     echo json_encode(["error" => "ID no recibido"]);
@@ -8,10 +14,25 @@ if (!isset($_GET["id"])) {
 }
 
 $id = intval($_GET["id"]);
+if ($id <= 0) {
+    echo json_encode(["error" => "ID inválido"]);
+    exit();
+}
 
-$stmt = $pdo->prepare("SELECT * FROM patrocinador WHERE id_patrocinador = ?");
-$stmt->execute([$id]);
-$patro = $stmt->fetch(PDO::FETCH_ASSOC);
+// ============================
+// CONSULTA PREPARADA
+// ============================
+$stmt = $conexion->prepare("SELECT * FROM patrocinador WHERE id_patrocinador = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
 
+$resultado = $stmt->get_result();
+$patro = $resultado->fetch_assoc();
+
+$stmt->close();
+
+// ============================
+// RESPUESTA
+// ============================
 echo json_encode($patro ?: []);
 ?>

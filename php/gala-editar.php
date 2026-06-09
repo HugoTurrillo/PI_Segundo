@@ -1,52 +1,45 @@
 <?php
-include("conexion.php");
+/**
+ * Actualizo los datos de la gala (título, fecha, lugar, descripción); solo organizador.
+ */
+
+require __DIR__ . "/config/conexion.php";
+require_once __DIR__ . "/config/auth.php";
 header("Content-Type: application/json");
+requireApiOrganizer();
 
-$id = intval($_POST["id"] ?? 0);
-$titulo = trim($_POST["titulo"] ?? "");
-$fecha = trim($_POST["fecha"] ?? "");
-$hora = trim($_POST["hora"] ?? "");
-$lugar = trim($_POST["lugar"] ?? "");
-$descripcion = trim($_POST["descripcion"] ?? "");
+$titulo = $_POST["titulo"] ?? "";
+$fecha = $_POST["fecha"] ?? "";
+$hora = $_POST["hora"] ?? "";
+$lugar = $_POST["lugar"] ?? "";
+$descripcion = $_POST["descripcion"] ?? "";
 
-// Validación de campos obligatorios
-if ($id <= 0 || $titulo === "" || $fecha === "" || $hora === "" || $lugar === "") {
-    echo json_encode(["ok" => false, "msg" => "Datos incompletos"]);
-    exit();
+if (!$titulo || !$fecha || !$hora || !$lugar) {
+    echo json_encode(["ok" => false, "msg" => "Faltan datos"]);
+    exit;
 }
 
-// VALIDACIÓN DE FECHA: no permitir fechas anteriores a hoy
-$hoy = date("Y-m-d");
+// Obtener la gala existente
+$res = $conexion->query("SELECT * FROM gala LIMIT 1");
+$gala = $res->fetch_assoc();
+$id = $gala["id"];
 
-if ($fecha < $hoy) {
-    echo json_encode(["ok" => false, "msg" => "La fecha no puede ser anterior a hoy"]);
-    exit();
-}
+// Imagen
+$imagen = $gala["imagen"];
 
-// Obtener imagen actual
-$stmt = $pdo->prepare("SELECT imagen FROM gala WHERE id = ?");
-$stmt->execute([$id]);
-$actual = $stmt->fetch(PDO::FETCH_ASSOC);
-
-$nombreArchivo = $actual["imagen"];
-
-// Si se sube una nueva imagen, reemplazar la anterior
-if (isset($_FILES["imagen"]) && $_FILES["imagen"]["size"] > 0) {
-    $img = $_FILES["imagen"];
-    $nombreArchivo = time() . "_" . basename($img["name"]);
+if (!empty($_FILES["imagen"]["name"])) {
+    $nombreArchivo = time() . "_" . basename($_FILES["imagen"]["name"]);
     $rutaDestino = "../uploads/" . $nombreArchivo;
 
-    move_uploaded_file($img["tmp_name"], $rutaDestino);
-
-    // Borrar la imagen anterior si existe
-    if (file_exists("../uploads/" . $actual["imagen"])) {
-        unlink("../uploads/" . $actual["imagen"]);
+    if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $rutaDestino)) {
+        $imagen = $nombreArchivo;
     }
 }
 
-// Actualizar datos
-$stmt = $pdo->prepare("UPDATE gala SET titulo=?, fecha=?, hora=?, lugar=?, descripcion=?, imagen=? WHERE id=?");
-$stmt->execute([$titulo, $fecha, $hora, $lugar, $descripcion, $nombreArchivo, $id]);
+$stmt = $conexion->prepare("UPDATE gala SET titulo=?, fecha=?, hora=?, lugar=?, descripcion=?, imagen=? WHERE id=?");
+$stmt->bind_param("ssssssi", $titulo, $fecha, $hora, $lugar, $descripcion, $imagen, $id);
 
-echo json_encode(["ok" => true, "msg" => "Evento actualizado"]);
-?>
+echo json_encode([
+    "ok" => $stmt->execute(),
+    "msg" => $stmt->execute() ? "Gala actualizada" : "Error al actualizar"
+]);

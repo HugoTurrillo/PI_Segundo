@@ -1,90 +1,70 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ganadores - Panel Organizador</title>
-  <link rel="stylesheet" href="../CSS/estilos.css">
-</head>
-<body>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ganadores - Panel Organizador</title>
+  <link rel="stylesheet" href="../CSS/estilos.css">
+  <link rel="icon" href="../IMG/favicon.png" type="image/x-icon">
+</head>
+
+<body data-rol="organizador">
+
+  <div id="navbar-container"></div>
+  <script src="../JS/navbar.js"></script>
 
-<header class="navbar">
-  <div class="logo">
-      <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
-  </div>
-
-  <div class="search-bar">
-      <input type="text" placeholder="Buscar...">
-  </div>
-
-  <nav>
-    <ul class="nav-links">
-      <li><a href="organizador.html">Panel</a></li>
-      <li><a href="#">Calendario</a></li>
-      <li><a href="#">Sobre nosotros</a></li>
-    </ul>
-  </nav>
-
-  <div class="nav-buttons">
-      <a href="login.html" class="btn nav-btn">Salir</a>
-  </div>
-</header>
-
-<main class="login-container">
-
-  <h2>Gestión de Ganadores</h2>
-
-  <section style="margin-top: 2rem;">
-    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
-      <h3 style="color:#d32f2f; font-size:1.4rem;">Ganadores por categoría</h3>
-      <a href="ganador_asignar.html" class="btn login-btn" style="padding:0.6rem 1.2rem;">
-        Gestionar ganadores
-      </a>
-    </div>
-  </section>
-
-  <!-- CONTENEDOR DINÁMICO DE GANADORES -->
-  <div class="panel-grid" id="ganadores-container"></div>
-
-  <hr class="home-separator">
-
-</main>
-
-<footer class="footer">
-  <div class="footer-main">
-    <div class="footer-left">
-      <div class="footer-social-row">
-        <img src="../IMG/instagram.png" alt="Instagram">
-        <span>@cortosuem</span>
-      </div>
-      <div class="footer-social-row">
-        <img src="../IMG/facebook.png" alt="Facebook">
-        <span>@cortosuem</span>
-      </div>
-      <div class="footer-social-row">
-        <img src="../IMG/twitter.png" alt="Twitter">
-        <span>@cortosuem</span>
-      </div>
-    </div>
-
-    <div class="footer-center">
-      <p>Contacta con nosotros</p>
-    </div>
-
-    <div class="footer-right">
-      <div class="footer-logo-circle">
-        <img src="../IMG/logosimple.jpg" alt="Logo">
-      </div>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    Universidad Europea © 2025. Todos los Derechos Reservados
-  </div>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="../js/ganadores.js"></script>
-
-</body>
-</html>
+<main class="login-container login-container--ganadores">
+
+  <h2 class="page-title">Gestión de Ganadores</h2>
+
+  <section class="ganadores-header">
+    <p class="ganadores-ayuda" style="margin-top:0; color:#555; font-size:0.95rem;">
+      Elige una categoría y gestiona el podio: <strong>Asignar</strong> en huecos vacíos,
+      <strong>Cambiar</strong> para sustituir o intercambiar posiciones, <strong>Quitar</strong> para dejar un premio vacío.
+      Clic en el título de la obra para ver el vídeo.
+    </p>
+
+    <label for="select-categoria-podio" style="display:block; margin-top:1.25rem; font-weight:600;">Categoría</label>
+    <select id="select-categoria-podio" class="form-select-full" style="max-width:420px;"></select>
+  </section>
+
+  <div id="podio-info-categoria" class="panel-card" style="padding:1rem 1.2rem; margin:1rem 0; color:#555;">
+    Selecciona una categoría para ver el podio.
+  </div>
+
+  <div id="podio-container"></div>
+
+</main>
+
+<footer class="footer">
+
+  <div class="footer-main">
+    <div class="footer-col footer-brand">
+      <img src="../IMG/logo-ue-blanco.png" alt="Festival Universitario" class="footer-logo">
+      <p class="footer-tagline">Talento universitario en acción</p>
+    </div>
+    <div class="footer-col footer-links">
+      <a href="sobre_nosotros.html">Quiénes somos</a>
+      <a href="contacto.html">Contacta con nosotros</a>
+    </div>
+    <div class="footer-col footer-social">
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+      <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="#" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 Festival Universitario
+  </div>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../JS/utils.js"></script>
+<script src="../JS/auth.js"></script>
+<script src="../JS/ganadores.js"></script>
+
+</body>
+</html>

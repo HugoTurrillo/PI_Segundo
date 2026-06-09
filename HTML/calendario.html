@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Calendario del festival</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- CSS PRINCIPAL -->
+  <link rel="stylesheet" href="../CSS/estilos.css">
+  <link rel="icon" href="../IMG/favicon.png">
+
+
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet">
+
+
+</head>
+
+<body class="page-calendario">
+
+  <div class="calendario-page">
+  <!-- NAVBAR (dinámico según sesión) -->
+    <div id="navbar-container"></div>
+  <script src="../JS/navbar.js"></script>
+
+<!-- CONTENIDO -->
+  <main class="login-container login-container--calendar">
+    <h2>Calendario del festival</h2>
+    <p>Consulta todos los eventos programados.</p>
+
+    <p id="calendario-aviso" class="calendario-aviso" hidden></p>
+
+    <div class="calendar-wrapper">
+      <div id="calendar"></div>
+    </div>
+  </main>
+  </div>
+
+  <footer class="footer">
+
+  <div class="footer-main">
+
+    
+    <div class="footer-col footer-brand">
+      <img src="../IMG/logo-ue-blanco.png" alt="Festival Universitario" class="footer-logo">
+      <p class="footer-tagline">Talento universitario en acción</p>
+    </div>
+
+    
+    <div class="footer-col footer-links">
+      <a href="sobre_nosotros.html">Quiénes somos</a>
+      <a href="contacto.html">Contacta con nosotros</a>
+    </div>
+
+    <!-- COLUMNA 3 · REDES -->
+    <div class="footer-col footer-social">
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+      <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="#" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+    </div>
+
+  </div>
+
+  <!-- FRANJA ROJA -->
+  <div class="footer-bottom">
+    © 2026 Festival Universitario
+  </div>
+
+</footer>
+
+  <!-- FULLCALENDAR JS (GLOBAL) -->
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.11/locales/es.global.min.js"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="../JS/utils.js"></script>
+  <!-- <script src="../JS/auth.js"></script> -->
+  <script src="../JS/calendario.js"></script>
+
+
+</body>
+
+</html>

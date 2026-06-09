@@ -1,29 +1,35 @@
+/**
+ * Gestiono el listado, alta, edición y borrado de noticias en el panel del organizador; escapo datos al mostrar.
+ */
+
 document.addEventListener("DOMContentLoaded", () => {
 
-    // ============================
-    // LISTAR NOTICIAS
-    // ============================
     async function cargarNoticias() {
         const contenedor = document.getElementById("lista-noticias");
-        if (!contenedor) return; // Solo se ejecuta en noticias.html
+        if (!contenedor) return;
 
-        const respuesta = await fetch("../php/noticias-listar.php");
-        const noticias = await respuesta.json();
+        const res = await fetch("../php/noticias-listar.php");
+        const noticias = await res.json();
 
         contenedor.innerHTML = "";
 
         noticias.forEach(n => {
             contenedor.innerHTML += `
-                <div class="panel-card">
+                <div class="panel-card-noticia noticia-card">
+
+                    <img class="noticia-img-admin" 
+                         src="../php/uploads_noticias/${n.imagen_ruta}" 
+                         alt="${n.titulo}">
+
                     <h3>${n.titulo}</h3>
                     <p>${n.contenido}</p>
 
-                    <div style="margin-top: 1rem; display: flex; gap: 1rem;">
-                        <a href="noticia-editar.html?id_noticia=${n.id_noticia}" class="btn login-btn" style="padding: 0.5rem 1rem;">Editar</a>
+                    <div class="noticia-acciones">
+                        <a href="noticia-editar.html?id_noticia=${n.id_noticia}"
+                            class="btn-accion btn-editar">Editar</a>
 
-                        <button class="btn login-btn btn-eliminar-noticia" 
-                                data-id="${n.id_noticia}" 
-                                style="padding: 0.5rem 1rem; background-color: #555;">
+                        <button class="btn-accion btn-eliminar"
+                        data-id="${n.id_noticia}">
                             Eliminar
                         </button>
                     </div>
@@ -31,235 +37,129 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
         });
 
-        activarBotonesEliminar();
+        activarEliminar();
     }
 
     cargarNoticias();
 
-
-
     // ============================
     // ELIMINAR NOTICIA
     // ============================
-function activarBotonesEliminar() {
-    document.querySelectorAll(".btn-eliminar-noticia").forEach(btn => {
-        btn.addEventListener("click", async () => {
-            const id = btn.dataset.id;
+    function activarEliminar() {
+        document.querySelectorAll(".btn-eliminar").forEach(btn => {
+            btn.addEventListener("click", async () => {
+                const id = btn.dataset.id;
 
-            const confirmacion = await Swal.fire({
+                const conf = await Swal.fire({
                     title: "¿Eliminar noticia?",
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonText: "Sí, eliminar",
-                    cancelButtonText: "Cancelar"
+                    confirmButtonColor: "#FF3228",
+                    cancelButtonText: "Cancelar",
+                    cancelButtonColor: "#000000"
                 });
 
-                if (!confirmacion.isConfirmed) return;
+                if (!conf.isConfirmed) return;
 
-            const res = await fetch(`../php/noticia-eliminar.php?id_noticia=${id}`);
-            const r = await res.json();
+                const fd = new FormData();
+                fd.append("id_noticia", id);
 
-            Swal.fire({
+                const res = await fetch("../php/noticia-eliminar.php", {
+                    method: "POST",
+                    body: fd
+                });
+
+                const r = await res.json();
+
+                Swal.fire({
                     icon: r.ok ? "success" : "error",
                     title: r.ok ? "Eliminado" : "Error",
                     text: r.msg
                 });
-            if (r.ok) cargarNoticias();
+
+                if (r.ok) cargarNoticias();
+            });
         });
-    });
-}
-
-
+    }
 
     // ============================
     // FORMULARIO (CREAR / EDITAR)
     // ============================
     const form = document.getElementById("form-noticia");
-    if (!form) return; // Solo se ejecuta en nueva o editar
+    if (!form) return;
 
     const titulo = document.getElementById("titulo");
     const contenido = document.getElementById("contenido");
-
-    const errorTitulo = document.getElementById("error-titulo");
-    const errorContenido = document.getElementById("error-contenido");
+    const imagen = document.getElementById("imagen");
     const errorGlobal = document.getElementById("error-global");
 
+    async function cargarEditar() {
+        const id = new URLSearchParams(window.location.search).get("id_noticia");
+        if (!id) return;
 
-// ============================
-// CARGAR NOTICIA PARA EDITAR
-// ============================
-async function cargarNoticiaEditar() {
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get("id_noticia");  // <--- CORRECTO
+        const fd = new FormData();
+        fd.append("id_noticia", id);
 
-    if (!id) return; 
+        const res = await fetch("../php/noticia-obtener.php", {
+            method: "POST",
+            body: fd
+        });
 
-    const res = await fetch(`../php/noticia-obtener.php?id_noticia=${id}`); // <--- CORRECTO
-    const noticia = await res.json();
+        const r = await res.json();
+        if (!r.ok) {
+            errorGlobal.textContent = r.msg;
+            return;
+        }
 
-    if (!noticia || !noticia.id_noticia) {  
-        errorGlobal.textContent = "No se encontró la noticia.";
-        return;
+        titulo.value = r.noticia.titulo;
+        contenido.value = r.noticia.contenido;
+        form.dataset.id = id;
+
+        // Mostrar imagen actual
+        const imgActual = document.getElementById("imagen-actual");
+
+        if (r.noticia.imagen_ruta) {
+            imgActual.src = "../php/uploads_noticias/" + r.noticia.imagen_ruta;
+            imgActual.classList.add("noticia-img-actual-visible");
+        } else {
+            imgActual.classList.remove("noticia-img-actual-visible");
+        }
     }
 
-    // Rellenar formulario
-    titulo.value = noticia.titulo;
-    contenido.value = noticia.contenido;
+    cargarEditar();
 
-    // Guardar ID para el submit
-    form.dataset.id = noticia.id_noticia; 
-}
-
-cargarNoticiaEditar();
-
-
-
-
-    // ============================
-    // SUBMIT (CREAR O EDITAR)
-    // ============================
-    form.addEventListener("submit", async (e) => {
+    form.addEventListener("submit", async e => {
         e.preventDefault();
 
-        let valido = true;
-
-        // Reset errores
-        errorTitulo.textContent = "";
-        errorContenido.textContent = "";
-        errorGlobal.textContent = "";
-
-        // VALIDACIONES
-        if (titulo.value.trim() === "") {
-            errorTitulo.textContent = "El título no puede estar vacío.";
-            valido = false;
-        }
-
-        if (contenido.value.trim() === "") {
-            errorContenido.textContent = "El contenido no puede estar vacío.";
-            valido = false;
-        }
-
-        if (!valido) {
-            errorGlobal.textContent = "Hay errores en el formulario. Revísalos antes de continuar.";
-            return;
-        }
-
-
-
-        // ============================
-        // EDITAR NOTICIA
-        // ============================
         const id = form.dataset.id;
+        const url = id ? "noticia-editar.php" : "noticia-nueva.php";
+
+        const formData = new FormData();
+        formData.append("titulo", titulo.value);
+        formData.append("contenido", contenido.value);
+
+        if (imagen && imagen.files.length > 0) {
+            formData.append("imagen", imagen.files[0]);
+        }
 
         if (id) {
-           const datos = {
-                id_noticia: id,
-                titulo: titulo.value,
-                contenido: contenido.value
-            };
-
-
-            const respuesta = await fetch("../php/noticia-editar.php", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(datos)
-            });
-
-            const resultado = await respuesta.json();
-
-            if (resultado.ok) {
-                await Swal.fire({
-                    icon: "success",
-                    title: "Noticia editada",
-                    text: "La noticia se ha actualizado correctamente"
-                });
-
-                window.location.href = "noticias.html";
-            } else {
-                errorGlobal.textContent = resultado.msg;
-            }
-
-            return;
+            formData.append("id_noticia", id);
         }
 
-
-
-        // ============================
-        // CREAR NOTICIA
-        // ============================
-        const datos = {
-            titulo: titulo.value,
-            contenido: contenido.value
-        };
-
-        const respuesta = await fetch("../php/noticia-nueva.php", {
+        const res = await fetch(`../php/${url}`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(datos)
+            body: formData
         });
 
-        const resultado = await respuesta.json();
+        const r = await res.json();
 
-            if (resultado.ok) {
-                await Swal.fire({
-                    icon: "success",
-                    title: "Noticia editada",
-                    text: "La noticia se ha creado correctamente"
-                });
+        if (r.ok) {
+            await Swal.fire("OK", r.msg, "success");
             window.location.href = "noticias.html";
         } else {
-            errorGlobal.textContent = resultado.msg;
+            errorGlobal.textContent = r.msg;
         }
     });
-
-    // ============================
-    // BOTÓN "VER NOTICIAS"
-    // ============================
-    const btnVerNoticias = document.getElementById("btn-ver-noticias");
-
-    if (btnVerNoticias) {
-        btnVerNoticias.addEventListener("click", async () => {
-
-            const respuesta = await fetch("../php/noticias-listar.php", {
-                method: "GET",
-                headers: { "Content-Type": "application/json" }
-            });
-
-            const resultado = await respuesta.json();
-
-            const contenedor = document.getElementById("lista-noticias");
-            contenedor.innerHTML = "";
-
-            if (Array.isArray(resultado)) {
-                resultado.forEach(noticia => {
-                    contenedor.innerHTML += `
-                        <div class="panel-card">
-                            <h3>${noticia.titulo}</h3>
-                            <p>${noticia.contenido}</p>
-
-                            <div style="margin-top: 1rem; display: flex; gap: 1rem;">
-                                <a href="noticia-editar.html?id_noticia=${noticia.id_noticia}" 
-                                   class="btn login-btn" 
-                                   style="padding: 0.5rem 1rem;">
-                                   Editar
-                                </a>
-
-                                <button class="btn login-btn btn-eliminar-noticia" 
-                                        data-id="${noticia.id}" 
-                                        style="padding: 0.5rem 1rem; background-color: #555;">
-                                    Eliminar
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                });
-
-                activarBotonesEliminar();
-
-            } else {
-                errorGlobal.textContent = resultado.msg || "Error al cargar noticias.";
-            }
-        });
-    }
 
 });

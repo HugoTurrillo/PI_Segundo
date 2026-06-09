@@ -1,44 +1,78 @@
 <?php
-include("conexion.php");
+/**
+ * Creo un patrocinador con nombre, enlace, descripción y logo; solo organizador.
+ */
+
+require __DIR__ . "/config/conexion.php";
+require_once __DIR__ . "/config/auth.php";
 header("Content-Type: application/json");
+requireApiOrganizer();
 
-// Recibir datos
-$nombre = trim($_POST["nombre"] ?? "");
-$url_web = trim($_POST["enlace"] ?? ""); // sigue viniendo como "enlace" desde el formulario
+$nombre      = trim($_POST["nombre"] ?? "");
+$url_web     = trim($_POST["enlace"] ?? "");
 $descripcion = trim($_POST["descripcion"] ?? "");
+$forzar      = isset($_GET["forzar"]);
 
-// Validaciones
 if ($nombre === "" || $url_web === "") {
-    echo json_encode(["ok" => false, "msg" => "Nombre y enlace son obligatorios"]);
-    exit();
+    echo json_encode(["ok" => false, "msg" => "Nombre y enlace obligatorios"]);
+    exit;
 }
 
+// ============================
+// COMPROBAR DUPLICADO
+// ============================
+if (!$forzar) {
+    $stmt = $conexion->prepare("SELECT id_patrocinador FROM patrocinador WHERE nombre = ?");
+    $stmt->bind_param("s", $nombre);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        echo json_encode([  
+            "ok" => false,
+            "confirmar" => true,
+            "msg" => "Ya existe un patrocinador con ese nombre. ¿Deseas crearlo igualmente?"
+        ]);
+        exit;
+    }
+    $stmt->close();
+}
+
+// ============================
+// LOGO
+// ============================
 if (!isset($_FILES["logo"]) || $_FILES["logo"]["error"] !== UPLOAD_ERR_OK) {
-    echo json_encode(["ok" => false, "msg" => "Debes subir un logo válido"]);
-    exit();
+    echo json_encode(["ok" => false, "msg" => "Debes subir un logo"]);
+    exit;
 }
 
-// Procesar archivo
 $logo = $_FILES["logo"];
-$nombreArchivo = time() . "_" . basename($logo["name"]);
-$rutaDestino = "../uploads/" . $nombreArchivo;
+$nombreArchivo = time() . "_" . preg_replace("/[^a-zA-Z0-9._-]/", "", $logo["name"]);
 
-// Crear carpeta si no existe
-if (!is_dir("../uploads")) {
-    mkdir("../uploads", 0777, true);
+$ruta = "uploads/" . $nombreArchivo;
+if (!is_dir("uploads")) mkdir("uploads", 0777, true);
+
+if (!move_uploaded_file($logo["tmp_name"], $ruta)) {
+    echo json_encode(["ok" => false, "msg" => "Error al subir el logo"]);
+    exit;
 }
 
-if (!move_uploaded_file($logo["tmp_name"], $rutaDestino)) {
-    echo json_encode(["ok" => false, "msg" => "Error al guardar el archivo"]);
-    exit();
-}
-
-// Insertar en BD
-$stmt = $pdo->prepare("
+// ============================
+// INSERTAR
+// ============================
+$stmt = $conexion->prepare("
     INSERT INTO patrocinador (nombre, logo_ruta, url_web, descripcion)
     VALUES (?, ?, ?, ?)
 ");
-$stmt->execute([$nombre, $nombreArchivo, $url_web, $descripcion]);
 
-echo json_encode(["ok" => true, "msg" => "Patrocinador creado correctamente"]);
-?>
+$stmt->bind_param("ssss", $nombre, $nombreArchivo, $url_web, $descripcion);
+
+if (!$stmt->execute()) {
+    echo json_encode(["ok" => false, "msg" => "Error al guardar"]);
+    exit;
+}
+
+$stmt->close();
+
+echo json_encode(["ok" => true, "msg" => "Patrocinador creado"]);
+exit;

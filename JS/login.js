@@ -1,4 +1,6 @@
-// JS/login.js
+/**
+ * Gestiono el formulario de login: valido campos y envío los datos al servidor; si todo va bien redirijo al panel correspondiente.
+ */
 
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("formLogin");
@@ -41,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const okPassword = validarPassword();
 
     if (!okEmail || !okPassword) {
-      errorGlobal.textContent = "Hay errores en el formulario. Revísalos antes de continuar.";
+      errorGlobal.textContent = "No se puede iniciar sesión aún, revise los errores.";
       return;
     }
 

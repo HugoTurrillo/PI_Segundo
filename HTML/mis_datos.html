@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis datos - Festival Cortos UEM</title>
+  <link rel="stylesheet" href="../CSS/estilos.css">
+  <link rel="icon" href="../IMG/favicon.png">
+</head>
+
+<body data-rol="participante">
+
+  <div id="navbar-container"></div>
+  <script src="../JS/navbar.js"></script>
+
+<main class="login-container">
+
+  <h2>Mis datos personales</h2>
+  <p>Revisa y actualiza tu información personal.</p>
+
+  <form id="form-mis-datos" class="login-form">
+
+    <label>Nombre completo</label>
+    <input type="text" id="nombre">
+    <span class="error-campo" id="error-nombre"></span>
+
+    <label>Email</label>
+    <input type="email" id="email" disabled>
+    <small style="color:#666;">El email no se puede modificar</small>
+
+
+    <label>DNI</label>
+    <input type="text" id="dni" disabled>
+    <small style="color:#666;">El DNI no se puede modificar</small>
+
+    
+    <label>Número de expediente</label>
+    <input type="text" id="numero_expediente" disabled>
+    <small style="color:#666;">El número de expediente no se puede modificar</small>
+
+    <label>Perfil</label>
+    <input type="text" id="rol" disabled>
+    <small style="color:#666;">El perfil no se puede modificar</small>
+
+    <label>Nueva contraseña</label>
+    <input type="password" id="password">
+    <span class="error-campo" id="error-password"></span>
+
+    <button type="submit" class="btn login-btn" style="margin-top:1rem;">
+      Guardar cambios
+    </button>
+
+    <p class="error-global" id="error-global"></p>
+
+  </form>
+
+</main>
+
+<footer class="footer">
+
+  <div class="footer-main">
+
+    
+    <div class="footer-col footer-brand">
+      <img src="../IMG/logo-ue-blanco.png" alt="Festival Universitario" class="footer-logo">
+      <p class="footer-tagline">Talento universitario en acción</p>
+    </div>
+
+    
+    <div class="footer-col footer-links">
+      <a href="sobre_nosotros.html">Quiénes somos</a>
+      <a href="contacto.html">Contacta con nosotros</a>
+    </div>
+
+    <!-- COLUMNA 3 · REDES -->
+    <div class="footer-col footer-social">
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+      <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="#" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+    </div>
+
+  </div>
+
+  <!-- FRANJA ROJA -->
+  <div class="footer-bottom">
+    © 2026 Festival Universitario
+  </div>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../JS/auth.js"></script>
+<script src="../JS/mis_datos.js"></script>
+</body>
+
+</html>

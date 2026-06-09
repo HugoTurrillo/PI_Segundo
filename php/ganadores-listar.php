@@ -1,6 +1,12 @@
 <?php
-include("conexion.php");
-header("Content-Type: application/json");
+/**
+ * Listo todos los ganadores con categoría, premio y datos de la candidatura; incluyo id_candidatura para el popup de vídeo.
+ */
+
+require __DIR__ . "/config/conexion.php";
+require_once __DIR__ . "/config/auth.php";
+header("Content-Type: application/json; charset=utf-8");
+requireApiOrganizer();
 
 $sql = "
     SELECT 
@@ -8,6 +14,7 @@ $sql = "
         g.id_categoria,
         g.numero_premio,
         c.nombre AS categoria,
+        cand.id_candidatura,
         cand.titulo_obra,
         cand.nombre_contacto
     FROM ganadores g
@@ -16,10 +23,20 @@ $sql = "
     ORDER BY g.id_categoria, g.numero_premio
 ";
 
-$stmt = $pdo->query($sql);
-$ganadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$stmt = $conexion->prepare($sql);
+
+if (!$stmt) {
+    echo json_encode([
+        "ok" => false,
+        "error" => "Error en prepare(): " . $conexion->error
+    ]);
+    exit;
+}
+
+$stmt->execute();
+$res = $stmt->get_result();
 
 echo json_encode([
     "ok" => true,
-    "data" => $ganadores
+    "data" => $res->fetch_all(MYSQLI_ASSOC)
 ]);

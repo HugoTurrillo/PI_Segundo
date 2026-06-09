@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Contacta con nosotros</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../CSS/estilos.css">
+    <link rel="icon" href="../IMG/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+      <div id="navbar-container"></div>
+  <script src="../JS/navbar.js"></script>
+
+<main class="contacto-container">
+
+        <h2>Contacta con nosotros</h2>
+
+        <p class="contacto-intro">
+            Elige cómo quieres hablar con nosotros: por teléfono o por correo electrónico.
+        </p>
+
+        <div class="contacto-dos-columnas">
+
+            <!-- COLUMNA IZQUIERDA: TELÉFONO / WHATSAPP -->
+            <div class="contacto-bloque">
+                <h3>Teléfono / WhatsApp</h3>
+                <p>Si prefieres una respuesta rápida, puedes llamarnos o escribirnos por WhatsApp:</p>
+
+                <p class="contacto-dato-principal">
+                    <a href="tel:+34600123456">+34 600 123 456</a>
+                </p>
+
+                <p class="contacto-secundario">
+                    También disponible en WhatsApp en el mismo número.
+                </p>
+            </div>
+
+            <!-- COLUMNA DERECHA: CORREO -->
+            <div class="contacto-bloque">
+                <h3>Correo electrónico</h3>
+                <p>Si tienes dudas más detalladas o necesitas adjuntar información, escríbenos a:</p>
+
+                <p class="contacto-dato-principal">
+                    <a href="mailto:contacto@cortosuem.com">contacto@cortosuem.com</a>
+                </p>
+
+                <p class="contacto-secundario">
+                    Respondemos normalmente en un plazo de 24-48 horas.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="contacto-formulario panel-card" style="margin-top:2rem; max-width:600px;">
+            <h3>Envíanos un mensaje</h3>
+            <form id="form-contacto" class="login-form">
+                <label for="contacto-nombre">Nombre</label>
+                <input type="text" id="contacto-nombre" name="nombre" required>
+                <label for="contacto-mensaje">Mensaje</label>
+                <textarea id="contacto-mensaje" name="mensaje" rows="4" required></textarea>
+                <p id="contacto-error" class="error-campo" style="display:none;"></p>
+                <button type="submit" class="btn login-btn">Enviar mensaje</button>
+            </form>
+        </div>
+
+    </main>
+
+    <footer class="footer">
+
+  <div class="footer-main">
+
+    
+    <div class="footer-col footer-brand">
+      <img src="../IMG/logo-ue-blanco.png" alt="Festival Universitario" class="footer-logo">
+      <p class="footer-tagline">Talento universitario en acción</p>
+    </div>
+
+    
+    <div class="footer-col footer-links">
+      <a href="sobre_nosotros.html">Quiénes somos</a>
+      <a href="contacto.html">Contacta con nosotros</a>
+    </div>
+
+    <!-- COLUMNA 3 · REDES -->
+    <div class="footer-col footer-social">
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+      <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="#" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+    </div>
+
+  </div>
+
+  <!-- FRANJA ROJA -->
+  <div class="footer-bottom">
+    © 2026 Festival Universitario
+  </div>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.getElementById("form-contacto").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const nombre = document.getElementById("contacto-nombre").value.trim();
+    const mensaje = document.getElementById("contacto-mensaje").value.trim();
+    const errEl = document.getElementById("contacto-error");
+    errEl.style.display = "none";
+    if (!nombre || !mensaje) {
+        errEl.textContent = "Nombre y mensaje son obligatorios.";
+        errEl.style.display = "block";
+        return;
+    }
+    try {
+        const res = await fetch("../php/enviar_mensaje.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ nombre: nombre, mensaje: mensaje })
+        });
+        const data = await res.json();
+        if (data.ok) {
+            Swal.fire("Enviado", data.msg || "Mensaje enviado correctamente.", "success");
+            document.getElementById("contacto-nombre").value = "";
+            document.getElementById("contacto-mensaje").value = "";
+        } else {
+            errEl.textContent = data.msg || "Error al enviar.";
+            errEl.style.display = "block";
+        }
+    } catch (err) {
+        errEl.textContent = "Error de conexión.";
+        errEl.style.display = "block";
+    }
+});
+</script>
+</body>
+
+</html>

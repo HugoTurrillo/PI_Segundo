@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,87 +8,82 @@
   <link rel="stylesheet" href="../CSS/estilos.css">
   <script defer src="../JS/eventos.js"></script>
 </head>
+
 <body>
 
-<header class="navbar">
-  <div class="logo">
-      <img src="../IMG/LOGOENTERO.png" alt="Logo Universidad Europea">
-  </div>
-
-  <div class="search-bar">
-      <input type="text" placeholder="Buscar...">
-  </div>
-
-  <nav>
-   <ul class="nav-links">
-      <li><a href="organizador.html">Panel</a></li>
-      <li><a href="eventos.html">Eventos</a></li>
-   </ul>
-  </nav>
-
-  <div class="nav-buttons">
-      <a href="login.html" class="btn nav-btn">Salir</a>
-  </div>
-</header>
+    <div id="navbar-container"></div>
+  <script src="../JS/navbar.js"></script>
 
 <main class="login-container">
-  <h2>Añadir evento</h2>
+    <h2>Añadir evento</h2>
 
-  <form id="form-evento" class="login-form">
+    <form id="form-evento" class="login-form">
 
-    <label for="titulo">Título</label>
-    <input type="text" id="titulo" name="titulo" required>
-    <span class="error-campo" id="error-titulo"></span>
+      <label for="titulo">Título</label>
+      <input type="text" id="titulo" name="titulo" required>
+      <span class="error-campo" id="error-titulo"></span>
 
-    <label for="fecha">Fecha</label>
-    <input type="date" id="fecha" name="fecha" required>
-    <span class="error-campo" id="error-fecha"></span>
+      <label for="fecha">Fecha</label>
+      <input type="date" id="fecha" name="fecha" required>
+      <span class="error-campo" id="error-fecha"></span>
 
-    <label for="descripcion">Descripción</label>
-    <textarea id="descripcion" name="descripcion" rows="5" required style="width:100%; padding:0.6rem; border:1px solid #ccc; border-radius:4px;"></textarea>
-    <span class="error-campo" id="error-descripcion"></span>
+      <label for="hora">Hora</label>
+      <input type="time" id="hora" name="hora" required>
+      <span class="error-campo" id="error-hora"></span>
 
-    <div class="error-global" id="error-global"></div>
+      <label for="descripcion">Descripción</label>
+      <textarea id="descripcion" name="descripcion" rows="5" class="textarea-descripcion" required></textarea>
+      <span class="error-campo" id="error-descripcion"></span>
 
-    <button type="submit" class="btn login-btn">Guardar evento</button>
-  </form>
-</main>
+      <div class="error-global" id="error-global"></div>
 
-<footer class="footer">
+      <button type="submit" class="btn login-btn">Guardar evento</button>
+       <button
+      type="button"
+      class="btn login-btn"
+       style="background:#555;"
+      onclick="window.location.href='eventos.html'">
+      Salir sin guardar
+      </button>
+    </form>
+  </main>
+
+  <footer class="footer">
+
   <div class="footer-main">
-    <div class="footer-left">
-      <div class="footer-social-row">
-        <img src="../IMG/instagram.png" alt="Instagram">
-        <span>@cortosuem</span>
-      </div>
-      <div class="footer-social-row">
-        <img src="../IMG/facebook.png" alt="Facebook">
-        <span>@cortosuem</span>
-      </div>
-      <div class="footer-social-row">
-        <img src="../IMG/twitter.png" alt="Twitter">
-        <span>@cortosuem</span>
-      </div>
+
+    
+    <div class="footer-col footer-brand">
+      <img src="../IMG/logo-ue-blanco.png" alt="Festival Universitario" class="footer-logo">
+      <p class="footer-tagline">Talento universitario en acción</p>
     </div>
 
-    <div class="footer-center">
-      <p>Contacta con nosotros</p>
+    
+    <div class="footer-col footer-links">
+      <a href="sobre_nosotros.html">Quiénes somos</a>
+      <a href="contacto.html">Contacta con nosotros</a>
     </div>
 
-    <div class="footer-right">
-      <div class="footer-logo-circle">
-        <img src="../IMG/logosimple.jpg" alt="Logo">
-      </div>
+    <!-- COLUMNA 3 · REDES -->
+    <div class="footer-col footer-social">
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+      <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="#" aria-label="X"><i class="fab fa-x-twitter"></i></a>
     </div>
+
   </div>
 
+  <!-- FRANJA ROJA -->
   <div class="footer-bottom">
-    Universidad Europea © 2025. Todos los Derechos Reservados
+    © 2026 Festival Universitario
   </div>
+
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="../js/eventos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="../JS/auth.js"></script>
 
 </body>
+
 </html>

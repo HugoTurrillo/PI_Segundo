@@ -1,12 +1,27 @@
 <?php
-require "conexion.php";
+/**
+ * Listo todas las categorías con sus premios para desplegables y formularios.
+ */
 
-header("Content-Type: application/json; charset=utf-8");
+require __DIR__ . "/config/conexion.php";
+header("Content-Type: application/json");
 
-$sql = "SELECT id, nombre, premios, premio_fisico FROM categorias ORDER BY id DESC";
-$stmt = $pdo->query($sql);
+$sql = "SELECT id, nombre, premios, premio_fisico, es_base FROM categorias";
+$res = $conexion->query($sql);
 
-$categorias = $stmt->fetchAll(PDO::FETCH_ASSOC);
+if (!$res) {
+    echo json_encode([
+        "ok" => false,
+        "msg" => "Error SQL",
+        "sql_error" => $conexion->error
+    ]);
+    exit;
+}
+
+$categorias = [];
+while ($fila = $res->fetch_assoc()) {
+    $categorias[] = $fila;
+}
 
 echo json_encode([
     "ok" => true,

@@ -1,13 +1,16 @@
 <?php
-include("conexion.php");
-header("Content-Type: application/json; charset=utf-8");
+/**
+ * Actualizo un patrocinador; si suben nuevo logo lo guardo. Solo organizador.
+ */
 
-// ============================
-// VALIDAR DATOS DE ENTRADA
-// ============================
+require __DIR__ . "/config/conexion.php";
+require_once __DIR__ . "/config/auth.php";
+header("Content-Type: application/json; charset=utf-8");
+requireApiOrganizer();
+
 $id = intval($_POST["id"] ?? 0);
 $nombre = trim($_POST["nombre"] ?? "");
-$url_web = trim($_POST["enlace"] ?? ""); // sigue viniendo como "enlace" desde el formulario
+$url_web = trim($_POST["enlace"] ?? "");
 $descripcion = trim($_POST["descripcion"] ?? "");
 
 if ($id <= 0 || $nombre === "" || $url_web === "") {
@@ -18,14 +21,18 @@ if ($id <= 0 || $nombre === "" || $url_web === "") {
 // ============================
 // OBTENER DATOS ACTUALES
 // ============================
-$stmt = $pdo->prepare("SELECT logo_ruta FROM patrocinador WHERE id_patrocinador = ?");
-$stmt->execute([$id]);
-$actual = $stmt->fetch(PDO::FETCH_ASSOC);
+$stmt = $conexion->prepare("SELECT logo_ruta FROM patrocinador WHERE id_patrocinador = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$resultado = $stmt->get_result();
 
-if (!$actual) {
+if ($resultado->num_rows === 0) {
     echo json_encode(["ok" => false, "msg" => "Patrocinador no encontrado"]);
     exit();
 }
+
+$actual = $resultado->fetch_assoc();
+$stmt->close();
 
 $nombreArchivo = $actual["logo_ruta"];
 
@@ -42,7 +49,6 @@ if (isset($_FILES["logo"]) && $_FILES["logo"]["size"] > 0) {
 
     $rutaDestino = "../uploads/" . $nombreArchivo;
 
-    // Subir archivo
     if (!move_uploaded_file($logo["tmp_name"], $rutaDestino)) {
         echo json_encode(["ok" => false, "msg" => "Error al subir el logo"]);
         exit();
@@ -58,18 +64,20 @@ if (isset($_FILES["logo"]) && $_FILES["logo"]["size"] > 0) {
 // ============================
 // ACTUALIZAR REGISTRO
 // ============================
-$stmt = $pdo->prepare("
+$stmt = $conexion->prepare("
     UPDATE patrocinador 
     SET nombre = ?, logo_ruta = ?, url_web = ?, descripcion = ?
     WHERE id_patrocinador = ?
 ");
 
-$ok = $stmt->execute([$nombre, $nombreArchivo, $url_web, $descripcion, $id]);
+$stmt->bind_param("ssssi", $nombre, $nombreArchivo, $url_web, $descripcion, $id);
 
-if (!$ok) {
+if (!$stmt->execute()) {
     echo json_encode(["ok" => false, "msg" => "Error al actualizar en la base de datos"]);
     exit();
 }
+
+$stmt->close();
 
 // ============================
 // RESPUESTA FINAL
